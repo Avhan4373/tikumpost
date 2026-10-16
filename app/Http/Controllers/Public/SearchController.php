@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
+use App\Support\SiteSettings;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -16,7 +17,7 @@ class SearchController extends Controller
 
         $articles = Article::published()->with(['author', 'category'])
             ->search($q)
-            ->orderByDesc('published_at')->paginate(9)->withQueryString();
+            ->orderByDesc('published_at')->paginate(SiteSettings::perPage())->withQueryString();
 
         $categories = Category::ordered()
             ->withCount(['articles' => fn ($query) => $query->published()])->get();

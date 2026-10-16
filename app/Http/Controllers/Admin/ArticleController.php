@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -21,10 +22,17 @@ class ArticleController extends Controller
     {
         $this->authorize('viewAny', Article::class);
 
+        $sort = $request->query('sort');
+        $direction = $request->query('dir') === 'asc' ? 'asc' : 'desc';
+
         $articles = Article::with(['author', 'category'])
             ->when($request->query('status'), fn ($q, $s) => $q->where('status', $s))
             ->when($request->query('q'), fn ($q, $term) => $q->search($term))
-            ->latest()
+            ->when(
+                $sort === 'views',
+                fn ($q) => $q->orderBy('views', $direction),
+                fn ($q) => $q->latest(),
+            )
             ->paginate(15)
             ->withQueryString();
 
@@ -109,17 +117,35 @@ class ArticleController extends Controller
         return $request->file('featured_image')->store('articles', 'public');
     }
 
-    /** Tetapkan published_at bila status terbit. */
+    /**
+     * Selaraskan published_at dengan status yang dipilih.
+     *
+     * Status yang dipilih admin selalu menang: "Terbit" selalu terbit sekarang,
+     * "Terjadwal" menyimpan tanggal jadwal. Perbandingan tanggal memakai objek
+     * Carbon — membandingkan string "2026-10-16T14:30" dengan now() sebagai teks
+     * membuat 'T' > ' ' sehingga "Terbit" salah dianggap terjadwal.
+     */
     private function normalizePublish(array $data, ?Article $article = null): array
     {
         $status = $data['status'] instanceof ArticleStatus ? $data['status']->value : $data['status'];
 
-        if (in_array($status, ['published', 'scheduled'], true) && empty($data['published_at'])) {
-            $data['published_at'] = $article?->published_at ?? now();
+        $publishedAt = filled($data['published_at'] ?? null)
+            ? Carbon::parse($data['published_at'])
+            : null;
+
+        if ($status === ArticleStatus::Published->value) {
+            // "Terbit" selalu menang: terbit sekarang. Tanggal lampau dipertahankan
+            // untuk backdate, sedangkan tanggal masa depan diabaikan.
+            if (! $publishedAt || $publishedAt->isFuture()) {
+                $publishedAt = now();
+            }
+        } elseif ($status === ArticleStatus::Scheduled->value) {
+            // "Terjadwal" butuh tanggal; tanpa tanggal pakai jadwal lama atau sekarang.
+            $publishedAt ??= $article?->published_at ?? now();
         }
 
-        if ($status === 'published' && isset($data['published_at']) && $data['published_at'] > now()) {
-            $data['status'] = ArticleStatus::Scheduled;
+        if ($publishedAt) {
+            $data['published_at'] = $publishedAt;
         }
 
         return $data;

@@ -56,6 +56,7 @@
                 <input type="datetime-local" name="published_at"
                     value="{{ old('published_at', optional($article->published_at)->format('Y-m-d\TH:i')) }}"
                     class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                <p class="mt-1 text-xs text-slate-400">Status <b>Terbit</b> selalu terbit sekarang. Isi tanggal untuk backdate atau saat memilih <b>Terjadwal</b>.</p>
 
                 <label class="mt-4 flex items-center gap-2 text-sm text-slate-700">
                     <input type="checkbox" name="is_headline" value="1" @checked(old('is_headline', $article->is_headline)) class="rounded border-slate-300">

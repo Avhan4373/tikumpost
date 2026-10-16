@@ -6,4 +6,438 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-brand-50: #fef2f2;
+    --color-brand-100: #fee2e2;
+    --color-brand-200: #fecaca;
+    --color-brand-400: #f87171;
+    --color-brand-500: #ef4444;
+    --color-brand-600: #dc2626;
+    --color-brand-700: #b91c1c;
+    --color-brand-800: #991b1b;
+}
+
+@layer base {
+    body {
+        background-color: #f8fafc;
+    }
+
+    ::selection {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* Transisi dasar untuk semua elemen interaktif (micro-interaction halus). */
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    summary {
+        transition:
+            background-color 0.18s ease,
+            border-color 0.18s ease,
+            color 0.18s ease,
+            box-shadow 0.18s ease,
+            opacity 0.18s ease,
+            transform 0.18s ease;
+    }
+}
+
+@layer components {
+    /* Tipografi isi artikel yang nyaman dibaca. */
+    .article-body {
+        color: #334155;
+        font-size: 1.0625rem;
+        line-height: 1.85;
+    }
+
+    .article-body > * + * {
+        margin-top: 1.35rem;
+    }
+
+    .article-body h2 {
+        margin-top: 2.25rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #0f172a;
+    }
+
+    .article-body h3 {
+        margin-top: 1.75rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .article-body a {
+        color: #dc2626;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+    }
+
+    .article-body a:hover {
+        color: #b91c1c;
+    }
+
+    .article-body strong {
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .article-body ul,
+    .article-body ol {
+        padding-left: 1.35rem;
+    }
+
+    .article-body ul {
+        list-style: disc;
+    }
+
+    .article-body ol {
+        list-style: decimal;
+    }
+
+    .article-body li + li {
+        margin-top: 0.4rem;
+    }
+
+    .article-body blockquote {
+        border-left: 3px solid #dc2626;
+        padding-left: 1.25rem;
+        font-style: italic;
+        color: #475569;
+    }
+
+    .article-body img {
+        border-radius: 1rem;
+    }
+
+    .article-body figcaption {
+        margin-top: 0.5rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #64748b;
+    }
+
+    .article-body pre {
+        overflow: auto;
+        border-radius: 0.75rem;
+        background: #0f172a;
+        padding: 1rem 1.25rem;
+        font-size: 0.9rem;
+        color: #e2e8f0;
+    }
+
+    .article-body code {
+        border-radius: 0.35rem;
+        background: #f1f5f9;
+        padding: 0.15rem 0.4rem;
+        font-size: 0.9em;
+    }
+
+    .article-body pre code {
+        background: transparent;
+        padding: 0;
+    }
+
+    .article-body hr {
+        border-color: #e2e8f0;
+    }
+
+    /* Garis bawah animasi untuk navigasi kategori. */
+    .nav-link {
+        position: relative;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: -1px;
+        left: 0;
+        height: 2px;
+        background: #dc2626;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.25s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.is-active::after {
+        transform: scaleX(1);
+    }
+
+    /* Efek angkat halus pada kartu. */
+    .card-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-lift:hover {
+        transform: translateY(-4px);
+    }
+}
+
+/*
+ * ============================================================
+ * Sistem animasi frontend (halus & profesional)
+ * Semua efek yang bergantung pada JS hanya aktif bila <html> punya
+ * kelas `js`, sehingga konten tetap tampil walau JS gagal dimuat.
+ * ============================================================
+ */
+@layer components {
+    /* --- Scroll reveal: elemen muncul saat masuk viewport --- */
+    html.js [data-reveal] {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+            opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    html.js [data-reveal].is-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* Muncul berurutan (stagger) untuk anak-anak sebuah grid/daftar. */
+    html.js [data-reveal-group] > :nth-child(1) {
+        --reveal-delay: 0ms;
+    }
+
+    html.js [data-reveal-group] > :nth-child(2) {
+        --reveal-delay: 70ms;
+    }
+
+    html.js [data-reveal-group] > :nth-child(3) {
+        --reveal-delay: 140ms;
+    }
+
+    html.js [data-reveal-group] > :nth-child(4) {
+        --reveal-delay: 210ms;
+    }
+
+    html.js [data-reveal-group] > :nth-child(5) {
+        --reveal-delay: 280ms;
+    }
+
+    html.js [data-reveal-group] > :nth-child(6) {
+        --reveal-delay: 350ms;
+    }
+
+    /* --- Entrance beranda (hero) --- */
+    html.js .hero-rise {
+        animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+        animation-delay: var(--reveal-delay, 0ms);
+    }
+
+    html.js .hero-zoom {
+        animation: hero-zoom 1.2s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    /* --- Hover micro-interaction --- */
+    .hover-lift {
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-3px);
+    }
+
+    .btn-anim:hover {
+        transform: translateY(-1px);
+    }
+
+    .btn-anim:active {
+        transform: translateY(0) scale(0.97);
+    }
+
+    .link-arrow svg {
+        transition: transform 0.25s ease;
+    }
+
+    .link-arrow:hover svg {
+        transform: translateX(3px);
+    }
+
+    /* --- Skeleton/shimmer untuk media yang sedang dimuat --- */
+    .media-frame {
+        position: relative;
+    }
+
+    html.js .media-frame::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.6), transparent);
+        transform: translateX(-100%);
+        animation: shimmer 1.4s ease-in-out infinite;
+    }
+
+    html.js .media-frame.is-loaded::after {
+        animation: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    html.js img[data-fade] {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    html.js img[data-fade].is-loaded {
+        opacity: 1;
+    }
+
+    /* --- Tombol menu mobile: morph garis menjadi silang --- */
+    .hamburger-lines span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        border-radius: 9999px;
+        background-color: currentColor;
+        transition:
+            transform 0.25s ease,
+            opacity 0.2s ease;
+    }
+
+    .hamburger-lines span + span {
+        margin-top: 5px;
+    }
+
+    .hamburger.is-open .hamburger-lines span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.is-open .hamburger-lines span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.is-open .hamburger-lines span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* --- Transisi antar halaman --- */
+    html.js [data-page] {
+        animation: page-in 0.4s ease backwards;
+    }
+
+    html.js body.is-leaving {
+        opacity: 0;
+        transition: opacity 0.18s ease;
+    }
+}
+
+@keyframes hero-rise {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes hero-zoom {
+    from {
+        transform: scale(1.06);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes page-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Bar tipis penanda navigasi halaman. */
+.nav-progress {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 70;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background-color: #dc2626;
+    opacity: 0;
+    transition:
+        transform 0.3s ease-out,
+        opacity 0.3s ease-out;
+    pointer-events: none;
+}
+
+@utility no-scrollbar {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/*
+ * Header mengecil saat halaman di-scroll (desktop): strip atas dan bar
+ * logo/pencarian disembunyikan, menyisakan baris menu yang tetap menempel di atas.
+ * Ditulis di luar @layer agar bisa menimpa utility seperti `border-b`.
+ */
+@media (min-width: 1024px) {
+    .site-header-collapse {
+        max-height: 7rem;
+        overflow: hidden;
+        opacity: 1;
+        visibility: visible;
+        transition: max-height 0.35s ease, opacity 0.25s ease, visibility 0s;
+    }
+
+    .site-header.is-header-collapsed .site-header-collapse {
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+        border-bottom-width: 0;
+        transition: max-height 0.35s ease, opacity 0.25s ease, visibility 0s linear 0.35s;
+    }
+}
+
+/* Hormati pengguna yang memilih mengurangi gerakan. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-delay: 0s !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-delay: 0s !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    html.js [data-reveal],
+    html.js img[data-fade] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
 }

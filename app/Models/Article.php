@@ -47,7 +47,12 @@ class Article extends Model
 
     public static function uniqueSlug(string $title, ?int $ignoreId = null): string
     {
-        $base = Str::slug($title);
+        // Judul yang seluruhnya simbol (mis. "!!!") menghasilkan slug kosong,
+        // yang membuat route binding ke /edit, /show, dan hapus gagal. Pakai
+        // fallback "artikel" agar slug tidak pernah kosong.
+        $base = Str::limit(Str::slug($title), 200, '');
+        $base = $base !== '' ? $base : 'artikel';
+
         $slug = $base;
         $i = 2;
         while (static::where('slug', $slug)->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))->exists()) {

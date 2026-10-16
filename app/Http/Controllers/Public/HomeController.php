@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Infographic;
 use App\Models\Tag;
 use Illuminate\View\View;
 
@@ -24,6 +25,8 @@ class HomeController extends Controller
         $categories = Category::ordered()->withCount(['articles' => fn ($q) => $q->published()])->get();
         $tags = Tag::withCount('articles')->orderByDesc('articles_count')->take(12)->get();
 
-        return view('public.home', compact('headline', 'latest', 'popular', 'categories', 'tags'));
+        $infographics = Infographic::published()->ordered()->take(4)->get();
+
+        return view('public.home', compact('headline', 'latest', 'popular', 'categories', 'tags', 'infographics'));
     }
 }

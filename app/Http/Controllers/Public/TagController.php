@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tag;
+use App\Support\SiteSettings;
 use Illuminate\View\View;
 
 class TagController extends Controller
@@ -11,7 +12,7 @@ class TagController extends Controller
     public function show(Tag $tag): View
     {
         $articles = $tag->articles()->published()->with(['author', 'category'])
-            ->orderByDesc('published_at')->paginate(9);
+            ->orderByDesc('published_at')->paginate(SiteSettings::perPage());
 
         $categories = \App\Models\Category::ordered()
             ->withCount(['articles' => fn ($q) => $q->published()])->get();

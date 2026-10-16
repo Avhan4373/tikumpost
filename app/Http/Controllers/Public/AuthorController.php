@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
+use App\Support\SiteSettings;
 use Illuminate\View\View;
 
 class AuthorController extends Controller
@@ -16,7 +17,7 @@ class AuthorController extends Controller
 
         $articles = Article::published()->with(['author', 'category'])
             ->where('user_id', $author->id)
-            ->orderByDesc('published_at')->paginate(9);
+            ->orderByDesc('published_at')->paginate(SiteSettings::perPage());
 
         $categories = Category::ordered()
             ->withCount(['articles' => fn ($q) => $q->published()])->get();

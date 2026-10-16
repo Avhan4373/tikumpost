@@ -4,7 +4,11 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InfographicController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\ReelController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
@@ -15,6 +19,12 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('articles', ArticleController::class)->except('show');
     Route::resource('categories', CategoryController::class)->except('show');
+    Route::resource('reels', ReelController::class)->except('show');
+    Route::resource('infographics', InfographicController::class)->except('show');
+
+    Route::post('menus/reorder', [MenuController::class, 'reorder'])->name('menus.reorder');
+    Route::post('menus/import-categories', [MenuController::class, 'importCategories'])->name('menus.import-categories');
+    Route::resource('menus', MenuController::class)->except('show');
 
     Route::get('tags', [TagController::class, 'index'])->name('tags.index');
     Route::post('tags', [TagController::class, 'store'])->name('tags.store');
@@ -36,4 +46,7 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
     Route::get('media', [MediaController::class, 'index'])->name('media.index');
     Route::post('media', [MediaController::class, 'store'])->name('media.store');
     Route::delete('media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
+
+    Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
 });
