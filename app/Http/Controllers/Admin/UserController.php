@@ -22,6 +22,8 @@ class UserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->authorizeAdmin($request);
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'unique:users,email'],
@@ -36,12 +38,20 @@ class UserController extends Controller
 
     public function update(Request $request, User $user): RedirectResponse
     {
+        $this->authorizeAdmin($request);
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
             'role' => ['required', Rule::enum(UserRole::class)],
             'password' => ['nullable', Password::min(8)],
         ]);
+
+        if ($request->user()->is($user) && $data['role'] !== $user->role?->value) {
+            return back()
+                ->withInput()
+                ->withErrors(['role' => 'Anda tidak dapat mengubah peran akun sendiri.']);
+        }
 
         if (empty($data['password'])) {
             unset($data['password']);
@@ -54,9 +64,17 @@ class UserController extends Controller
 
     public function destroy(Request $request, User $user): RedirectResponse
     {
+        $this->authorizeAdmin($request);
+
         abort_if($user->id === $request->user()->id, 403, 'Anda tidak dapat menghapus akun sendiri.');
+
         $user->delete();
 
         return back()->with('status', 'Pengguna berhasil dihapus.');
+    }
+
+    private function authorizeAdmin(Request $request): void
+    {
+        abort_unless($request->user()?->isAdmin(), 403, 'Hanya Administrator yang dapat mengelola pengguna.');
     }
 }

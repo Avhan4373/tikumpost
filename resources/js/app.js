@@ -527,3 +527,114 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ---- Dialog (modal) & toast notifikasi ----
+document.addEventListener('DOMContentLoaded', () => {
+    let lastFocused = null;
+
+    const openModal = (modal, trigger = null) => {
+        if (!modal || modal.classList.contains('is-open')) {
+            return;
+        }
+
+        const form = modal.querySelector('form');
+
+        if (trigger && form) {
+            const action = trigger.dataset.modalAction;
+            if (action) {
+                form.setAttribute('action', action);
+            }
+
+            const payload = trigger.dataset.modalData;
+            if (payload) {
+                try {
+                    const data = JSON.parse(payload);
+                    Object.entries(data).forEach(([name, value]) => {
+                        const field = form.elements.namedItem(name);
+                        if (field) {
+                            field.value = value ?? '';
+                        }
+                    });
+                } catch (error) {
+                    // Payload tidak valid — biarkan form apa adanya.
+                }
+            }
+
+            const password = form.elements.namedItem('password');
+            if (password) {
+                password.value = '';
+            }
+        }
+
+        lastFocused = document.activeElement;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('overflow-hidden');
+
+        window.requestAnimationFrame(() => {
+            const focusable = modal.querySelector('input:not([type="hidden"]), select, textarea');
+            focusable?.focus({ preventScroll: true });
+        });
+    };
+
+    const closeModal = (modal) => {
+        if (!modal || !modal.classList.contains('is-open')) {
+            return;
+        }
+
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+
+        if (!document.querySelector('[data-modal].is-open')) {
+            document.documentElement.classList.remove('overflow-hidden');
+        }
+
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+            lastFocused.focus({ preventScroll: true });
+        }
+    };
+
+    document.addEventListener('click', (event) => {
+        const opener = event.target.closest('[data-modal-open]');
+        if (opener) {
+            event.preventDefault();
+            openModal(document.getElementById(opener.dataset.modalOpen), opener);
+            return;
+        }
+
+        const closer = event.target.closest('[data-modal-close]');
+        if (closer) {
+            closeModal(closer.closest('[data-modal]'));
+            return;
+        }
+
+        if (event.target.matches('[data-modal-backdrop]')) {
+            closeModal(event.target.closest('[data-modal]'));
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            document.querySelectorAll('[data-modal].is-open').forEach(closeModal);
+        }
+    });
+
+    document.querySelectorAll('[data-modal-auto-open]').forEach((modal) => openModal(modal));
+
+    document.querySelectorAll('[data-toast]').forEach((toast, index) => {
+        const dismiss = () => {
+            if (toast.classList.contains('is-leaving')) {
+                return;
+            }
+
+            toast.classList.add('is-leaving');
+            toast.addEventListener('animationend', () => toast.remove(), { once: true });
+            window.setTimeout(() => toast.remove(), 400);
+        };
+
+        toast.querySelector('[data-toast-close]')?.addEventListener('click', dismiss);
+
+        const delay = Number(toast.dataset.toastDelay || 5000);
+        window.setTimeout(dismiss, delay + index * 150);
+    });
+});
