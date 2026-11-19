@@ -112,4 +112,27 @@ class SettingTest extends TestCase
 
         $this->get(route('articles.show', $article))->assertOk()->assertDontSee('untuk ikut berkomentar');
     }
+
+    public function test_tema_default_dapat_diatur_dari_pengaturan(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+
+        $this->get(route('home'))->assertSee("stored || 'light'", false);
+
+        $this->actingAs($admin)->put(route('admin.settings.update'), [
+            'default_theme' => 'dark',
+        ])->assertRedirect()->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('settings', ['key' => 'default_theme', 'value' => 'dark']);
+        $this->get(route('home'))->assertSee("stored || 'dark'", false);
+    }
+
+    public function test_tema_default_menolak_nilai_tidak_dikenal(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+
+        $this->actingAs($admin)->put(route('admin.settings.update'), [
+            'default_theme' => 'neon',
+        ])->assertSessionHasErrors('default_theme');
+    }
 }

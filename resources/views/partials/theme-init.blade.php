@@ -1,14 +1,16 @@
 {{-- Terapkan tema sebelum render agar tidak berkedip saat halaman dimuat. --}}
+@php($defaultTheme = \App\Support\SiteSettings::value('default_theme', 'light') === 'dark' ? 'dark' : 'light')
 <script>
     (function () {
         try {
             var stored = localStorage.getItem('theme');
-            var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var dark = (stored || '{{ $defaultTheme }}') === 'dark';
 
             document.documentElement.classList.toggle('dark', dark);
             document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
         } catch (error) {
-            // localStorage tidak tersedia — biarkan tema terang.
+            document.documentElement.classList.toggle('dark', {{ $defaultTheme === 'dark' ? 'true' : 'false' }});
+            document.documentElement.style.colorScheme = '{{ $defaultTheme }}';
         }
     })();
 </script>

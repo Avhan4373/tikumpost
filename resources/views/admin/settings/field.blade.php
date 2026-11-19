@@ -15,7 +15,13 @@
     @else
         <label for="{{ $key }}" class="mb-1.5 block text-sm font-medium text-slate-700">{{ $field['label'] }}</label>
 
-        @if ($field['type'] === 'image')
+        @if ($field['type'] === 'select')
+            <select id="{{ $key }}" name="{{ $key }}" class="{{ $input }}">
+                @foreach ($field['options'] as $optionValue => $optionLabel)
+                    <option value="{{ $optionValue }}" @selected((string) $value === (string) $optionValue)>{{ $optionLabel }}</option>
+                @endforeach
+            </select>
+        @elseif ($field['type'] === 'image')
             @if ($value)
                 <div class="mb-3 flex items-center gap-4 rounded-lg border border-slate-200 bg-slate-50/60 p-3">
                     <img src="{{ Storage::disk('public')->url($value) }}" alt=""

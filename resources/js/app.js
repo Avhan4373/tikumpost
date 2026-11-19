@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Mode gelap: tombol di header publik & admin, preferensi disimpan di localStorage.
     const themeToggles = document.querySelectorAll('[data-theme-toggle]');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
     const syncThemeToggles = () => {
         const isDark = document.documentElement.classList.contains('dark');
@@ -36,21 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             applyTheme(isDark);
         });
-    });
-
-    const storedTheme = () => {
-        try {
-            return localStorage.getItem('theme');
-        } catch (error) {
-            return null;
-        }
-    };
-
-    // Ikuti perubahan tema sistem bila pengguna belum memilih secara manual.
-    prefersDark.addEventListener('change', (event) => {
-        if (!storedTheme()) {
-            applyTheme(event.matches);
-        }
     });
 
     syncThemeToggles();

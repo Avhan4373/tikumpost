@@ -15,8 +15,8 @@ class SiteSettings
     /**
      * Skema lengkap: grup => label + daftar field.
      *
-     * Field: key, label, type (text|textarea|email|url|number|boolean|image),
-     * default, help (opsional).
+     * Field: key, label, type (text|textarea|email|url|number|boolean|image|select),
+     * default, help (opsional), options (khusus select).
      *
      * @return array<string, array{label: string, description?: string, fields: array<int, array<string, mixed>>}>
      */
@@ -32,6 +32,20 @@ class SiteSettings
                     ['key' => 'site_description', 'label' => 'Deskripsi Situs', 'type' => 'textarea', 'default' => 'Portal berita independen yang menyajikan informasi terkini, akurat, dan berimbang untuk pembaca Indonesia.'],
                     ['key' => 'site_logo', 'label' => 'Logo', 'type' => 'image', 'default' => null, 'help' => 'PNG/JPG/WebP/SVG maks 2 MB. Kosongkan untuk memakai inisial nama situs.'],
                     ['key' => 'site_favicon', 'label' => 'Favicon', 'type' => 'image', 'default' => null, 'help' => 'Ikon tab browser (disarankan PNG/SVG kotak).'],
+                ],
+            ],
+            'tampilan' => [
+                'label' => 'Tampilan',
+                'description' => 'Tema awal situs untuk pengunjung yang belum memilih mode tampilan sendiri.',
+                'fields' => [
+                    [
+                        'key' => 'default_theme',
+                        'label' => 'Tema Default',
+                        'type' => 'select',
+                        'default' => 'light',
+                        'options' => ['light' => 'Terang (White Mode)', 'dark' => 'Gelap (Dark Mode)'],
+                        'help' => 'Pilihan manual pengunjung lewat tombol tema tetap diutamakan.',
+                    ],
                 ],
             ],
             'kontak' => [
@@ -161,6 +175,7 @@ class SiteSettings
                 'number' => ['nullable', 'integer', 'min:1', 'max:100'],
                 'textarea' => ['nullable', 'string', 'max:5000'],
                 'boolean' => ['nullable', 'boolean'],
+                'select' => ['nullable', 'string', \Illuminate\Validation\Rule::in(array_keys($field['options'] ?? []))],
                 'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
                 default => ['nullable', 'string', 'max:255'],
             };
