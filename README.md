@@ -133,6 +133,32 @@ Lalu jalankan `php artisan migrate --seed`.
 
 ---
 
+## Deploy ke Hostinger (shared hosting + SSH)
+
+Server Hostinger tidak menyediakan Node.js, jadi aset Vite harus di-build lokal dan ikut di-commit (`public/build`).
+
+1. Build lokal: `npm ci && npm run build`.
+2. Commit `public/build` bersama perubahan lain, lalu `git push`.
+3. Di server, aplikasi berada di luar `public_html` (mis. `~/tikumpost`):
+   ```bash
+   cd ~/tikumpost
+   git pull
+   composer install --no-dev --optimize-autoloader --no-scripts
+   php artisan migrate --force
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+   `--no-scripts` dipakai karena Hostinger memblokir `proc_open`.
+4. `public_html` berisi `index.php` (menunjuk absolut ke `~/tikumpost`), plus symlink:
+   ```bash
+   ln -sfn ~/tikumpost/public/build   ~/domains/DOMAIN/public_html/build
+   ln -sfn ~/tikumpost/storage/app/public ~/domains/DOMAIN/public_html/storage
+   ```
+5. `.env` hanya ada di server (tidak di-commit). Setelah mengubah `.env`, jalankan ulang `php artisan config:cache` agar environment variable dari panel Hostinger tidak menimpa konfigurasi.
+
+---
+
 ## Catatan / TODO
 
 - **Editor artikel** memakai editor WYSIWYG Quill (`resources/js/rich-editor.js` + `resources/css/editor.css`) dengan unggah gambar langsung ke Manajer Media. Jalankan `npm run build` setelah mengubah aset editor.
