@@ -27,7 +27,7 @@
                             <span class="min-w-0">
                                 <span class="line-clamp-2 block text-sm font-semibold leading-snug text-slate-900 transition group-hover:text-red-600">{{ $item->title }}</span>
                                 <span class="mt-1 flex items-center gap-2 text-xs text-slate-400">
-                                    <time>{{ optional($item->published_at)->format('d M Y') }}</time>
+                                    <time>{{ optional($item->published_at)->translatedFormat('d M Y') }}</time>
                                     <span class="inline-flex items-center gap-1" title="{{ number_format($item->views) }} kali dibaca">
                                         <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />

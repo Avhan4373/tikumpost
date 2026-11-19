@@ -35,7 +35,7 @@
                     <span class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-slate-100 to-slate-200 text-sm font-bold text-slate-600">{{ $article->author?->initials }}</span>
                     <div class="text-sm">
                         <a href="{{ route('authors.show', $article->author) }}" class="block font-semibold text-slate-800 transition hover:text-red-600">{{ $article->author?->name }}</a>
-                        <time class="text-xs text-slate-400">{{ optional($article->published_at)->format('d F Y H:i') }}</time>
+                        <time class="text-xs text-slate-400">{{ optional($article->published_at)->translatedFormat('d F Y H:i') }}</time>
                     </div>
                 </div>
                 <div class="ml-auto flex items-center gap-4 text-xs text-slate-500">

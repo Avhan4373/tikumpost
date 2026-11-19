@@ -37,7 +37,7 @@
             <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-slate-100 to-slate-200 font-bold text-slate-600">{{ $article->author?->initials }}</span>
             <div class="min-w-0">
                 <p class="truncate font-semibold text-slate-700">{{ $article->author?->name }}</p>
-                <time class="text-slate-400">{{ optional($article->published_at)->format('d M Y') }}</time>
+                <time class="text-slate-400">{{ optional($article->published_at)->translatedFormat('d M Y') }}</time>
             </div>
             <span class="ml-auto whitespace-nowrap rounded-full bg-slate-100 px-2.5 py-1 font-medium text-slate-500">{{ $article->reading_time }} mnt</span>
         </div>

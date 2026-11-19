@@ -25,7 +25,7 @@
                         <div class="hero-rise mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-300" style="--reveal-delay: 270ms">
                             <span class="font-semibold text-white">{{ $lead->author?->name }}</span>
                             <span class="text-slate-500">&bull;</span>
-                            <time>{{ optional($lead->published_at)->format('d M Y') }}</time>
+                            <time>{{ optional($lead->published_at)->translatedFormat('d M Y') }}</time>
                             <span class="text-slate-500">&bull;</span>
                             <span>{{ $lead->reading_time }} menit baca</span>
                             <span class="text-slate-500">&bull;</span>
@@ -46,7 +46,7 @@
                                 <div class="min-w-0">
                                     <h3 class="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 transition group-hover:text-red-600">{{ $item->title }}</h3>
                                     <div class="mt-1 flex items-center gap-2 text-xs text-slate-400">
-                                        <time>{{ optional($item->published_at)->format('d M Y') }}</time>
+                                        <time>{{ optional($item->published_at)->translatedFormat('d M Y') }}</time>
                                         <span class="inline-flex items-center gap-1" title="{{ number_format($item->views) }} kali dibaca">
                                             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />

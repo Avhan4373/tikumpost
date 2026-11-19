@@ -54,7 +54,7 @@
                         <td class="px-5 py-3">
                             <span class="rounded-full px-2 py-1 text-xs font-semibold {{ $article->status->badge() }}">{{ $article->status->label() }}</span>
                         </td>
-                        <td class="px-5 py-3 text-slate-500">{{ optional($article->published_at)->format('d M Y') ?? $article->created_at->format('d M Y') }}</td>
+                        <td class="px-5 py-3 text-slate-500">{{ optional($article->published_at)->translatedFormat('d M Y') ?? $article->created_at->translatedFormat('d M Y') }}</td>
                         <td class="px-5 py-3 text-slate-600">{{ number_format($article->views) }}</td>
                         <td class="px-5 py-3">
                             <div class="flex justify-end gap-2">
