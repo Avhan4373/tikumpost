@@ -48,9 +48,8 @@ npm install
 cp .env.example .env
 php artisan key:generate
 
-# 4. Database (SQLite default — file sudah otomatis dibuat)
-touch database/database.sqlite
-php artisan migrate:fresh --seed
+# 4. Database (MySQL — sesuaikan DB_* di .env lebih dulu)
+php artisan migrate --seed
 
 # 5. Symlink penyimpanan (untuk gambar unggahan)
 php artisan storage:link
@@ -130,13 +129,15 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Lalu jalankan `php artisan migrate:fresh --seed`.
+Lalu jalankan `php artisan migrate --seed`.
 
 ---
 
 ## Catatan / TODO
 
-- **Editor artikel** saat ini memakai `<textarea>` yang menerima HTML. Untuk editor WYSIWYG, integrasikan TinyMCE/Trix/CKEditor di `resources/views/admin/articles/form.blade.php`.
+- **Editor artikel** memakai editor WYSIWYG Quill (`resources/js/rich-editor.js` + `resources/css/editor.css`) dengan unggah gambar langsung ke Manajer Media. Jalankan `npm run build` setelah mengubah aset editor.
+- **Batas unggah** mengikuti `upload_max_filesize`/`post_max_size` PHP. Gambar yang lebih besar dari batas otomatis diperkecil di browser; untuk mengizinkan file mentah lebih besar, naikkan nilainya di `php.ini` lalu restart server.
+- **Perlindungan isi berita** (`data-protected-content` di `resources/views/public/article.blade.php`, `resources/js/app.js`, `resources/css/app.css`) menonaktifkan seleksi, salin, potong, klik kanan, dan seret gambar pada isi artikel. Ini penghalang praktis di browser, bukan pengamanan absolut: pengguna teknis tetap bisa membaca HTML lewat DevTools/`curl`.
 - **Newsletter** menyimpan email ke tabel `subscribers`; pengiriman email massal (via queue) belum diimplementasikan.
 - Gambar unggahan disimpan di disk `public` (`storage/app/public`), perlu `php artisan storage:link`.
 - Belum ada pengujian otomatis (Pest/PHPUnit) — lihat `tests/` untuk mulai menambahkan.

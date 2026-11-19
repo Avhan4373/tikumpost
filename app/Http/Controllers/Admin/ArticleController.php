@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Support\UploadLimit;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -47,6 +48,7 @@ class ArticleController extends Controller
             'article' => new Article(['status' => ArticleStatus::Draft]),
             'categories' => Category::ordered()->get(),
             'tags' => Tag::orderBy('name')->get(),
+            'uploadMaxBytes' => UploadLimit::bytes(),
         ]);
     }
 
@@ -73,6 +75,7 @@ class ArticleController extends Controller
             'article' => $article,
             'categories' => Category::ordered()->get(),
             'tags' => Tag::orderBy('name')->get(),
+            'uploadMaxBytes' => UploadLimit::bytes(),
         ]);
     }
 

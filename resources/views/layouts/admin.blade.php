@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('partials.theme-init')
     <title>@yield('title', 'Dashboard') &middot; Admin {{ $site['site_name'] ?? 'KabarKita' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -54,6 +55,7 @@
             <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
                 <h1 class="text-lg font-bold text-slate-900">@yield('heading', 'Dashboard')</h1>
                 <div class="flex items-center gap-3 text-sm">
+                    @include('partials.theme-toggle')
                     <span class="hidden text-slate-500 sm:inline">{{ auth()->user()->name }}</span>
                     <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold uppercase text-slate-600">{{ auth()->user()->role?->label() }}</span>
                     <form method="POST" action="{{ route('logout') }}">

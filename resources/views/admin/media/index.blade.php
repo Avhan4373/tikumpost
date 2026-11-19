@@ -11,6 +11,9 @@
             <div>
                 <label class="mb-1 block text-xs font-medium text-slate-600">Berkas</label>
                 <input type="file" name="file" required class="text-sm">
+                <p class="mt-1 text-xs text-slate-400">
+                    JPG, PNG, WebP, atau PDF. Maksimal {{ \App\Support\UploadLimit::label() }}.
+                </p>
             </div>
             <div>
                 <label class="mb-1 block text-xs font-medium text-slate-600">Alt text</label>

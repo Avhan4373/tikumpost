@@ -47,6 +47,10 @@
                         @endauth
                     </nav>
 
+                    <div class="hidden lg:block">
+                        @include('partials.theme-toggle')
+                    </div>
+
                     <a href="#newsletter" title="Langganan berita lewat email"
                         class="btn-anim hidden items-center gap-2 rounded-full border border-slate-200 px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700 lg:inline-flex">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -168,6 +172,8 @@
                     <a href="{{ route('login') }}" class="rounded-xl border border-slate-300 px-3 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Masuk</a>
                     <a href="{{ route('register') }}" class="rounded-xl bg-red-600 px-3 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-red-700">Daftar</a>
                 @endauth
+
+                @include('partials.theme-toggle', ['variant' => 'full'])
 
                 <a href="#newsletter" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

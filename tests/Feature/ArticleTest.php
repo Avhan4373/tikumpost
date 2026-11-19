@@ -25,6 +25,16 @@ class ArticleTest extends TestCase
         $this->actingAs($admin)->get(route('admin.articles.create'))->assertOk();
     }
 
+    public function test_form_artikel_memakai_editor_wysiwyg(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+
+        $this->actingAs($admin)->get(route('admin.articles.create'))
+            ->assertOk()
+            ->assertSee('data-rich-editor', false)
+            ->assertSee('name="body"', false);
+    }
+
     public function test_admin_dapat_membuat_artikel(): void
     {
         $admin = User::factory()->create(['role' => UserRole::Admin]);

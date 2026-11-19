@@ -1,0 +1,199 @@
+/*
+ * Gaya editor WYSIWYG (Quill) — dipisah dari app.css agar hanya ikut
+ * dimuat di halaman yang memakai editor artikel.
+ */
+
+.rich-editor .ql-toolbar.ql-snow {
+    border: 1px solid #cbd5e1;
+    border-bottom: 0;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background-color: #f8fafc;
+    padding: 0.5rem 0.65rem;
+}
+
+.rich-editor .ql-toolbar.ql-snow .ql-formats {
+    margin-right: 0.75rem;
+}
+
+.rich-editor .ql-container.ql-snow {
+    border: 1px solid #cbd5e1;
+    border-radius: 0 0 0.5rem 0.5rem;
+    background-color: #ffffff;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.rich-editor .ql-editor {
+    min-height: 20rem;
+    max-height: 46rem;
+    overflow-y: auto;
+    padding: 1rem 1.25rem;
+    line-height: 1.75;
+    color: #334155;
+}
+
+.rich-editor .ql-editor.ql-blank::before {
+    left: 1.25rem;
+    right: 1.25rem;
+    color: #94a3b8;
+    font-style: normal;
+}
+
+.rich-editor .ql-editor h2 {
+    margin: 1.5rem 0 0.6rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #0f172a;
+}
+
+.rich-editor .ql-editor h3 {
+    margin: 1.25rem 0 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.rich-editor .ql-editor h4 {
+    margin: 1rem 0 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.rich-editor .ql-editor p {
+    margin: 0 0 0.85rem;
+}
+
+.rich-editor .ql-editor ul,
+.rich-editor .ql-editor ol {
+    margin: 0 0 0.85rem;
+    padding-left: 1.5rem;
+}
+
+.rich-editor .ql-editor li + li {
+    margin-top: 0.3rem;
+}
+
+.rich-editor .ql-editor blockquote {
+    margin: 0 0 0.85rem;
+    border-left: 3px solid #dc2626;
+    padding-left: 1.15rem;
+    font-style: italic;
+    color: #475569;
+}
+
+.rich-editor .ql-editor a {
+    color: #dc2626;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.rich-editor .ql-editor img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+}
+
+.rich-editor .ql-editor pre.ql-syntax,
+.rich-editor .ql-editor .ql-code-block-container {
+    overflow: auto;
+    border-radius: 0.75rem;
+    background: #0f172a;
+    padding: 1rem 1.25rem;
+    color: #e2e8f0;
+}
+
+.rich-editor .ql-editor.ql-blank::before {
+    pointer-events: none;
+}
+
+/* --- Mode gelap --- */
+.dark .rich-editor .ql-toolbar.ql-snow {
+    border-color: #334155;
+    background-color: #0b1120;
+}
+
+.dark .rich-editor .ql-container.ql-snow {
+    border-color: #334155;
+    background-color: #0f172a;
+}
+
+.dark .rich-editor .ql-editor {
+    color: #cbd5e1;
+}
+
+.dark .rich-editor .ql-editor h2,
+.dark .rich-editor .ql-editor h3,
+.dark .rich-editor .ql-editor h4,
+.dark .rich-editor .ql-editor strong {
+    color: #f1f5f9;
+}
+
+.dark .rich-editor .ql-editor blockquote {
+    border-color: #ef4444;
+    color: #cbd5e1;
+}
+
+.dark .rich-editor .ql-editor a {
+    color: #f87171;
+}
+
+.dark .rich-editor .ql-editor.ql-blank::before {
+    color: #64748b;
+}
+
+.dark .rich-editor .ql-snow .ql-stroke {
+    stroke: #cbd5e1;
+}
+
+.dark .rich-editor .ql-snow .ql-fill,
+.dark .rich-editor .ql-snow .ql-stroke.ql-fill {
+    fill: #cbd5e1;
+}
+
+.dark .rich-editor .ql-snow .ql-picker {
+    color: #cbd5e1;
+}
+
+.dark .rich-editor .ql-snow .ql-picker-options {
+    border-color: #334155;
+    background-color: #0f172a;
+}
+
+.dark .rich-editor .ql-snow .ql-picker-item:hover,
+.dark .rich-editor .ql-snow .ql-picker-label:hover,
+.dark .rich-editor .ql-snow button:hover,
+.dark .rich-editor .ql-snow button.ql-active {
+    color: #ef4444;
+}
+
+.dark .rich-editor .ql-snow .ql-picker-label:hover .ql-stroke,
+.dark .rich-editor .ql-snow .ql-picker-item:hover .ql-stroke,
+.dark .rich-editor .ql-snow button:hover .ql-stroke,
+.dark .rich-editor .ql-snow button.ql-active .ql-stroke {
+    stroke: #ef4444;
+}
+
+.dark .rich-editor .ql-snow .ql-picker-label:hover .ql-fill,
+.dark .rich-editor .ql-snow button:hover .ql-fill,
+.dark .rich-editor .ql-snow button.ql-active .ql-fill {
+    fill: #ef4444;
+}
+
+.dark .rich-editor .ql-snow .ql-tooltip {
+    border-color: #334155;
+    background-color: #0f172a;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+    color: #e2e8f0;
+}
+
+.dark .rich-editor .ql-snow .ql-tooltip input[type='text'] {
+    border-color: #334155;
+    background-color: #0b1120;
+    color: #e2e8f0;
+}
+
+.dark .rich-editor .ql-snow .ql-tooltip a {
+    color: #f87171;
+}

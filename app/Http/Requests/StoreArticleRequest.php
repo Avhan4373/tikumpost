@@ -18,7 +18,6 @@ class StoreArticleRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:200'],
             'category_id' => ['nullable', 'exists:categories,id'],
-            'excerpt' => ['nullable', 'string', 'max:500'],
             'body' => ['required', 'string'],
             'featured_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'status' => ['required', Rule::enum(ArticleStatus::class)],

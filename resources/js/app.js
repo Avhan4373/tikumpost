@@ -1,6 +1,60 @@
 // Interaksi ringan untuk tampilan publik (tanpa dependensi).
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Mode gelap: tombol di header publik & admin, preferensi disimpan di localStorage.
+    const themeToggles = document.querySelectorAll('[data-theme-toggle]');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const syncThemeToggles = () => {
+        const isDark = document.documentElement.classList.contains('dark');
+
+        themeToggles.forEach((button) => {
+            button.setAttribute('aria-pressed', String(isDark));
+            button.setAttribute('aria-label', isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap');
+
+            if (button.hasAttribute('title')) {
+                button.setAttribute('title', isDark ? 'Mode terang' : 'Mode gelap');
+            }
+        });
+    };
+
+    const applyTheme = (isDark) => {
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        syncThemeToggles();
+    };
+
+    themeToggles.forEach((button) => {
+        button.addEventListener('click', () => {
+            const isDark = !document.documentElement.classList.contains('dark');
+
+            try {
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            } catch (error) {
+                // localStorage tidak tersedia — tema tetap bisa diganti selama sesi.
+            }
+
+            applyTheme(isDark);
+        });
+    });
+
+    const storedTheme = () => {
+        try {
+            return localStorage.getItem('theme');
+        } catch (error) {
+            return null;
+        }
+    };
+
+    // Ikuti perubahan tema sistem bila pengguna belum memilih secara manual.
+    prefersDark.addEventListener('change', (event) => {
+        if (!storedTheme()) {
+            applyTheme(event.matches);
+        }
+    });
+
+    syncThemeToggles();
+
     // Menu navigasi mobile.
     const toggle = document.querySelector('[data-mobile-nav-toggle]');
     const panel = document.querySelector('[data-mobile-nav]');
@@ -105,6 +159,130 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Perlindungan isi artikel: cegah seleksi, salin, potong, klik kanan, dan
+    // seret gambar. Catatan: HTML tetap terkirim ke browser, jadi ini hanya
+    // penghalang praktis — bukan pengamanan absolut terhadap pengguna teknis.
+    const protectedNodes = [...document.querySelectorAll('[data-protected-content]')];
+
+    if (protectedNodes.length) {
+        const isEditable = (node) => node instanceof Element
+            && node.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]') !== null;
+
+        const isProtectedNode = (node) => node instanceof Node
+            && protectedNodes.some((element) => element.contains(node));
+
+        const hasProtectedSelection = () => {
+            const selection = window.getSelection();
+
+            if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
+                return false;
+            }
+
+            // `user-select: none` membuat selection.toString() kosong walau range
+            // ada, jadi deteksi memakai irisan range dengan area terlindungi.
+            const range = selection.getRangeAt(0);
+
+            return protectedNodes.some((element) => range.intersectsNode(element))
+                || isProtectedNode(selection.anchorNode)
+                || isProtectedNode(selection.focusNode);
+        };
+
+        let toastTimer = null;
+
+        const notifyProtected = () => {
+            let toast = document.querySelector('[data-protected-toast]');
+
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.setAttribute('data-protected-toast', '');
+                toast.setAttribute('role', 'status');
+                toast.setAttribute('aria-live', 'polite');
+                toast.style.cssText = 'position:fixed;left:50%;bottom:1.5rem;z-index:60;max-width:calc(100vw - 2rem);'
+                    + 'transform:translateX(-50%) translateY(0.5rem);border-radius:9999px;background:#0f172a;color:#f8fafc;'
+                    + 'padding:0.65rem 1rem;font-size:0.8rem;font-weight:600;text-align:center;'
+                    + 'box-shadow:0 10px 30px rgb(15 23 42 / 0.25);opacity:0;pointer-events:none;'
+                    + 'transition:opacity .18s ease, transform .18s ease;';
+                document.body.appendChild(toast);
+            }
+
+            toast.textContent = 'Isi berita dilindungi dan tidak dapat disalin.';
+
+            requestAnimationFrame(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateX(-50%) translateY(0)';
+            });
+
+            window.clearTimeout(toastTimer);
+            toastTimer = window.setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(0.5rem)';
+            }, 2200);
+        };
+
+        const blockClipboard = (event) => {
+            if (isEditable(event.target) || !hasProtectedSelection()) {
+                return;
+            }
+
+            event.preventDefault();
+            notifyProtected();
+        };
+
+        document.addEventListener('copy', blockClipboard);
+        document.addEventListener('cut', blockClipboard);
+
+        document.addEventListener('contextmenu', (event) => {
+            if (isEditable(event.target)) {
+                return;
+            }
+
+            if (isProtectedNode(event.target) || hasProtectedSelection()) {
+                event.preventDefault();
+                notifyProtected();
+            }
+        });
+
+        document.addEventListener('selectstart', (event) => {
+            if (!isEditable(event.target) && isProtectedNode(event.target)) {
+                event.preventDefault();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (!(event.ctrlKey || event.metaKey) || event.altKey || event.shiftKey) {
+                return;
+            }
+
+            const key = event.key.toLowerCase();
+
+            if (key !== 'a' && key !== 'c' && key !== 'x') {
+                return;
+            }
+
+            if (isEditable(event.target)) {
+                return;
+            }
+
+            if (key === 'a') {
+                event.preventDefault();
+                return;
+            }
+
+            if (hasProtectedSelection()) {
+                event.preventDefault();
+                notifyProtected();
+            }
+        });
+
+        protectedNodes.forEach((element) => {
+            element.addEventListener('dragstart', (event) => {
+                if (!isEditable(event.target)) {
+                    event.preventDefault();
+                }
+            });
+        });
+    }
 
     // Lightbox gambar (mis. infografis di sidebar beranda).
     const lightbox = document.querySelector('[data-lightbox]');
@@ -270,6 +448,15 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = url.href;
         }, 180);
     });
+
+    // Admin: editor WYSIWYG isi artikel (Quill dimuat hanya saat dibutuhkan).
+    if (document.querySelector('[data-rich-editor]')) {
+        import('./rich-editor')
+            .then(({ initRichEditors }) => initRichEditors())
+            .catch((error) => {
+                console.error('Gagal memuat editor artikel:', error);
+            });
+    }
 
     // Admin: urutan menu via drag & drop (Sortable dimuat hanya saat dibutuhkan).
     const menuSortable = document.querySelector('[data-menu-sortable]');

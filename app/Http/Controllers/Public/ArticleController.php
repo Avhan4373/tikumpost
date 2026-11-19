@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Infographic;
+use App\Models\Tag;
 use App\Support\SiteSettings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,10 +44,27 @@ class ArticleController extends Controller
             ->when($article->category_id, fn ($q) => $q->where('category_id', $article->category_id))
             ->with('category')->orderByDesc('published_at')->take(3)->get();
 
+        // Data untuk sidebar kanan halaman detail berita.
+        $popular = Article::published()->with('category')
+            ->orderByDesc('views')->take(5)->get();
+
+        $categories = Category::ordered()
+            ->withCount(['articles' => fn ($q) => $q->published()])
+            ->get();
+
+        $tags = Tag::withCount('articles')
+            ->orderByDesc('articles_count')->take(12)->get();
+
+        $infographics = Infographic::published()->ordered()->take(2)->get();
+
         return view('public.article', [
             'article' => $article,
             'comments' => $comments,
             'related' => $related,
+            'popular' => $popular,
+            'categories' => $categories,
+            'tags' => $tags,
+            'infographics' => $infographics,
             'commentsEnabled' => (bool) SiteSettings::value('comments_enabled', true),
         ]);
     }

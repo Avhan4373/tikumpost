@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('partials.theme-init')
     <title>@yield('title', 'Beranda') &middot; {{ $site['site_name'] ?? config('app.name', 'KabarKita') }}</title>
     <meta name="description" content="@yield('meta_description', $site['meta_description'] ?? '')">
     @if (! empty($site['meta_keywords']))

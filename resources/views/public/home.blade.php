@@ -136,7 +136,7 @@
                         @csrf
                         <input type="email" name="email" required placeholder="Email Anda"
                             class="w-full rounded-xl border border-white/20 bg-white/15 px-3 py-2.5 text-sm text-white placeholder-red-100/80 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
-                        <button type="submit" class="btn-anim w-full rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-red-700 transition hover:bg-red-50">Langganan Gratis</button>
+                        <button type="submit" class="btn-anim w-full rounded-xl bg-[#ffffff] px-4 py-2.5 text-sm font-bold text-[#b91c1c] transition hover:bg-[#fee2e2]">Langganan Gratis</button>
                     </form>
                 </div>
             </aside>

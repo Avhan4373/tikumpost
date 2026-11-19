@@ -18,13 +18,22 @@
                     class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none">
             </div>
             <div>
-                <label class="mb-1 block text-sm font-medium text-slate-700">Ringkasan (excerpt)</label>
-                <textarea name="excerpt" rows="2" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none">{{ old('excerpt', $article->excerpt) }}</textarea>
-            </div>
-            <div>
-                <label class="mb-1 block text-sm font-medium text-slate-700">Isi Artikel <span class="text-xs text-slate-400">(HTML diperbolehkan)</span></label>
-                <textarea name="body" rows="16" required
-                    class="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm focus:border-red-500 focus:outline-none">{{ old('body', $article->body) }}</textarea>
+                <label class="mb-1 block text-sm font-medium text-slate-700">Isi Artikel</label>
+                <div class="rich-editor" data-rich-editor
+                    data-upload-url="{{ route('admin.media.store') }}"
+                    data-upload-max-bytes="{{ $uploadMaxBytes }}"
+                    data-placeholder="Tulis isi artikel di sini...">
+                    <div data-rich-editor-surface class="hidden"></div>
+                    {{-- Fallback tanpa JS: textarea asli tetap bisa dipakai. --}}
+                    <textarea name="body" rows="16" data-rich-editor-input aria-required="true"
+                        class="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm focus:border-red-500 focus:outline-none">{{ old('body', $article->body) }}</textarea>
+                    <p data-rich-editor-error class="mt-2 hidden rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800"></p>
+                </div>
+                <p class="mt-1 text-xs text-slate-400">
+                    Gunakan toolbar untuk memformat teks, menambah tautan, dan mengunggah gambar.
+                    Gambar JPG/PNG/WebP yang lebih besar dari batas server ({{ \App\Support\UploadLimit::label($uploadMaxBytes) }})
+                    akan diperkecil otomatis.
+                </p>
             </div>
 
             <details class="rounded-lg border border-slate-200 p-4">

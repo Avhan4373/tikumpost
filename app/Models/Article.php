@@ -107,6 +107,10 @@ class Article extends Model
     }
 
     // ---- Accessors ----
+    /**
+     * Ringkasan tidak lagi diisi manual di admin. Nilai lama (jika ada) tetap
+     * dipakai; artikel baru memakai potongan awal isi artikel.
+     */
     public function getExcerptTextAttribute(): string
     {
         return $this->excerpt ?: Str::limit(strip_tags($this->body), 160);
