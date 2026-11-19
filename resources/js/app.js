@@ -71,12 +71,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const siteHeader = document.querySelector('.site-header');
 
     if (siteHeader) {
+        // Ambang berbeda untuk mengecil dan membesar (hysteresis) agar header
+        // tidak bolak-balik berkedip saat posisi scroll berada di sekitar ambang.
+        const COLLAPSE_AT = 160;
+        const EXPAND_AT = 48;
+        let scheduled = false;
+
         const syncHeader = () => {
-            siteHeader.classList.toggle('is-header-collapsed', window.scrollY > 64);
+            scheduled = false;
+            const isCollapsed = siteHeader.classList.contains('is-header-collapsed');
+            const shouldCollapse = isCollapsed
+                ? window.scrollY > EXPAND_AT
+                : window.scrollY > COLLAPSE_AT;
+
+            if (shouldCollapse !== isCollapsed) {
+                siteHeader.classList.toggle('is-header-collapsed', shouldCollapse);
+            }
+        };
+
+        const requestHeaderSync = () => {
+            if (scheduled) {
+                return;
+            }
+
+            scheduled = true;
+            window.requestAnimationFrame(syncHeader);
         };
 
         syncHeader();
-        document.addEventListener('scroll', syncHeader, { passive: true });
+        document.addEventListener('scroll', requestHeaderSync, { passive: true });
     }
 
     // Submenu: dibuka via hover (desktop) dan klik (desktop/mobile).
