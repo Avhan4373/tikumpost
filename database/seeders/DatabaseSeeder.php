@@ -21,22 +21,22 @@ class DatabaseSeeder extends Seeder
     {
         // ---- Pengguna ----
         $admin = User::create([
-            'name' => 'Andi Pratama', 'email' => 'admin@kabarkita.test',
+            'name' => 'Andi Pratama', 'email' => 'admin@tikumpost.test',
             'password' => Hash::make('password'), 'role' => UserRole::Admin,
-            'bio' => 'Pemimpin redaksi KabarKita.',
+            'bio' => 'Pemimpin redaksi TikumPost.',
         ]);
         $editor = User::create([
-            'name' => 'Siti Rahayu', 'email' => 'editor@kabarkita.test',
+            'name' => 'Siti Rahayu', 'email' => 'editor@tikumpost.test',
             'password' => Hash::make('password'), 'role' => UserRole::Editor,
             'bio' => 'Editor desk nasional.',
         ]);
         $author = User::create([
-            'name' => 'Budi Santoso', 'email' => 'penulis@kabarkita.test',
+            'name' => 'Budi Santoso', 'email' => 'penulis@tikumpost.test',
             'password' => Hash::make('password'), 'role' => UserRole::Author,
             'bio' => 'Jurnalis teknologi dan ekonomi.',
         ]);
         $reader = User::create([
-            'name' => 'Dewi Lestari', 'email' => 'pembaca@kabarkita.test',
+            'name' => 'Dewi Lestari', 'email' => 'pembaca@tikumpost.test',
             'password' => Hash::make('password'), 'role' => UserRole::Reader,
         ]);
 
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => $categories->firstWhere('name', $cat)->id,
                 'title' => $title,
                 'slug' => Str::slug($title),
-                'excerpt' => 'Ringkasan singkat: '.$title.'. Baca selengkapnya di KabarKita.',
+                'excerpt' => 'Ringkasan singkat: '.$title.'. Baca selengkapnya di TikumPost.',
                 'body' => '<p>'.implode('</p><p>', [
                     fake()->paragraph(7),
                     fake()->paragraph(7),
@@ -126,6 +126,6 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->info('Seed selesai: 4 pengguna, 6 kategori, '.count($tagNames).' tag, '.Article::count().' artikel.');
-        $this->command->info('Login admin: admin@kabarkita.test / password');
+        $this->command->info('Login admin: admin@tikumpost.test / password');
     }
 }

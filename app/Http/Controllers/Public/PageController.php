@@ -13,11 +13,11 @@ class PageController extends Controller
         $pages = [
             'tentang' => [
                 'title' => 'Tentang Kami',
-                'body' => 'KabarKita adalah portal berita independen yang menyajikan informasi terkini, akurat, dan berimbang untuk pembaca Indonesia.',
+                'body' => 'TikumPost adalah portal berita independen yang menyajikan informasi terkini, akurat, dan berimbang untuk pembaca Indonesia.',
             ],
             'kontak' => [
                 'title' => 'Kontak',
-                'body' => 'Punya tips berita atau pertanyaan? Hubungi redaksi kami di redaksi@kabarkita.test atau (021) 1234-5678.',
+                'body' => 'Punya tips berita atau pertanyaan? Hubungi redaksi kami di redaksi@tikumpost.test atau (021) 1234-5678.',
             ],
             'kebijakan-privasi' => [
                 'title' => 'Kebijakan Privasi',

@@ -6,7 +6,7 @@
                 class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
         @else
             <div class="grid h-full w-full place-items-center bg-gradient-to-br from-slate-100 to-slate-200 text-slate-300">
-                <span class="text-3xl font-bold tracking-tight">KabarKita</span>
+                <span class="text-3xl font-bold tracking-tight">TikumPost</span>
             </div>
         @endif
 

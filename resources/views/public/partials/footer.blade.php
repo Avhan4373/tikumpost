@@ -1,7 +1,7 @@
 <footer class="mt-16 border-t border-slate-800 bg-slate-900 text-slate-300">
     <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-2 lg:grid-cols-4">
         @php
-            $siteName = $site['site_name'] ?? config('app.name', 'KabarKita');
+            $siteName = $site['site_name'] ?? config('app.name', 'TikumPost');
             $socials = [
                 ['key' => 'social_facebook', 'label' => 'Facebook', 'path' => 'M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z'],
                 ['key' => 'social_twitter', 'label' => 'X', 'path' => 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z'],
@@ -86,7 +86,7 @@
 
     <div class="border-t border-slate-800">
         <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-slate-500 sm:flex-row">
-            <p>&copy; {{ date('Y') }} {{ $site['copyright_text'] ?? 'KabarKita. Seluruh hak cipta dilindungi.' }}</p>
+            <p>&copy; {{ date('Y') }} {{ $site['copyright_text'] ?? 'TikumPost. Seluruh hak cipta dilindungi.' }}</p>
             <a href="#top" class="inline-flex items-center gap-1.5 rounded-full bg-slate-800 px-3 py-1.5 font-medium text-slate-300 transition hover:bg-slate-700 hover:text-white">
                 Kembali ke atas
                 <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0-6 6m6-6 6 6"/></svg>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('partials.theme-init')
-    <title>@yield('title', 'Dashboard') &middot; Admin {{ $site['site_name'] ?? 'KabarKita' }}</title>
+    <title>@yield('title', 'Dashboard') &middot; Admin {{ $site['site_name'] ?? 'TikumPost' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full bg-slate-100 text-slate-800">
@@ -14,11 +14,11 @@
         <aside class="hidden w-64 shrink-0 flex-col bg-slate-900 text-slate-300 lg:flex">
             <div class="flex h-16 items-center gap-2 px-6">
                 @if (! empty($site['site_logo']))
-                    <img src="{{ Storage::disk('public')->url($site['site_logo']) }}" alt="{{ $site['site_name'] ?? 'KabarKita' }}" class="h-8 w-auto max-w-[8rem] rounded object-contain">
+                    <img src="{{ Storage::disk('public')->url($site['site_logo']) }}" alt="{{ $site['site_name'] ?? 'TikumPost' }}" class="h-8 w-auto max-w-[8rem] rounded object-contain">
                 @else
                     <span class="grid h-8 w-8 place-items-center rounded-lg bg-red-600 font-black text-white">{{ Str::substr($site['site_name'] ?? 'K', 0, 1) }}</span>
                 @endif
-                <span class="font-black text-white">{{ $site['site_name'] ?? 'KabarKita' }}</span>
+                <span class="font-black text-white">{{ $site['site_name'] ?? 'TikumPost' }}</span>
             </div>
             <nav class="flex-1 space-y-1 px-3 py-4 text-sm">
                 @php

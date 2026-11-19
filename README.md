@@ -1,4 +1,4 @@
-# KabarKita — Portal Berita (Laravel)
+# TikumPost — Portal Berita (Laravel)
 
 Website berita berbasis **Laravel 13** dengan dua sisi: **sisi publik** untuk pembaca dan **sisi admin (CMS)** untuk redaksi. Dibangun mengikuti `../Plan.md`.
 
@@ -72,10 +72,10 @@ php artisan serve
 
 | Peran | Email | Kata Sandi |
 |---|---|---|
-| Administrator | `admin@kabarkita.test` | `password` |
-| Editor | `editor@kabarkita.test` | `password` |
-| Penulis | `penulis@kabarkita.test` | `password` |
-| Pembaca | `pembaca@kabarkita.test` | `password` |
+| Administrator | `admin@tikumpost.test` | `password` |
+| Editor | `editor@tikumpost.test` | `password` |
+| Penulis | `penulis@tikumpost.test` | `password` |
+| Pembaca | `pembaca@tikumpost.test` | `password` |
 
 > Ganti kata sandi sebelum dipakai di produksi.
 
@@ -124,7 +124,7 @@ Ubah `.env`:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=kabarkita
+DB_DATABASE=tikumpost
 DB_USERNAME=root
 DB_PASSWORD=
 ```

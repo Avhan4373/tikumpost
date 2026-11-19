@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             menuSortable.querySelectorAll('[data-menu-list]').forEach((list) => {
                 Sortable.create(list, {
-                    group: 'kabarkita-menu',
+                    group: 'tikumpost-menu',
                     handle: '[data-drag-handle]',
                     animation: 160,
                     fallbackOnBody: true,

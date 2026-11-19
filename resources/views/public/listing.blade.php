@@ -16,7 +16,7 @@
                 <div class="grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br from-red-500 to-red-700 text-xl font-bold text-white">{{ $author->initials }}</div>
                 <div>
                     <p class="font-bold text-slate-900">{{ $author->name }}</p>
-                    <p class="text-sm text-slate-600">{{ $author->bio ?: 'Kontributor KabarKita' }}</p>
+                    <p class="text-sm text-slate-600">{{ $author->bio ?: 'Kontributor TikumPost' }}</p>
                 </div>
             </div>
         @endif

@@ -27,7 +27,7 @@ class SiteSettings
                 'label' => 'Identitas & Branding',
                 'description' => 'Nama, tagline, deskripsi, logo, dan favicon situs.',
                 'fields' => [
-                    ['key' => 'site_name', 'label' => 'Nama Situs', 'type' => 'text', 'default' => 'KabarKita'],
+                    ['key' => 'site_name', 'label' => 'Nama Situs', 'type' => 'text', 'default' => 'TikumPost'],
                     ['key' => 'site_tagline', 'label' => 'Tagline', 'type' => 'text', 'default' => 'Portal berita terkini, akurat, dan berimbang'],
                     ['key' => 'site_description', 'label' => 'Deskripsi Situs', 'type' => 'textarea', 'default' => 'Portal berita independen yang menyajikan informasi terkini, akurat, dan berimbang untuk pembaca Indonesia.'],
                     ['key' => 'site_logo', 'label' => 'Logo', 'type' => 'image', 'default' => null, 'help' => 'PNG/JPG/WebP/SVG maks 2 MB. Kosongkan untuk memakai inisial nama situs.'],
@@ -66,7 +66,7 @@ class SiteSettings
                 'label' => 'Footer & Copyright',
                 'fields' => [
                     ['key' => 'footer_text', 'label' => 'Teks Footer', 'type' => 'textarea', 'default' => 'Portal berita independen yang menyajikan informasi terkini, akurat, dan berimbang untuk pembaca Indonesia.'],
-                    ['key' => 'copyright_text', 'label' => 'Teks Copyright', 'type' => 'text', 'default' => 'KabarKita. Seluruh hak cipta dilindungi.', 'help' => 'Tahun ditambahkan otomatis di depannya.'],
+                    ['key' => 'copyright_text', 'label' => 'Teks Copyright', 'type' => 'text', 'default' => 'TikumPost. Seluruh hak cipta dilindungi.', 'help' => 'Tahun ditambahkan otomatis di depannya.'],
                 ],
             ],
             'konten' => [

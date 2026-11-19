@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('partials.theme-init')
-    <title>@yield('title', 'Beranda') &middot; {{ $site['site_name'] ?? config('app.name', 'KabarKita') }}</title>
+    <title>@yield('title', 'Beranda') &middot; {{ $site['site_name'] ?? config('app.name', 'TikumPost') }}</title>
     <meta name="description" content="@yield('meta_description', $site['meta_description'] ?? '')">
     @if (! empty($site['meta_keywords']))
         <meta name="keywords" content="{{ $site['meta_keywords'] }}">
@@ -13,8 +13,8 @@
     @if (! empty($site['site_favicon']))
         <link rel="icon" href="{{ Storage::disk('public')->url($site['site_favicon']) }}">
     @endif
-    <meta property="og:title" content="@yield('title', $site['site_name'] ?? config('app.name', 'KabarKita'))">
-    <meta property="og:site_name" content="{{ $site['site_name'] ?? config('app.name', 'KabarKita') }}">
+    <meta property="og:title" content="@yield('title', $site['site_name'] ?? config('app.name', 'TikumPost'))">
+    <meta property="og:site_name" content="{{ $site['site_name'] ?? config('app.name', 'TikumPost') }}">
     <meta property="og:description" content="@yield('meta_description', $site['meta_description'] ?? '')">
     <meta property="og:type" content="website">
     @stack('meta')

@@ -1,5 +1,5 @@
 @php
-    $siteName = $site['site_name'] ?? config('app.name', 'KabarKita');
+    $siteName = $site['site_name'] ?? config('app.name', 'TikumPost');
     $logo = $site['site_logo'] ?? null;
 @endphp
 <!DOCTYPE html>
