@@ -34,7 +34,7 @@
                             <td class="px-5 py-3">
                                 <div class="flex justify-end gap-2">
                                     <a href="{{ route('admin.reels.edit', $reel) }}" class="rounded border border-slate-300 px-2 py-1 text-xs hover:bg-slate-100">Edit</a>
-                                    <form method="POST" action="{{ route('admin.reels.destroy', $reel) }}" onsubmit="return confirm('Hapus reel ini?')">
+                                    <form method="POST" action="{{ route('admin.reels.destroy', $reel) }}" data-confirm="Hapus reel ini?">
                                         @csrf @method('DELETE')
                                         <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                                     </form>

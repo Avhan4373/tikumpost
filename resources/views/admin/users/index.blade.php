@@ -62,7 +62,7 @@
                                         </button>
 
                                         @if ($user->id !== auth()->id())
-                                            <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Hapus pengguna ini?')">
+                                            <form method="POST" action="{{ route('admin.users.destroy', $user) }}" data-confirm="Hapus pengguna ini?">
                                                 @csrf @method('DELETE')
                                                 <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                                             </form>

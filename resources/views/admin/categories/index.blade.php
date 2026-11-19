@@ -19,7 +19,7 @@
                             <td class="px-5 py-3">
                                 <div class="flex justify-end gap-2">
                                     <a href="{{ route('admin.categories.edit', $category) }}" class="rounded border border-slate-300 px-2 py-1 text-xs hover:bg-slate-100">Edit</a>
-                                    <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" onsubmit="return confirm('Hapus kategori ini?')">
+                                    <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" data-confirm="Hapus kategori ini?">
                                         @csrf @method('DELETE')
                                         <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                                     </form>

@@ -72,5 +72,7 @@
             </main>
         </div>
     </div>
+
+    <x-confirm-modal />
 </body>
 </html>

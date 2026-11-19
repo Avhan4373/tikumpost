@@ -35,7 +35,7 @@
                             </form>
                         @endif
                     @endforeach
-                    <form method="POST" action="{{ route('admin.comments.destroy', $comment) }}" onsubmit="return confirm('Hapus komentar ini?')">
+                    <form method="POST" action="{{ route('admin.comments.destroy', $comment) }}" data-confirm="Hapus komentar ini?">
                         @csrf @method('DELETE')
                         <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                     </form>

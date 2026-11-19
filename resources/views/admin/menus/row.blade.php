@@ -26,7 +26,7 @@
 
     <div class="flex items-center gap-2">
         <a href="{{ route('admin.menus.edit', $menu) }}" class="rounded border border-slate-300 px-2 py-1 text-xs hover:bg-slate-100">Edit</a>
-        <form method="POST" action="{{ route('admin.menus.destroy', $menu) }}" onsubmit="return confirm('Hapus menu ini beserta submenunya?')">
+        <form method="POST" action="{{ route('admin.menus.destroy', $menu) }}" data-confirm="Hapus menu ini beserta submenunya?">
             @csrf @method('DELETE')
             <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
         </form>

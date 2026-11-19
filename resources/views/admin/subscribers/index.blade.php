@@ -15,7 +15,7 @@
                         <td class="px-5 py-3 font-medium text-slate-800">{{ $subscriber->email }}</td>
                         <td class="px-5 py-3 text-slate-500">{{ $subscriber->created_at->format('d M Y H:i') }}</td>
                         <td class="px-5 py-3">
-                            <form method="POST" action="{{ route('admin.subscribers.destroy', $subscriber) }}" onsubmit="return confirm('Hapus pelanggan ini?')" class="flex justify-end">
+                            <form method="POST" action="{{ route('admin.subscribers.destroy', $subscriber) }}" data-confirm="Hapus pelanggan ini?" class="flex justify-end">
                                 @csrf @method('DELETE')
                                 <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                             </form>

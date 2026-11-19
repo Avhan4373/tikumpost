@@ -637,4 +637,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const delay = Number(toast.dataset.toastDelay || 5000);
         window.setTimeout(dismiss, delay + index * 150);
     });
+
+    // ---- Konfirmasi hapus (pengganti confirm() bawaan browser) ----
+    const confirmModal = document.getElementById('confirm-delete');
+    let pendingDeleteForm = null;
+
+    document.addEventListener('submit', (event) => {
+        const form = event.target.closest('form[data-confirm]');
+
+        if (!form || form.dataset.confirmed === '1' || !confirmModal) {
+            return;
+        }
+
+        event.preventDefault();
+        pendingDeleteForm = form;
+
+        const title = confirmModal.querySelector('#confirm-delete-title');
+        const message = confirmModal.querySelector('#confirm-delete-message');
+
+        if (title) {
+            title.textContent = form.dataset.confirmTitle || 'Hapus item ini?';
+        }
+
+        if (message) {
+            message.textContent = form.dataset.confirm || 'Tindakan ini tidak dapat dibatalkan.';
+        }
+
+        openModal(confirmModal);
+    });
+
+    confirmModal?.querySelector('[data-confirm-accept]')?.addEventListener('click', () => {
+        if (!pendingDeleteForm) {
+            return;
+        }
+
+        const form = pendingDeleteForm;
+        pendingDeleteForm = null;
+        form.dataset.confirmed = '1';
+        closeModal(confirmModal);
+        form.requestSubmit();
+    });
 });

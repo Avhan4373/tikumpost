@@ -17,7 +17,7 @@
                             <td class="px-5 py-3 text-slate-500">{{ $tag->slug }}</td>
                             <td class="px-5 py-3 text-slate-500">{{ $tag->articles_count }}</td>
                             <td class="px-5 py-3">
-                                <form method="POST" action="{{ route('admin.tags.destroy', $tag) }}" onsubmit="return confirm('Hapus tag ini?')" class="flex justify-end">
+                                <form method="POST" action="{{ route('admin.tags.destroy', $tag) }}" data-confirm="Hapus tag ini?" class="flex justify-end">
                                     @csrf @method('DELETE')
                                     <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                                 </form>

@@ -33,7 +33,7 @@
                 @endif
                 <div class="p-3">
                     <p class="truncate text-xs text-slate-600">{{ basename($item->path) }}</p>
-                    <form method="POST" action="{{ route('admin.media.destroy', $item) }}" onsubmit="return confirm('Hapus media ini?')" class="mt-2">
+                    <form method="POST" action="{{ route('admin.media.destroy', $item) }}" data-confirm="Hapus media ini?" class="mt-2">
                         @csrf @method('DELETE')
                         <button class="w-full rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                     </form>

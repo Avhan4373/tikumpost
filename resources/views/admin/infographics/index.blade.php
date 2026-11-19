@@ -33,7 +33,7 @@
                             <td class="px-5 py-3">
                                 <div class="flex justify-end gap-2">
                                     <a href="{{ route('admin.infographics.edit', $infographic) }}" class="rounded border border-slate-300 px-2 py-1 text-xs hover:bg-slate-100">Edit</a>
-                                    <form method="POST" action="{{ route('admin.infographics.destroy', $infographic) }}" onsubmit="return confirm('Hapus infografis ini?')">
+                                    <form method="POST" action="{{ route('admin.infographics.destroy', $infographic) }}" data-confirm="Hapus infografis ini?">
                                         @csrf @method('DELETE')
                                         <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                                     </form>

@@ -60,7 +60,7 @@
                             <div class="flex justify-end gap-2">
                                 <a href="{{ route('articles.show', $article) }}" target="_blank" class="rounded border border-slate-300 px-2 py-1 text-xs hover:bg-slate-100">Lihat</a>
                                 <a href="{{ route('admin.articles.edit', $article) }}" class="rounded border border-slate-300 px-2 py-1 text-xs hover:bg-slate-100">Edit</a>
-                                <form method="POST" action="{{ route('admin.articles.destroy', $article) }}" onsubmit="return confirm('Hapus artikel ini?')">
+                                <form method="POST" action="{{ route('admin.articles.destroy', $article) }}" data-confirm="Hapus artikel ini?">
                                     @csrf @method('DELETE')
                                     <button class="rounded border border-red-300 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Hapus</button>
                                 </form>
