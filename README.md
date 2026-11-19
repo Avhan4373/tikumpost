@@ -135,27 +135,48 @@ Lalu jalankan `php artisan migrate --seed`.
 
 ## Deploy ke Hostinger (shared hosting + SSH)
 
-Server Hostinger tidak menyediakan Node.js, jadi aset Vite harus di-build lokal dan ikut di-commit (`public/build`).
+Server Hostinger tidak menyediakan Node.js, jadi aset Vite di-build lokal dan ikut di-commit (`public/build`).
 
-1. Build lokal: `npm ci && npm run build`.
-2. Commit `public/build` bersama perubahan lain, lalu `git push`.
-3. Di server, aplikasi berada di luar `public_html` (mis. `~/tikumpost`):
-   ```bash
-   cd ~/tikumpost
-   git pull
-   composer install --no-dev --optimize-autoloader --no-scripts
-   php artisan migrate --force
-   php artisan config:cache
-   php artisan route:cache
-   php artisan view:cache
-   ```
-   `--no-scripts` dipakai karena Hostinger memblokir `proc_open`.
+### Deploy satu perintah
+
+```bash
+npm run deploy        # atau: ./scripts/deploy.sh
+```
+
+Script akan otomatis:
+1. `npm run build` (aset Vite).
+2. Commit semua perubahan + push ke `master`.
+3. `git pull` di server `~/tikumpost`.
+4. `composer install --no-dev -o --no-scripts` (Hostinger memblokir `proc_open`).
+5. `php artisan migrate --force`.
+6. Sinkronkan `storage/app/public/` ke server **tanpa menghapus** file yang sudah ada.
+7. `config:cache`, `route:cache`, `view:cache`.
+8. Health check `HTTP 200` ke `SITE_URL`.
+
+Konfigurasi server disimpan di `.deploy.env` (di-gitignore). Contoh ada di `.deploy.env.example`:
+
+```env
+HOSTINGER_HOST=...
+HOSTINGER_PORT=65002
+HOSTINGER_USER=...
+HOSTINGER_PATH=/home/USER/tikumpost
+SITE_URL=https://tikumpost.id
+BRANCH=master
+```
+
+Opsi: `SKIP_COMMIT=1`, `SKIP_COMPOSER=1`, `SYNC_MEDIA=0`, `DEPLOY_MESSAGE="..."`.
+
+### Setup awal (sekali saja)
+
+1. Aplikasi di luar web root: `git clone <repo> ~/tikumpost`.
+2. `composer install --no-dev --optimize-autoloader --no-scripts`.
+3. Buat `.env` server (tidak di-commit) + `php artisan key:generate`.
 4. `public_html` berisi `index.php` (menunjuk absolut ke `~/tikumpost`), plus symlink:
    ```bash
    ln -sfn ~/tikumpost/public/build   ~/domains/DOMAIN/public_html/build
    ln -sfn ~/tikumpost/storage/app/public ~/domains/DOMAIN/public_html/storage
    ```
-5. `.env` hanya ada di server (tidak di-commit). Setelah mengubah `.env`, jalankan ulang `php artisan config:cache` agar environment variable dari panel Hostinger tidak menimpa konfigurasi.
+5. Setelah mengubah `.env`, jalankan `php artisan config:cache` agar environment variable dari panel Hostinger tidak menimpa konfigurasi.
 
 ---
 
