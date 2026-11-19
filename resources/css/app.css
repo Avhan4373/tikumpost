@@ -53,6 +53,8 @@
         color: #334155;
         font-size: 1.0625rem;
         line-height: 1.85;
+        overflow-wrap: break-word;
+        word-break: break-word;
     }
 
     .article-body > * + * {
@@ -118,6 +120,24 @@
         border-radius: 1rem;
     }
 
+    /* Jaga konten impor/editor tetap muat di layar kecil. */
+    .article-body img,
+    .article-body video,
+    .article-body iframe {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .article-body iframe {
+        width: 100%;
+    }
+
+    .article-body table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
     .article-body figcaption {
         margin-top: 0.5rem;
         text-align: center;
@@ -126,6 +146,7 @@
     }
 
     .article-body pre {
+        max-width: 100%;
         overflow: auto;
         border-radius: 0.75rem;
         background: #0f172a;

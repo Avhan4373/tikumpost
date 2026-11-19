@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ArticleStatus;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -58,6 +59,7 @@ class Article extends Model
         while (static::where('slug', $slug)->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))->exists()) {
             $slug = $base.'-'.$i++;
         }
+
         return $slug;
     }
 
@@ -99,14 +101,29 @@ class Article extends Model
         if (blank($term)) {
             return $query;
         }
+
         return $query->where(function (Builder $q) use ($term) {
             $q->where('title', 'like', "%{$term}%")
-              ->orWhere('excerpt', 'like', "%{$term}%")
-              ->orWhere('body', 'like', "%{$term}%");
+                ->orWhere('excerpt', 'like', "%{$term}%")
+                ->orWhere('body', 'like', "%{$term}%");
         });
     }
 
     // ---- Accessors ----
+    /**
+     * Sebagian artikel hasil impor memakai &nbsp; sebagai pemisah kata,
+     * sehingga paragraf tidak bisa turun baris dan meluber di layar kecil.
+     * Normalisasi ke spasi biasa saat dibaca (termasuk di form admin).
+     */
+    protected function body(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => $value === null
+                ? null
+                : str_replace(['&nbsp;', '&#160;', "\u{00A0}"], ' ', $value),
+        );
+    }
+
     /**
      * Ringkasan tidak lagi diisi manual di admin. Nilai lama (jika ada) tetap
      * dipakai; artikel baru memakai potongan awal isi artikel.
@@ -119,6 +136,7 @@ class Article extends Model
     public function getReadingTimeAttribute(): int
     {
         $words = str_word_count(strip_tags($this->body));
+
         return max(1, (int) ceil($words / 200));
     }
 }
