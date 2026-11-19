@@ -22,7 +22,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script>document.documentElement.classList.add('js');</script>
 </head>
-<body id="top" class="flex min-h-screen flex-col text-slate-800 antialiased">
+<body id="top" class="flex min-h-screen flex-col text-slate-800 antialiased @yield('body_class')">
     <div class="nav-progress" data-nav-progress aria-hidden="true"></div>
 
     @include('public.partials.header')

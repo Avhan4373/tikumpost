@@ -2,6 +2,7 @@
 
 @section('title', $article->meta_title ?: $article->title)
 @section('meta_description', $article->meta_description ?: $article->excerpt_text)
+@section('body_class', 'bg-white')
 
 @section('content')
     {{-- Indikator progres baca --}}
