@@ -17,7 +17,9 @@
                     @else
                         <span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-red-500 to-red-700 text-lg font-bold text-white shadow-lg shadow-red-600/30 transition duration-300 group-hover:scale-110">{{ Str::substr($site['site_name'] ?? 'K', 0, 1) }}</span>
                     @endif
-                    <span class="text-xl font-bold tracking-tight text-slate-900">{{ $site['site_name'] ?? 'TikumPost' }}</span>
+                    @if (empty($site['site_logo']))
+                        <span class="text-xl font-bold tracking-tight text-slate-900">{{ $site['site_name'] ?? 'TikumPost' }}</span>
+                    @endif
                 </a>
 
                 <form action="{{ route('search') }}" method="GET" class="hidden max-w-md flex-1 lg:block">

@@ -17,7 +17,9 @@
                     @else
                         <span class="grid h-10 w-10 place-items-center rounded-xl bg-white text-lg font-bold text-blue-700 shadow-lg transition duration-300 group-hover:scale-110">{{ Str::substr($site['site_name'] ?? 'K', 0, 1) }}</span>
                     @endif
-                    <span class="hidden text-xl font-bold tracking-tight text-white sm:inline">{{ $site['site_name'] ?? 'TikumPost' }}</span>
+                    @if (empty($site['site_logo']))
+                        <span class="hidden text-xl font-bold tracking-tight text-white sm:inline">{{ $site['site_name'] ?? 'TikumPost' }}</span>
+                    @endif
                 </a>
 
                 {{-- Navigasi desktop --}}
