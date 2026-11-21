@@ -26,6 +26,25 @@
     <meta name="twitter:description" content="@yield('meta_description', $site['meta_description'] ?? '')">
     <meta name="twitter:image" content="@yield('og_image', $ogImage)">
     @stack('meta')
+    @stack('schema')
+    @if (request()->routeIs('home'))
+        <script type="application/ld+json">{!! json_encode([
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                array_filter([
+                    '@type' => 'Organization',
+                    'name' => $site['site_name'] ?? config('app.name', 'TikumPost'),
+                    'url' => route('home'),
+                    'logo' => ! empty($site['site_logo']) ? url(Storage::disk('public')->url($site['site_logo'])) : null,
+                ]),
+                [
+                    '@type' => 'WebSite',
+                    'name' => $site['site_name'] ?? config('app.name', 'TikumPost'),
+                    'url' => route('home'),
+                ],
+            ],
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @endif
     @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script>document.documentElement.classList.add('js');</script>

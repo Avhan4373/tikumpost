@@ -116,4 +116,22 @@ class SeoTest extends TestCase
 
         $this->assertStringContainsString('&middot; TikumPost</title>', $html);
     }
+
+    public function test_beranda_memuat_structured_data_organisasi_dan_website(): void
+    {
+        $html = $this->get(route('home'))->assertOk()->getContent();
+
+        $this->assertStringContainsString('"@type":"Organization"', $html);
+        $this->assertStringContainsString('"@type":"WebSite"', $html);
+    }
+
+    public function test_halaman_artikel_tidak_memuat_organisasi_bawaan(): void
+    {
+        $article = Article::factory()->create();
+
+        $html = $this->get(route('articles.show', $article))->assertOk()->getContent();
+
+        // Organisasi hanya disuntik di beranda; halaman lain punya schema sendiri.
+        $this->assertStringNotContainsString('"@type":"WebSite"', $html);
+    }
 }
