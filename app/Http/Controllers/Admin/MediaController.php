@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Media;
+use App\Support\ImageVariant;
 use App\Support\UploadLimit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -36,6 +37,7 @@ class MediaController extends Controller
 
         $file = $request->file('file');
         $path = $file->store('media', 'public');
+        ImageVariant::ensureQuietly($path);
 
         $media = Media::create([
             'user_id' => $request->user()->id,

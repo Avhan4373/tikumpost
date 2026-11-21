@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ImageVariant
@@ -65,6 +66,16 @@ class ImageVariant
         $info = @getimagesize(Storage::disk($disk)->path($path));
 
         return $info === false ? null : [(int) $info[0], (int) $info[1]];
+    }
+
+    /** Varian hanya optimasi: kegagalan apa pun tak boleh menggagalkan unggahan. */
+    public static function ensureQuietly(string $path, string $disk = 'public'): void
+    {
+        try {
+            self::ensure($path, $disk);
+        } catch (\Throwable $e) {
+            Log::warning('Gagal membuat varian gambar: '.$e->getMessage());
+        }
     }
 
     public static function variantPath(string $path, int $width): string

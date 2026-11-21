@@ -17,7 +17,11 @@ class InfographicTest extends TestCase
     /** PNG 1x1 valid (environment uji tanpa ekstensi GD). */
     private function png(): string
     {
-        return base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQAY3Y2wAAAAAElFTkSuQmCC');
+        $image = imagecreatetruecolor(800, 600);
+        ob_start();
+        imagepng($image);
+
+        return ob_get_clean();
     }
 
     public function test_admin_dapat_membuka_daftar_dan_form_infografis(): void
@@ -42,6 +46,9 @@ class InfographicTest extends TestCase
 
         $this->assertTrue($infographic->is_published);
         Storage::disk('public')->assertExists($infographic->image);
+        $this->assertTrue(
+            collect(Storage::disk('public')->files('infographics'))->contains(fn ($path) => str_contains($path, '-v1-480.webp')),
+        );
     }
 
     public function test_admin_dapat_memperbarui_tanpa_mengganti_gambar(): void

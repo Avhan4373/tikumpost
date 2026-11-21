@@ -9,12 +9,12 @@ use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Support\ImageVariant;
 use App\Support\UploadLimit;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
@@ -117,7 +117,11 @@ class ArticleController extends Controller
         if (! $request->hasFile('featured_image')) {
             return null;
         }
-        return $request->file('featured_image')->store('articles', 'public');
+
+        $path = $request->file('featured_image')->store('articles', 'public');
+        ImageVariant::ensureQuietly($path);
+
+        return $path;
     }
 
     /**

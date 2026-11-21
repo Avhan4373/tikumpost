@@ -33,4 +33,36 @@ class MediaTest extends TestCase
         $this->assertSame('Foto artikel', $media->alt_text);
         Storage::disk('public')->assertExists($media->path);
     }
+
+    public function test_unggahan_gambar_membuat_varian_webp(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+
+        $this->actingAs($admin)
+            ->postJson(route('admin.media.store'), [
+                'file' => UploadedFile::fake()->image('foto-artikel.jpg', 800, 600),
+            ])
+            ->assertCreated();
+
+        $this->assertTrue(
+            collect(Storage::disk('public')->files('media'))->contains(fn ($path) => str_contains($path, '-v1-480.webp')),
+        );
+    }
+
+    public function test_unggahan_pdf_tidak_gagal_karena_varian(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+
+        $this->actingAs($admin)
+            ->postJson(route('admin.media.store'), [
+                'file' => UploadedFile::fake()->create('dokumen.pdf', 10, 'application/pdf'),
+            ])
+            ->assertCreated();
+
+        Storage::disk('public')->assertExists(Media::firstOrFail()->path);
+    }
 }

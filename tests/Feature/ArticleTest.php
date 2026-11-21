@@ -200,6 +200,28 @@ class ArticleTest extends TestCase
         Storage::disk('public')->assertExists($article->featured_image);
     }
 
+    public function test_unggah_gambar_unggulan_membuat_varian_webp(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+        $image = imagecreatetruecolor(800, 600);
+        ob_start();
+        imagepng($image);
+        $png = ob_get_clean();
+
+        $this->actingAs($admin)->post(route('admin.articles.store'), [
+            'title' => 'Artikel Varian',
+            'body' => '<p>Isi</p>',
+            'status' => 'draft',
+            'featured_image' => UploadedFile::fake()->createWithContent('cover.png', $png),
+        ])->assertRedirect()->assertSessionHasNoErrors();
+
+        $this->assertTrue(
+            collect(Storage::disk('public')->files('articles'))->contains(fn ($path) => str_contains($path, '-v1-480.webp')),
+        );
+    }
+
     public function test_pengguna_biasa_tidak_bisa_mengakses_artikel(): void
     {
         $user = User::factory()->create();

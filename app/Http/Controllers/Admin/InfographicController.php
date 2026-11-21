@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Infographic;
+use App\Support\ImageVariant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +30,7 @@ class InfographicController extends Controller
     {
         $data = $this->validateData($request, requireImage: true);
         $data['image'] = $request->file('image')->store('infographics', 'public');
+        ImageVariant::ensureQuietly($data['image']);
 
         Infographic::create($data);
 
@@ -49,6 +51,7 @@ class InfographicController extends Controller
                 Storage::disk('public')->delete($infographic->image);
             }
             $data['image'] = $request->file('image')->store('infographics', 'public');
+            ImageVariant::ensureQuietly($data['image']);
         }
 
         $infographic->update($data);
