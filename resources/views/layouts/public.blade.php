@@ -27,6 +27,9 @@
     <meta name="twitter:image" content="@yield('og_image', $ogImage)">
     @stack('meta')
     @stack('schema')
+    @if (! empty($site['google_site_verification']))
+        <meta name="google-site-verification" content="{{ $site['google_site_verification'] }}">
+    @endif
     @if (request()->routeIs('home'))
         <script type="application/ld+json">{!! json_encode([
             '@context' => 'https://schema.org',

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Setting;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -162,5 +163,19 @@ class SeoTest extends TestCase
         foreach ($matches[1] as $json) {
             $this->assertIsArray(json_decode($json, true), 'JSON-LD tidak valid: '.$json);
         }
+    }
+
+    public function test_meta_verifikasi_google_muncul_bila_setelan_diisi(): void
+    {
+        Setting::set('google_site_verification', 'token-uji-123');
+
+        $this->get(route('home'))->assertOk()
+            ->assertSee('<meta name="google-site-verification" content="token-uji-123">', false);
+    }
+
+    public function test_meta_verifikasi_google_tidak_muncul_bila_kosong(): void
+    {
+        $this->get(route('home'))->assertOk()
+            ->assertDontSee('google-site-verification', false);
     }
 }

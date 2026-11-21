@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Setting;
+use Illuminate\Validation\Rule;
 
 /**
  * Sumber tunggal skema & nilai pengaturan situs.
@@ -85,6 +86,7 @@ class SiteSettings
                 'fields' => [
                     ['key' => 'meta_description', 'label' => 'Meta Description', 'type' => 'textarea', 'default' => 'Portal berita terkini, akurat, dan berimbang untuk pembaca Indonesia.'],
                     ['key' => 'meta_keywords', 'label' => 'Meta Keywords', 'type' => 'text', 'default' => null, 'help' => 'Pisahkan dengan koma.'],
+                    ['key' => 'google_site_verification', 'label' => 'Google Site Verification', 'type' => 'text', 'default' => null, 'help' => 'Tempel hanya nilai token dari Google Search Console (metode "Tag HTML", bagian content="..."). Kosongkan bila belum dipakai.'],
                 ],
             ],
             'footer' => [
@@ -186,7 +188,7 @@ class SiteSettings
                 'number' => ['nullable', 'integer', 'min:1', 'max:100'],
                 'textarea' => ['nullable', 'string', 'max:5000'],
                 'boolean' => ['nullable', 'boolean'],
-                'select' => ['nullable', 'string', \Illuminate\Validation\Rule::in(array_keys($field['options'] ?? []))],
+                'select' => ['nullable', 'string', Rule::in(array_keys($field['options'] ?? []))],
                 'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
                 default => ['nullable', 'string', 'max:255'],
             };
