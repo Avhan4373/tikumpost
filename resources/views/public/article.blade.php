@@ -7,6 +7,45 @@
 @section('og_image', $article->featured_image ? url(Storage::disk('public')->url($article->featured_image)) : url('favicon.ico'))
 @section('body_class', 'bg-white')
 
+@push('meta')
+    <meta property="article:published_time" content="{{ $article->published_at->toAtomString() }}">
+    <meta property="article:modified_time" content="{{ $article->updated_at->toAtomString() }}">
+    @if ($article->category)
+        <meta property="article:section" content="{{ $article->category->name }}">
+    @endif
+@endpush
+
+@push('schema')
+    <script type="application/ld+json">{!! json_encode(array_filter([
+        '@context' => 'https://schema.org',
+        '@type' => 'NewsArticle',
+        'headline' => $article->title,
+        'description' => $article->meta_description ?: $article->excerpt_text,
+        'image' => [$article->featured_image ? url(Storage::disk('public')->url($article->featured_image)) : url('favicon.ico')],
+        'datePublished' => $article->published_at->toAtomString(),
+        'dateModified' => $article->updated_at->toAtomString(),
+        'articleSection' => $article->category?->name,
+        'author' => $article->author ? ['@type' => 'Person', 'name' => $article->author->name] : null,
+        'publisher' => [
+            '@type' => 'Organization',
+            'name' => $site['site_name'] ?? config('app.name', 'TikumPost'),
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => ! empty($site['site_logo']) ? url(Storage::disk('public')->url($site['site_logo'])) : url('favicon.ico'),
+            ],
+        ],
+        'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => route('articles.show', $article)],
+    ]), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    <script type="application/ld+json">{!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => route('home')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => $article->title, 'item' => route('articles.show', $article)],
+        ],
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endpush
+
 @section('content')
     {{-- Indikator progres baca --}}
     <div class="fixed inset-x-0 top-0 z-50 h-0.5 bg-transparent">

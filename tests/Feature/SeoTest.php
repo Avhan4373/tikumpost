@@ -134,4 +134,33 @@ class SeoTest extends TestCase
         // Organisasi hanya disuntik di beranda; halaman lain punya schema sendiri.
         $this->assertStringNotContainsString('"@type":"WebSite"', $html);
     }
+
+    public function test_halaman_artikel_memuat_newsarticle_dan_breadcrumb(): void
+    {
+        $article = Article::factory()->create(['featured_image' => 'artikel/foto.jpg']);
+
+        $html = $this->get(route('articles.show', $article))->assertOk()->getContent();
+
+        $this->assertStringContainsString('"@type":"NewsArticle"', $html);
+        $this->assertStringContainsString('"@type":"BreadcrumbList"', $html);
+        $this->assertStringContainsString('"datePublished"', $html);
+    }
+
+    public function test_newsarticle_tetap_valid_untuk_judul_bertanda_kutip(): void
+    {
+        $article = Article::factory()->create(['title' => 'Diskusi "Tol Laut" & Kuota Sangihe']);
+
+        $html = $this->get(route('articles.show', $article))->assertOk()->getContent();
+
+        $this->assertStringContainsString('"@type":"NewsArticle"', $html);
+        $this->assertStringNotContainsString('&quot;@type&quot;', $html);
+
+        // JSON harus tetap bisa di-decode.
+        preg_match_all('#<script type="application/ld\+json">(.*?)</script>#s', $html, $matches);
+        $this->assertNotEmpty($matches[1]);
+
+        foreach ($matches[1] as $json) {
+            $this->assertIsArray(json_decode($json, true), 'JSON-LD tidak valid: '.$json);
+        }
+    }
 }
