@@ -901,3 +901,56 @@ php artisan media:variants            # buat varian lokal; ikut ter-rsync
 DEPLOY_MESSAGE="perf: Core Web Vitals — gambar responsif, cache, render" npm run deploy
 ```
 Setelah deploy: jalankan Task 4 langkah 4 (symlink docroot `.htaccess`) dan langkah 5 (`curl -I`), lalu Task 5 langkah 7 (Lighthouse). Opsional: `ssh ... php artisan media:variants` sekali lagi di prod (idempoten).
+
+---
+
+## Hasil deploy (2026-11-21)
+
+**Commit produksi:** `b6c7046` (server sudah `git pull`, 52 varian WebP ter-rsync).
+Docroot `.htaccess` kini symlink ke `~/tikumpost/public/.htaccess`; salinan lama disimpan di
+`public_html/.htaccess.bak` (md5 `ae7ca5f60911d1d5cd283f4baa62c59f`) untuk rollback.
+
+### Header cache (`curl -I`, 2026-11-21)
+
+| Objek | Cache-Control |
+|---|---|
+| `/build/assets/app-*.js` | `public, max-age=31536000, immutable` |
+| `/build/assets/app-*.css` | `public, max-age=31536000, immutable` |
+| `/storage/.../*-v1-480.webp` | `public, max-age=31536000, immutable` |
+| `/storage/.../*.jpg` (baru, dengan `?cb=`) | `public, max-age=31536000, immutable` |
+| `/storage/.../*.jpg` (entri lama hcdn) | `public, max-age=604800` (sisa cache edge sebelum rule aktif) |
+| `/sitemap.xml` | `no-cache, private` (benar, sengaja dikecualikan) |
+| `/favicon.ico` | `public, max-age=31536000, immutable` |
+
+Catatan: objek yang sudah ter-cache hcdn sebelum perubahan tetap menyajikan header 7 hari
+sampai TTL-nya habis; objek baru langsung 1 tahun. Tidak perlu purge.
+
+### Markup produksi
+
+- Beranda: 21 `<img>`, **18** ber-`srcset` + `width`/`height` (3 sisanya = 2 logo + lightbox, sesuai desain),
+  1 `<link rel="preload" as="image" imagesrcset=...>`, 1 `loading="eager"` + `fetchpriority="high"`.
+- Artikel (FGD): 10 `<img>`, **8** ber-`srcset` (2 = logo + lightbox), featured image eager/high.
+
+### Lighthouse mobile (diukur apa adanya)
+
+Mesin pengukur sedang sangat sibuk (load average 12–16 pada 4 core). Kontrol `example.com`
+(HTML 1 KB, nol JS) hanya mendapat **88 / TBT 430 ms** — normalnya ~99 / ~0 ms — jadi TBT dan
+Speed Index hari ini **tidak valid** dan tidak dibandingkan dengan baseline.
+
+| Halaman | Skor | LCP | TBT | CLS | Byte |
+|---|---|---|---|---|---|
+| Beranda (4 run) | 63 / 68 / 69 / 63 | 2,3–2,8 s | 1.010–1.590 ms (tidak valid) | 0 | 852–869 KiB |
+| Artikel FGD | 66 | 2,6 s | 960 ms (tidak valid) | 0 | 273 KiB |
+| Baseline sebelum | 70 | 4,6 s | 520 ms | 0 | 868 KiB |
+| Baseline artikel | 89 | 2,3 s | 350 ms | 0 | 257 KiB |
+
+Yang dapat dipercaya:
+
+- **LCP beranda 4,6 s → 2,3–2,8 s** (≈40% lebih cepat); elemen LCP kini WebP 960w ber-`srcset`,
+  bukan JPEG ukuran penuh.
+- Byte gambar nyata: hero 78,7 KB → **53,9 KB** (−31%); infografis 419 KB → 268 KB dan
+  653 KB → **155 KB** (−36% / −76%).
+- CLS 0 di kedua halaman (dimensi intrinsik bekerja).
+
+Angka otoritatif untuk TBT/SI harus diambil dari **PageSpeed Insights** (infrastruktur Google),
+bukan dari mesin lokal ini.
