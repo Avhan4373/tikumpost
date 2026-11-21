@@ -1,5 +1,9 @@
 @extends('layouts.public')
 
+@if (! empty($noindex))
+    @section('robots', 'noindex,follow')
+@endif
+
 @section('title', $title)
 
 @section('content')

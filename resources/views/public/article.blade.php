@@ -2,6 +2,9 @@
 
 @section('title', $article->meta_title ?: $article->title)
 @section('meta_description', $article->meta_description ?: $article->excerpt_text)
+
+@section('og_type', 'article')
+@section('og_image', $article->featured_image ? url(Storage::disk('public')->url($article->featured_image)) : url('favicon.ico'))
 @section('body_class', 'bg-white')
 
 @section('content')

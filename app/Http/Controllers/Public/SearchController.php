@@ -27,6 +27,7 @@ class SearchController extends Controller
             'description' => $articles->total().' artikel ditemukan.',
             'articles' => $articles,
             'categories' => $categories,
+            'noindex' => true,
         ]);
     }
 }

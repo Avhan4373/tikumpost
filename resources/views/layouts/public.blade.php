@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="canonical" href="{{ request()->url().(request()->has('page') ? '?page='.request()->integer('page') : '') }}">
+    <meta name="robots" content="@yield('robots', 'index,follow')">
     @include('partials.theme-init')
     <title>@yield('title', 'Beranda') &middot; {{ $site['site_name'] ?? config('app.name', 'TikumPost') }}</title>
     <meta name="description" content="@yield('meta_description', $site['meta_description'] ?? '')">
@@ -16,7 +18,13 @@
     <meta property="og:title" content="@yield('title', $site['site_name'] ?? config('app.name', 'TikumPost'))">
     <meta property="og:site_name" content="{{ $site['site_name'] ?? config('app.name', 'TikumPost') }}">
     <meta property="og:description" content="@yield('meta_description', $site['meta_description'] ?? '')">
-    <meta property="og:type" content="website">
+    @php($ogImage = ! empty($site['site_logo']) ? url(Storage::disk('public')->url($site['site_logo'])) : url('favicon.ico'))
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:image" content="@yield('og_image', $ogImage)">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', $site['site_name'] ?? config('app.name', 'TikumPost'))">
+    <meta name="twitter:description" content="@yield('meta_description', $site['meta_description'] ?? '')">
+    <meta name="twitter:image" content="@yield('og_image', $ogImage)">
     @stack('meta')
     @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])

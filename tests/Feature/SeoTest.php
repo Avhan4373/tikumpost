@@ -48,4 +48,52 @@ class SeoTest extends TestCase
         $this->assertStringStartsWith('<?xml', ltrim($body));
         $this->assertNotFalse(simplexml_load_string($body), 'Dokumen sitemap bukan XML yang valid.');
     }
+
+    public function test_halaman_artikel_punya_canonical_diri_sendiri(): void
+    {
+        $article = Article::factory()->create();
+
+        $this->get(route('articles.show', $article))->assertOk()
+            ->assertSee('<link rel="canonical" href="'.route('articles.show', $article).'">', false);
+    }
+
+    public function test_halaman_kedua_punya_canonical_ke_halaman_kedua(): void
+    {
+        $category = Category::factory()->create();
+        Article::factory()->count(12)->create(['category_id' => $category->id]);
+
+        $this->get(route('categories.show', ['category' => $category, 'page' => 2]))->assertOk()
+            ->assertSee('<link rel="canonical" href="'.route('categories.show', $category).'?page=2">', false);
+    }
+
+    public function test_halaman_pencarian_noindex(): void
+    {
+        $this->get(route('search', ['q' => 'konawe']))->assertOk()
+            ->assertSee('<meta name="robots" content="noindex,follow">', false);
+    }
+
+    public function test_halaman_artikel_index_follow(): void
+    {
+        $article = Article::factory()->create();
+
+        $this->get(route('articles.show', $article))->assertOk()
+            ->assertSee('<meta name="robots" content="index,follow">', false);
+    }
+
+    public function test_og_image_absolut_bila_tanpa_gambar_unggulan(): void
+    {
+        $article = Article::factory()->create(['featured_image' => null]);
+
+        $html = $this->get(route('articles.show', $article))->assertOk()->getContent();
+
+        $this->assertMatchesRegularExpression('/<meta property="og:image" content="https?:\/\/[^"]+">/', $html);
+    }
+
+    public function test_artikel_dengan_gambar_unggulan_memakai_og_type_article(): void
+    {
+        $article = Article::factory()->create(['featured_image' => 'artikel/foto.jpg']);
+
+        $this->get(route('articles.show', $article))->assertOk()
+            ->assertSee('<meta property="og:type" content="article">', false);
+    }
 }
