@@ -8,7 +8,7 @@
         @push('meta')
             @php($heroLead = $headline->first())
             @if (! empty($heroLead?->featured_image))
-                @php($heroSrcset = \App\Support\ImageVariant::srcset(\App\Support\ImageVariant::ensure($heroLead->featured_image)))
+                @php($heroSrcset = \App\Support\ImageVariant::srcset(\App\Support\ImageVariant::existing($heroLead->featured_image)))
                 <link rel="preload" as="image"
                     href="{{ Storage::disk('public')->url($heroLead->featured_image) }}"
                     @if ($heroSrcset) imagesrcset="{{ $heroSrcset }}" imagesizes="(min-width: 1024px) 66vw, 100vw" @endif>

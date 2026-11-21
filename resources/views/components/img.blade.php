@@ -9,7 +9,8 @@
 
 @php
     $disk = 'public';
-    $variants = \App\Support\ImageVariant::ensure($path);
+    // Read-only: varian dibuat saat unggah + perintah `media:variants`, bukan saat render.
+    $variants = \App\Support\ImageVariant::existing($path);
     $src = \Illuminate\Support\Facades\Storage::disk($disk)->url($path);
     $srcset = \App\Support\ImageVariant::srcset($variants, $disk) ?: null;
     $intrinsic = \App\Support\ImageVariant::intrinsic($path, $disk);

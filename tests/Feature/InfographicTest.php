@@ -14,7 +14,7 @@ class InfographicTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** PNG 1x1 valid (environment uji tanpa ekstensi GD). */
+    /** PNG 800x600 (cukup besar agar varian WebP ikut dibuat). */
     private function png(): string
     {
         $image = imagecreatetruecolor(800, 600);

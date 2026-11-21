@@ -74,4 +74,19 @@ class ImgComponentTest extends TestCase
         $this->assertStringContainsString('<img', $html);
         $this->assertStringNotContainsString('srcset', $html);
     }
+
+    public function test_komponen_tidak_membuat_varian_saat_render(): void
+    {
+        Storage::fake('public');
+        $path = $this->makeImage();
+
+        $html = $this->render(['path' => $path, 'alt' => 'X']);
+
+        $this->assertStringContainsString('<img', $html);
+        $this->assertStringNotContainsString('srcset', $html);
+        $this->assertSame([], collect(Storage::disk('public')->allFiles())
+            ->filter(fn (string $file) => str_contains($file, '-v1-'))
+            ->values()
+            ->all());
+    }
 }
