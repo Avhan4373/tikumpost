@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Media: shimmer saat memuat, lalu gambar memudar masuk setelah siap.
-    document.querySelectorAll('img[data-fade]').forEach((img) => {
+    document.querySelectorAll('img[data-fade], img.media-frame').forEach((img) => {
         const markLoaded = () => {
             img.classList.add('is-loaded');
             img.closest('.media-frame')?.classList.add('is-loaded');
