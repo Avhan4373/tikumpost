@@ -153,10 +153,11 @@
     @if ($related->isNotEmpty())
         <section class="border-t border-slate-200 bg-white py-12" data-reveal>
             <div class="mx-auto max-w-7xl px-4">
-                <div class="mb-6 flex items-center gap-3">
-                    <span class="h-6 w-1.5 rounded-full bg-red-600"></span>
-                    <h2 class="text-xl font-bold tracking-tight text-slate-900 lg:text-2xl">Artikel Terkait</h2>
-                </div>
+                @include('public.partials.section-heading', [
+                    'title' => 'Artikel Terkait',
+                    'subtitle' => 'Bacaan lain dari kategori ini',
+                    'href' => $article->category ? route('categories.show', $article->category) : null,
+                ])
                 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group>
                     @foreach ($related as $item)
                         @include('public.partials.article-card', ['article' => $item])

@@ -12,6 +12,9 @@ use App\Models\Setting;
  */
 class SiteSettings
 {
+    /** Grup yang dikelola di halaman Tema (bukan Pengaturan). */
+    public const THEME_GROUP = 'tema';
+
     /**
      * Skema lengkap: grup => label + daftar field.
      *
@@ -34,13 +37,21 @@ class SiteSettings
                     ['key' => 'site_favicon', 'label' => 'Favicon', 'type' => 'image', 'default' => null, 'help' => 'Ikon tab browser (disarankan PNG/SVG kotak).'],
                 ],
             ],
-            'tampilan' => [
-                'label' => 'Tampilan',
-                'description' => 'Tema awal situs untuk pengunjung yang belum memilih mode tampilan sendiri.',
+            self::THEME_GROUP => [
+                'label' => 'Tema',
+                'description' => 'Tata letak halaman (layout) dan mode warna default untuk pengunjung.',
                 'fields' => [
                     [
+                        'key' => 'layout_preset',
+                        'label' => 'Layout Situs',
+                        'type' => 'select',
+                        'default' => 'tvri',
+                        'options' => ['tvri' => 'TVRI (header biru, ticker, hero grid)', 'klasik' => 'Klasik (header putih, hero besar, kartu)'],
+                        'help' => 'Berlaku untuk header dan beranda.',
+                    ],
+                    [
                         'key' => 'default_theme',
-                        'label' => 'Tema Default',
+                        'label' => 'Tema Warna Default',
                         'type' => 'select',
                         'default' => 'light',
                         'options' => ['light' => 'Terang (White Mode)', 'dark' => 'Gelap (Dark Mode)'],
@@ -182,5 +193,61 @@ class SiteSettings
         }
 
         return $rules;
+    }
+
+    /**
+     * Skema untuk halaman Pengaturan (tanpa grup tema).
+     *
+     * @return array<string, array{label: string, description?: string, fields: array<int, array<string, mixed>>}>
+     */
+    public static function formSchema(): array
+    {
+        return array_diff_key(static::schema(), [self::THEME_GROUP => null]);
+    }
+
+    /**
+     * Skema khusus halaman Tema.
+     *
+     * @return array<string, array{label: string, description?: string, fields: array<int, array<string, mixed>>}>
+     */
+    public static function themeSchema(): array
+    {
+        return [self::THEME_GROUP => static::schema()[self::THEME_GROUP]];
+    }
+
+    /**
+     * Field (flatten) milik grup tertentu.
+     *
+     * @param  array<int, string>  $groups
+     * @return array<string, array<string, mixed>>
+     */
+    public static function fieldsOf(array $groups): array
+    {
+        $fields = [];
+
+        foreach ($groups as $group) {
+            foreach (static::schema()[$group]['fields'] ?? [] as $field) {
+                $fields[$field['key']] = $field;
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Aturan validasi untuk field grup tertentu.
+     *
+     * @param  array<int, string>  $groups
+     * @return array<string, array<int, string>>
+     */
+    public static function rulesFor(array $groups): array
+    {
+        return array_intersect_key(static::rules(), static::fieldsOf($groups));
+    }
+
+    /** Layout publik aktif: `tvri` atau `klasik`. */
+    public static function layout(): string
+    {
+        return static::value('layout_preset') === 'klasik' ? 'klasik' : 'tvri';
     }
 }

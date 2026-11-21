@@ -2,7 +2,7 @@
     Sidebar kanan halaman detail berita.
     Data: $popular, $categories, $tags, $infographics.
 --}}
-<aside class="space-y-6" data-reveal-group>
+<aside class="space-y-6" data-article-sidebar data-reveal-group>
     {{-- Terpopuler --}}
     <section class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
         <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
@@ -100,14 +100,14 @@
     @endif
 
     {{-- Newsletter --}}
-    <section class="overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 to-red-800 p-6 text-white shadow-lg shadow-red-600/20" data-reveal>
-        <h2 class="text-lg font-bold tracking-tight">Jangan lewatkan berita penting</h2>
-        <p class="mt-2 text-sm text-red-100">Dapatkan ringkasan berita terbaru langsung ke email Anda.</p>
+    <section class="overflow-hidden rounded-2xl bg-gradient-to-br from-blue-700 to-blue-900 p-6 text-white shadow-lg" data-reveal>
+        <h2 class="text-lg font-bold tracking-tight">Newsletter</h2>
+        <p class="mt-2 text-sm text-blue-100">Dapatkan berita terbaru langsung ke email Anda.</p>
         <form method="POST" action="{{ route('newsletter.store') }}" class="mt-4 space-y-2">
             @csrf
             <input type="email" name="email" required placeholder="Email Anda"
-                class="w-full rounded-xl border border-white/20 bg-white/15 px-3 py-2.5 text-sm text-white placeholder-red-100/80 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
-            <button type="submit" class="btn-anim w-full rounded-xl bg-[#ffffff] px-4 py-2.5 text-sm font-bold text-[#b91c1c] transition hover:bg-[#fee2e2]">Langganan Gratis</button>
+                class="w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-blue-200 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+            <button type="submit" class="btn-anim w-full rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-blue-700 transition hover:bg-blue-50">Langganan Gratis</button>
         </form>
     </section>
 </aside>

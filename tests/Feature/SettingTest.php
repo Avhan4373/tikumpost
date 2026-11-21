@@ -119,7 +119,7 @@ class SettingTest extends TestCase
 
         $this->get(route('home'))->assertSee("stored || 'light'", false);
 
-        $this->actingAs($admin)->put(route('admin.settings.update'), [
+        $this->actingAs($admin)->put(route('admin.theme.update'), [
             'default_theme' => 'dark',
         ])->assertRedirect()->assertSessionHasNoErrors();
 
@@ -131,7 +131,7 @@ class SettingTest extends TestCase
     {
         $admin = User::factory()->create(['role' => UserRole::Admin]);
 
-        $this->actingAs($admin)->put(route('admin.settings.update'), [
+        $this->actingAs($admin)->put(route('admin.theme.update'), [
             'default_theme' => 'neon',
         ])->assertSessionHasErrors('default_theme');
     }

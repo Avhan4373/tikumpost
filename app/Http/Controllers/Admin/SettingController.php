@@ -15,18 +15,19 @@ class SettingController extends Controller
     public function edit(): View
     {
         return view('admin.settings.edit', [
-            'groups' => SiteSettings::schema(),
+            'groups' => SiteSettings::formSchema(),
             'values' => SiteSettings::values(),
         ]);
     }
 
     public function update(Request $request): RedirectResponse
     {
-        $data = $request->validate(SiteSettings::rules());
+        $groups = array_keys(SiteSettings::formSchema());
+        $data = $request->validate(SiteSettings::rulesFor($groups));
 
         $values = [];
 
-        foreach (SiteSettings::fields() as $key => $field) {
+        foreach (SiteSettings::fieldsOf($groups) as $key => $field) {
             if ($field['type'] === 'boolean') {
                 $values[$key] = $request->boolean($key) ? '1' : '0';
 

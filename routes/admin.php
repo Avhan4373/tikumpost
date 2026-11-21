@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ReelController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,4 +50,7 @@ Route::middleware(['auth', 'staff'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
     Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+
+    Route::get('theme', [ThemeController::class, 'edit'])->name('theme.edit');
+    Route::put('theme', [ThemeController::class, 'update'])->name('theme.update');
 });

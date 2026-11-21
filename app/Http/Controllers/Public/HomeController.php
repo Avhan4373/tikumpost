@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Infographic;
 use App\Models\Tag;
+use App\Support\SiteSettings;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -27,6 +28,15 @@ class HomeController extends Controller
 
         $infographics = Infographic::published()->ordered()->take(4)->get();
 
-        return view('public.home', compact('headline', 'latest', 'popular', 'categories', 'tags', 'infographics'));
+        $ticker = Article::published()->orderByDesc('published_at')->take(5)->get();
+
+        $sections = Category::ordered()
+            ->with(['articles' => fn ($q) => $q->published()->with('category')
+                ->latest('published_at')->take(4)])
+            ->get()
+            ->filter(fn ($c) => $c->articles->isNotEmpty())
+            ->take(2);
+
+        return view(SiteSettings::layout() === 'klasik' ? 'public.home-klasik' : 'public.home', compact('headline', 'latest', 'popular', 'categories', 'tags', 'infographics', 'ticker', 'sections'));
     }
 }

@@ -34,6 +34,7 @@
                         ['admin.users.index', 'Pengguna', 'M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0'],
                         ['admin.subscribers.index', 'Pelanggan', 'M4 6h16v12H4zM4 7l8 6 8-6'],
                         ['admin.media.index', 'Media', 'M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4'],
+                        ['admin.theme.edit', 'Tema', 'M4 4h16v16H4zM4 10h16M10 4v16'],
                         ['admin.settings.edit', 'Pengaturan', 'M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1'],
                     ];
                 @endphp

@@ -216,6 +216,30 @@
     .card-lift:hover {
         transform: translateY(-4px);
     }
+
+    /* Ticker berjalan (judul digandakan dua kali). */
+    .ticker-track {
+        animation: ticker 40s linear infinite;
+    }
+
+    .ticker-track:hover {
+        animation-play-state: paused;
+    }
+}
+
+@keyframes ticker {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation: none;
+    }
 }
 
 /*
@@ -495,6 +519,10 @@
  */
 html.dark {
     color-scheme: dark;
+}
+
+html.dark .site-header-blue {
+    background-color: #1e3a8a;
 }
 
 .dark body {

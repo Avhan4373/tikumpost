@@ -25,7 +25,7 @@
 <body id="top" class="flex min-h-screen flex-col text-slate-800 antialiased @yield('body_class')">
     <div class="nav-progress" data-nav-progress aria-hidden="true"></div>
 
-    @include('public.partials.header')
+    @include(\App\Support\SiteSettings::layout() === 'klasik' ? 'public.partials.header-klasik' : 'public.partials.header')
 
     <main class="flex-1" data-page>
         @include('public.partials.flash')
