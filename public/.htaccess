@@ -23,3 +23,11 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Cache statis ber-hash/nama-tetap: nama varian gambar memuat versi (mis. -v1-480.webp).
+# .xml sengaja tidak disertakan agar /sitemap.xml tetap no-cache.
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css|woff2|woff|jpg|jpeg|png|webp|avif|svg|ico|gif)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
