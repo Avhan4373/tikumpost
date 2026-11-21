@@ -94,47 +94,36 @@
                     Komentar <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-sm font-semibold text-slate-500">{{ $comments->count() }}</span>
                 </h2>
 
-                @auth
-                    <form method="POST" action="{{ route('articles.comment', $article) }}" class="mt-5">
-                        @csrf
-                        <div class="flex gap-3">
-                            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-slate-100 to-slate-200 text-sm font-bold text-slate-600">{{ auth()->user()->initials }}</span>
-                            <div class="flex-1">
-                                <textarea name="body" rows="3" required placeholder="Tulis komentar Anda..."
-                                    class="w-full rounded-2xl border border-slate-200 bg-white p-3.5 text-sm transition focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100">{{ old('body') }}</textarea>
-                                <button type="submit" class="btn-anim mt-2 rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700">Kirim Komentar</button>
-                            </div>
-                        </div>
-                    </form>
-                @else
-                    <p class="mt-5 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
-                        <a href="{{ route('login') }}" class="font-semibold text-red-600 hover:underline">Masuk</a> untuk ikut berkomentar.
-                    </p>
-                @endauth
+                @include('public.partials.comment-form', ['article' => $article])
 
                 <div class="mt-8 space-y-6">
                     @forelse ($comments as $comment)
                         <div class="flex gap-3">
-                            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-slate-100 to-slate-200 text-sm font-bold text-slate-600">{{ $comment->user->initials }}</span>
+                            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-slate-100 to-slate-200 text-sm font-bold text-slate-600">{{ $comment->initials() }}</span>
                             <div class="flex-1 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
                                 <div class="text-sm">
-                                    <span class="font-semibold text-slate-900">{{ $comment->user->name }}</span>
+                                    <span class="font-semibold text-slate-900">{{ $comment->authorName() }}</span>
                                     <span class="ml-2 text-xs text-slate-400">{{ $comment->created_at->diffForHumans() }}</span>
                                 </div>
                                 <p class="mt-1.5 text-sm leading-relaxed text-slate-700">{{ $comment->body }}</p>
 
                                 @foreach ($comment->replies->where('status', \App\Enums\CommentStatus::Approved) as $reply)
                                     <div class="mt-4 flex gap-3 border-l-2 border-slate-100 pl-4">
-                                        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-slate-100 text-xs font-bold text-slate-500">{{ $reply->user->initials }}</span>
+                                        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-slate-100 text-xs font-bold text-slate-500">{{ $reply->initials() }}</span>
                                         <div>
                                             <div class="text-sm">
-                                                <span class="font-semibold text-slate-900">{{ $reply->user->name }}</span>
+                                                <span class="font-semibold text-slate-900">{{ $reply->authorName() }}</span>
                                                 <span class="ml-2 text-xs text-slate-400">{{ $reply->created_at->diffForHumans() }}</span>
                                             </div>
                                             <p class="mt-1 text-sm leading-relaxed text-slate-700">{{ $reply->body }}</p>
                                         </div>
                                     </div>
                                 @endforeach
+
+                                <details class="mt-3">
+                                    <summary class="cursor-pointer text-xs font-semibold text-red-600 hover:underline">Balas</summary>
+                                    @include('public.partials.comment-form', ['article' => $article, 'parent' => $comment, 'compact' => true])
+                                </details>
                             </div>
                         </div>
                     @empty

@@ -13,11 +13,26 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['article_id', 'user_id', 'parent_id', 'body', 'status'];
+    protected $fillable = ['article_id', 'user_id', 'parent_id', 'body', 'status', 'author_name', 'author_email'];
 
     protected function casts(): array
     {
         return ['status' => CommentStatus::class];
+    }
+
+    /** Nama penampil: pengguna terdaftar, atau nama tamu. */
+    public function authorName(): string
+    {
+        return $this->user?->name ?? $this->author_name ?? 'Tamu';
+    }
+
+    public function initials(): string
+    {
+        return collect(explode(' ', $this->authorName()))
+            ->filter()
+            ->map(fn ($part) => mb_substr($part, 0, 1))
+            ->take(2)
+            ->implode('');
     }
 
     public function article(): BelongsTo

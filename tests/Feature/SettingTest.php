@@ -106,11 +106,11 @@ class SettingTest extends TestCase
     {
         $article = Article::factory()->create();
 
-        $this->get(route('articles.show', $article))->assertOk()->assertSee('untuk ikut berkomentar');
+        $this->get(route('articles.show', $article))->assertOk()->assertSee('Kirim Komentar');
 
         Setting::set('comments_enabled', '0');
 
-        $this->get(route('articles.show', $article))->assertOk()->assertDontSee('untuk ikut berkomentar');
+        $this->get(route('articles.show', $article))->assertOk()->assertDontSee('Kirim Komentar');
     }
 
     public function test_tema_default_dapat_diatur_dari_pengaturan(): void

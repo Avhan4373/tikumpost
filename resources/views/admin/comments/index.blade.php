@@ -18,7 +18,10 @@
             <div class="rounded-xl border border-slate-200 bg-white p-5">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div>
-                        <span class="font-semibold text-slate-800">{{ $comment->user?->name }}</span>
+                        <span class="font-semibold text-slate-800">{{ $comment->authorName() }}</span>
+                        @if ($comment->author_email)
+                            <span class="text-xs text-slate-400">&lt;{{ $comment->author_email }}&gt;</span>
+                        @endif
                         <span class="text-xs text-slate-400">pada</span>
                         <span class="text-xs font-medium text-slate-500">{{ Str::limit($comment->article?->title, 50) }}</span>
                     </div>

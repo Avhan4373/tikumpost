@@ -18,7 +18,7 @@ Route::middleware(EnsureSiteIsLive::class)->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/berita/{article}', [ArticleController::class, 'show'])->name('articles.show');
     Route::post('/berita/{article}/komentar', [ArticleController::class, 'comment'])
-        ->middleware('auth')->name('articles.comment');
+        ->middleware('throttle:10,1')->name('articles.comment');
     Route::get('/kategori/{category}', [CategoryController::class, 'show'])->name('categories.show');
     Route::get('/tag/{tag}', [TagController::class, 'show'])->name('tags.show');
     Route::get('/penulis/{author}', [AuthorController::class, 'show'])->name('authors.show');

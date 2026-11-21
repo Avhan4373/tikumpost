@@ -12,6 +12,7 @@ use App\Models\Tag;
 use App\Support\SiteSettings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
@@ -73,12 +74,22 @@ class ArticleController extends Controller
     {
         abort_unless((bool) SiteSettings::value('comments_enabled', true), 403);
 
-        $isStaff = $request->user()->isStaff();
+        $parentId = $request->input('parent_id');
+
+        // Balasan hanya boleh menempel pada komentar berita yang sama.
+        if ($parentId && ! Comment::whereKey($parentId)->where('article_id', $article->id)->exists()) {
+            throw ValidationException::withMessages(['parent_id' => 'Komentar induk tidak ditemukan pada berita ini.']);
+        }
+
+        $user = $request->user();
+        $isStaff = (bool) $user?->isStaff();
 
         Comment::create([
             'article_id' => $article->id,
-            'user_id' => $request->user()->id,
-            'parent_id' => $request->input('parent_id'),
+            'user_id' => $user?->id,
+            'parent_id' => $parentId,
+            'author_name' => $user?->name ?? $request->validated('name'),
+            'author_email' => $user ? null : $request->validated('email'),
             'body' => $request->validated('body'),
             'status' => $isStaff ? 'approved' : 'pending',
         ]);
