@@ -28,7 +28,7 @@
 - **Judul artikel dengan tanda kutip/`&`.** `"` atau `&` di judul tidak boleh memecah JSON-LD atau XML. → tes `test_newsarticle_tetap_valid_untuk_judul_bertanda_kutip` (Task 5).
 - **Sitemap XML valid.** Dokumen harus mulai tepat di `<?xml` tanpa spasi/HTML apa pun sebelumnya. → tes `test_sitemap_dimulai_dengan_deklarasi_xml` (Task 1).
 - **og:image tanpa gambar unggulan.** Artikel tanpa `featured_image` tetap harus menghasilkan `og:image` absolut. → tes `test_og_image_absolut_bila_tanpa_gambar_unggulan` (Task 2).
-- **Mode perawatan.** Saat `maintenance_mode` aktif, `/sitemap.xml` ikut 404 (route berada di grup `EnsureSiteIsLive`). Ini disengaja: crawler tidak boleh menerima sitemap saat situs ditutup. Jangan "memperbaiki" ini tanpa persetujuan.
+- **Mode perawatan.** Saat `maintenance_mode` aktif, `/sitemap.xml` ikut tidak tersedia dengan status **503** (route berada di grup `EnsureSiteIsLive`, yang mengembalikan `503` + `Retry-After`, bukan `404`). Ini disengaja: crawler tidak menerima sitemap saat situs ditutup, dan `503` adalah sinyal yang benar untuk "sementara tidak tersedia". Diverifikasi tes `test_sitemap_tidak_tersedia_saat_mode_perawatan`. Jangan "memperbaiki" ini tanpa persetujuan.
 
 ---
 

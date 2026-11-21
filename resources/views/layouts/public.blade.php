@@ -15,14 +15,16 @@
     @if (! empty($site['site_favicon']))
         <link rel="icon" href="{{ Storage::disk('public')->url($site['site_favicon']) }}">
     @endif
-    <meta property="og:title" content="@yield('title', $site['site_name'] ?? config('app.name', 'TikumPost'))">
+    <meta property="og:title" content="@hasSection('title_full')@yield('title_full')@else @yield('title', $site['site_name'] ?? config('app.name', 'TikumPost'))@endif">
     <meta property="og:site_name" content="{{ $site['site_name'] ?? config('app.name', 'TikumPost') }}">
     <meta property="og:description" content="@yield('meta_description', $site['meta_description'] ?? '')">
-    @php($ogImage = ! empty($site['site_logo']) ? url(Storage::disk('public')->url($site['site_logo'])) : url('favicon.ico'))
+    @php($ogImage = ! empty($site['site_logo'])
+        ? url(Storage::disk('public')->url($site['site_logo']))
+        : (! empty($site['site_favicon']) ? url(Storage::disk('public')->url($site['site_favicon'])) : url('favicon.ico')))
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:image" content="@yield('og_image', $ogImage)">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('title', $site['site_name'] ?? config('app.name', 'TikumPost'))">
+    <meta name="twitter:title" content="@hasSection('title_full')@yield('title_full')@else @yield('title', $site['site_name'] ?? config('app.name', 'TikumPost'))@endif">
     <meta name="twitter:description" content="@yield('meta_description', $site['meta_description'] ?? '')">
     <meta name="twitter:image" content="@yield('og_image', $ogImage)">
     @stack('meta')
@@ -46,7 +48,7 @@
                     'url' => route('home'),
                 ],
             ],
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+        ], JSON_HEX_TAG | JSON_UNESCAPED_UNICODE) !!}</script>
     @endif
     @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])

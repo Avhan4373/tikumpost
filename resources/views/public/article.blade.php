@@ -4,7 +4,9 @@
 @section('meta_description', $article->meta_description ?: $article->excerpt_text)
 
 @section('og_type', 'article')
-@section('og_image', $article->featured_image ? url(Storage::disk('public')->url($article->featured_image)) : url('favicon.ico'))
+@if ($article->featured_image)
+    @section('og_image', url(Storage::disk('public')->url($article->featured_image)))
+@endif
 @section('body_class', 'bg-white')
 
 @push('meta')
@@ -35,7 +37,7 @@
             ],
         ],
         'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => route('articles.show', $article)],
-    ]), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    ]), JSON_HEX_TAG | JSON_UNESCAPED_UNICODE) !!}</script>
     <script type="application/ld+json">{!! json_encode([
         '@context' => 'https://schema.org',
         '@type' => 'BreadcrumbList',
@@ -43,7 +45,7 @@
             ['@type' => 'ListItem', 'position' => 1, 'name' => 'Beranda', 'item' => route('home')],
             ['@type' => 'ListItem', 'position' => 2, 'name' => $article->title, 'item' => route('articles.show', $article)],
         ],
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    ], JSON_HEX_TAG | JSON_UNESCAPED_UNICODE) !!}</script>
 @endpush
 
 @section('content')

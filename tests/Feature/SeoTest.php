@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Setting;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SeoTest extends TestCase
@@ -81,18 +82,26 @@ class SeoTest extends TestCase
             ->assertSee('<meta name="robots" content="index,follow">', false);
     }
 
-    public function test_og_image_absolut_bila_tanpa_gambar_unggulan(): void
-    {
-        $article = Article::factory()->create(['featured_image' => null]);
-
-        $html = $this->get(route('articles.show', $article))->assertOk()->getContent();
-
-        $this->assertMatchesRegularExpression('/<meta property="og:image" content="https?:\/\/[^"]+">/', $html);
-    }
-
-    public function test_artikel_dengan_gambar_unggulan_memakai_og_type_article(): void
+    public function test_og_image_artikel_memakai_gambar_unggulan(): void
     {
         $article = Article::factory()->create(['featured_image' => 'artikel/foto.jpg']);
+
+        $this->get(route('articles.show', $article))->assertOk()
+            ->assertSee('<meta property="og:image" content="'.url(Storage::disk('public')->url('artikel/foto.jpg')).'">', false);
+    }
+
+    public function test_og_image_bawaan_memakai_favicon_situs_bila_tak_ada_gambar(): void
+    {
+        Setting::set('site_favicon', 'settings/favicon.jpg');
+        $article = Article::factory()->create(['featured_image' => null]);
+
+        $this->get(route('articles.show', $article))->assertOk()
+            ->assertSee('<meta property="og:image" content="'.url(Storage::disk('public')->url('settings/favicon.jpg')).'">', false);
+    }
+
+    public function test_halaman_artikel_memakai_og_type_article(): void
+    {
+        $article = Article::factory()->create();
 
         $this->get(route('articles.show', $article))->assertOk()
             ->assertSee('<meta property="og:type" content="article">', false);
@@ -107,6 +116,12 @@ class SeoTest extends TestCase
             $html
         );
         $this->assertStringNotContainsString('Beranda &middot;', $html);
+    }
+
+    public function test_og_title_beranda_memuat_tagline(): void
+    {
+        $this->get(route('home'))->assertOk()
+            ->assertSee('<meta property="og:title" content="TikumPost — Portal berita terkini, akurat, dan berimbang">', false);
     }
 
     public function test_judul_halaman_artikel_tetap_memakai_akhiran_nama_situs(): void
@@ -163,6 +178,30 @@ class SeoTest extends TestCase
         foreach ($matches[1] as $json) {
             $this->assertIsArray(json_decode($json, true), 'JSON-LD tidak valid: '.$json);
         }
+    }
+
+    public function test_newsarticle_aman_dari_breakout_script(): void
+    {
+        // Judul dikendalikan penulis; jangan sampai bisa menutup tag <script>.
+        $article = Article::factory()->create(['title' => 'Buntut </script><script>alert(1)</script> Kasus']);
+
+        $html = $this->get(route('articles.show', $article))->assertOk()->getContent();
+
+        $this->assertStringNotContainsString('<script>alert(1)</script>', $html);
+
+        preg_match_all('#<script type="application/ld\+json">(.*?)</script>#s', $html, $matches);
+        $this->assertNotEmpty($matches[1]);
+
+        foreach ($matches[1] as $json) {
+            $this->assertIsArray(json_decode($json, true), 'JSON-LD rusak/terpotong: '.$json);
+        }
+    }
+
+    public function test_sitemap_tidak_tersedia_saat_mode_perawatan(): void
+    {
+        Setting::set('maintenance_mode', '1');
+
+        $this->get('/sitemap.xml')->assertStatus(503);
     }
 
     public function test_meta_verifikasi_google_muncul_bila_setelan_diisi(): void
