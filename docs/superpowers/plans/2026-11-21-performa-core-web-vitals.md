@@ -954,3 +954,37 @@ Yang dapat dipercaya:
 
 Angka otoritatif untuk TBT/SI harus diambil dari **PageSpeed Insights** (infrastruktur Google),
 bukan dari mesin lokal ini.
+
+---
+
+## Keputusan pelaksana (menyimpang dari plan, sengaja)
+
+1. **Dimensi `width`/`height` memakai dimensi intrinsik asli**, bukan dimensi varian — rasio benar.
+2. **`ImageVariant::ensureQuietly()`** menggantikan 3 blok try/catch identik di controller (DRY).
+3. **Preload hero memakai `$headline->first()`**, bukan `$lead` (yang baru dibuat di dalam blok hero).
+4. **Dua tes plan cacat** dan diperbaiki: `width=800` (komponen memakai dimensi intrinsik) dan
+   kasus "tanpa srcset" yang memakai gambar 800px (justru punya varian) → diganti gambar 100×80.
+5. **Tes "tanpa gambar hero"** memakai `assertDontSee('as="image"')`, bukan `rel="preload"`
+   (Vite selalu menyuntik preload font).
+6. **Hero `home-klasik`** juga diberi `eager`/`fetchpriority=high` walau plan hanya menyebut layout `tvri`.
+7. **Render dibuat read-only** (`ImageVariant::existing()`): varian hanya dibuat saat unggah dan
+   oleh `media:variants`, tidak pernah pada GET. Menutup kelas risiko "GET menulis berkas".
+8. **Penulisan varian atomik** (temp + `rename`, cek hasil `imagewebp`, `unlink` saat gagal) dan
+   **guard `instanceof \GdImage`** — tanpa ini, satu JPEG rusak bisa membuat halaman 500 permanen
+   dan varian separuh jadi terkunci cache 1 tahun.
+9. **Guard `MAX_PIXELS = 40_000_000`** sebelum dekode: mencegah OOM fatal (bukan `Throwable`,
+   jadi tidak tertangkap `ensureQuietly`).
+10. **Guard traversal** di `intrinsic()` (tolak path berisi `..`), meski path berasal dari kolom DB.
+11. **Tanpa memo statik di `existing()`**: memo statik bocor antar-tes karena `Storage::fake`
+    memakai root yang sama sepanjang suite.
+
+## Minor yang sengaja ditunda
+
+- `sizes` `article-row` (25vw untuk kotak 128/176 px) dan infografis beranda (60vw) — perbaikan
+  satu baris, target Lighthouse mobile tidak terpengaruh.
+- `sizes` hero mengabaikan `max-w-7xl` (over-fetch hanya di desktop lebar).
+- Komentar `.htaccess` soal aset non-hash; `Media` disk masih hardcoded `public`.
+- Varian yatim saat gambar diganti/dihapus; `preg_replace` ekstensi untuk direktori bertitik.
+- `src` tetap dirender untuk berkas hilang; `alt` bisa ganda bila dikirim via `$attributes`.
+- Celah tes: `srcset` komponen vs no-upscale, byte rusak berekstensi gambar, fixture `.png`
+  berisi JPEG.
