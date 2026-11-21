@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://tikumpost.id/sitemap.xml

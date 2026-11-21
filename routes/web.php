@@ -9,6 +9,7 @@ use App\Http\Controllers\Public\NewsletterController;
 use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\ReelController;
 use App\Http\Controllers\Public\SearchController;
+use App\Http\Controllers\Public\SitemapController;
 use App\Http\Controllers\Public\TagController;
 use App\Http\Middleware\EnsureSiteIsLive;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::middleware(EnsureSiteIsLive::class)->group(function () {
     Route::get('/berita/{article}', [ArticleController::class, 'show'])->name('articles.show');
     Route::post('/berita/{article}/komentar', [ArticleController::class, 'comment'])
         ->middleware('throttle:10,1')->name('articles.comment');
+    Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
     Route::get('/kategori/{category}', [CategoryController::class, 'show'])->name('categories.show');
     Route::get('/tag/{tag}', [TagController::class, 'show'])->name('tags.show');
     Route::get('/penulis/{author}', [AuthorController::class, 'show'])->name('authors.show');
