@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Beranda')
+@section('title_full', ($site['site_name'] ?? 'TikumPost').' — '.($site['site_tagline'] ?? ''))
 
 @section('content')
     <div class="mx-auto max-w-7xl px-4 py-8 lg:py-10">

@@ -96,4 +96,24 @@ class SeoTest extends TestCase
         $this->get(route('articles.show', $article))->assertOk()
             ->assertSee('<meta property="og:type" content="article">', false);
     }
+
+    public function test_judul_beranda_memuat_nama_situs_dan_tagline(): void
+    {
+        $html = $this->get(route('home'))->assertOk()->getContent();
+
+        $this->assertStringContainsString(
+            '<title>TikumPost — Portal berita terkini, akurat, dan berimbang</title>',
+            $html
+        );
+        $this->assertStringNotContainsString('Beranda &middot;', $html);
+    }
+
+    public function test_judul_halaman_artikel_tetap_memakai_akhiran_nama_situs(): void
+    {
+        $article = Article::factory()->create();
+
+        $html = $this->get(route('articles.show', $article))->assertOk()->getContent();
+
+        $this->assertStringContainsString('&middot; TikumPost</title>', $html);
+    }
 }

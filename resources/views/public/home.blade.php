@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Beranda')
+@section('title_full', ($site['site_name'] ?? 'TikumPost').' — '.($site['site_tagline'] ?? ''))
 @section('body_class', 'bg-white')
 
 @section('content')

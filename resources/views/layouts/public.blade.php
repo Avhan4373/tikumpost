@@ -7,7 +7,7 @@
     <link rel="canonical" href="{{ request()->url().(request()->has('page') ? '?page='.request()->integer('page') : '') }}">
     <meta name="robots" content="@yield('robots', 'index,follow')">
     @include('partials.theme-init')
-    <title>@yield('title', 'Beranda') &middot; {{ $site['site_name'] ?? config('app.name', 'TikumPost') }}</title>
+    <title>@hasSection('title_full')@yield('title_full')@else @yield('title', 'Beranda') &middot; {{ $site['site_name'] ?? config('app.name', 'TikumPost') }}@endif</title>
     <meta name="description" content="@yield('meta_description', $site['meta_description'] ?? '')">
     @if (! empty($site['meta_keywords']))
         <meta name="keywords" content="{{ $site['meta_keywords'] }}">
