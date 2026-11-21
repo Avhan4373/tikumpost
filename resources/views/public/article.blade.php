@@ -92,8 +92,9 @@
 
             @if ($article->featured_image)
                 <figure class="mt-6" data-protected-content>
-                    <img src="{{ Storage::disk('public')->url($article->featured_image) }}" alt="{{ $article->title }}"
-                        class="w-full rounded-2xl object-cover shadow-sm" draggable="false">
+                    <x-img :path="$article->featured_image" :alt="$article->title"
+                        sizes="(min-width: 1024px) 768px, 100vw" loading="eager" fetchpriority="high"
+                        class="w-full rounded-2xl object-cover shadow-sm" draggable="false" />
                 </figure>
             @endif
 

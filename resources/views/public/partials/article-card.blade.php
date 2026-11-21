@@ -1,9 +1,9 @@
 <article class="card-lift group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm hover:border-slate-300 hover:shadow-xl hover:shadow-slate-900/5" data-reveal>
     <a href="{{ route('articles.show', $article) }}" class="relative block aspect-[16/10] overflow-hidden bg-slate-100 {{ $article->featured_image ? 'media-frame' : '' }}">
         @if ($article->featured_image)
-            <img src="{{ Storage::disk('public')->url($article->featured_image) }}" alt="{{ $article->title }}"
-                loading="lazy" data-fade
-                class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+            <x-img :path="$article->featured_image" :alt="$article->title" data-fade
+                sizes="(min-width: 1024px) 33vw, 100vw"
+                class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
         @else
             <div class="grid h-full w-full place-items-center bg-gradient-to-br from-slate-100 to-slate-200 text-slate-300">
                 <span class="text-3xl font-bold tracking-tight">TikumPost</span>

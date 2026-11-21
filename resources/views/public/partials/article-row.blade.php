@@ -2,8 +2,9 @@
 <article class="group flex gap-4 py-4" data-article-row>
     <a href="{{ route('articles.show', $article) }}" class="relative block h-24 w-32 shrink-0 overflow-hidden rounded-xl bg-slate-100 sm:h-28 sm:w-44 {{ $article->featured_image ? 'media-frame' : '' }}">
         @if ($article->featured_image)
-            <img src="{{ Storage::disk('public')->url($article->featured_image) }}" alt="" loading="lazy" data-fade
-                class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+            <x-img :path="$article->featured_image" alt="" data-fade
+                sizes="(min-width: 768px) 25vw, 40vw"
+                class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
         @endif
     </a>
     <div class="min-w-0">

@@ -5,6 +5,15 @@
 
 @section('content')
     <div data-home="tvri">
+        @push('meta')
+            @php($heroLead = $headline->first())
+            @if (! empty($heroLead?->featured_image))
+                @php($heroSrcset = \App\Support\ImageVariant::srcset(\App\Support\ImageVariant::ensure($heroLead->featured_image)))
+                <link rel="preload" as="image"
+                    href="{{ Storage::disk('public')->url($heroLead->featured_image) }}"
+                    @if ($heroSrcset) imagesrcset="{{ $heroSrcset }}" imagesizes="(min-width: 1024px) 66vw, 100vw" @endif>
+            @endif
+        @endpush
         {{-- Hero --}}
         @if ($headline->isNotEmpty())
             @php($lead = $headline->first())
@@ -13,8 +22,9 @@
                     <a data-hero-lead href="{{ route('articles.show', $lead) }}"
                         class="group relative col-span-1 block overflow-hidden rounded-2xl bg-slate-900 lg:col-span-2">
                         @if ($lead->featured_image)
-                            <img src="{{ Storage::disk('public')->url($lead->featured_image) }}" alt="{{ $lead->title }}"
-                                class="hero-zoom media-frame h-64 w-full object-cover transition duration-700 group-hover:scale-105 lg:h-[26rem]">
+                            <x-img :path="$lead->featured_image" :alt="$lead->title"
+                                sizes="(min-width: 1024px) 66vw, 100vw" loading="eager" fetchpriority="high"
+                                class="hero-zoom media-frame h-64 w-full object-cover transition duration-700 group-hover:scale-105 lg:h-[26rem]" />
                         @else
                             <div class="h-64 w-full bg-gradient-to-br from-slate-700 to-slate-900 lg:h-[26rem]"></div>
                         @endif
@@ -40,8 +50,9 @@
                             <a data-hero-tile href="{{ route('articles.show', $item) }}"
                                 class="group relative block aspect-[4/3] overflow-hidden rounded-xl bg-slate-900">
                                 @if ($item->featured_image)
-                                    <img src="{{ Storage::disk('public')->url($item->featured_image) }}" alt="{{ $item->title }}"
-                                        loading="lazy" class="media-frame h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                    <x-img :path="$item->featured_image" :alt="$item->title"
+                                        sizes="(min-width: 1024px) 33vw, 50vw"
+                                        class="media-frame h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                 @endif
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
                                 <div class="absolute inset-x-0 bottom-0 p-3">
@@ -111,8 +122,9 @@
                                     <a href="{{ route('articles.show', $item) }}" class="group flex min-w-0 flex-1 gap-3">
                                         <span class="h-14 w-16 shrink-0 overflow-hidden rounded-lg bg-slate-100">
                                             @if ($item->featured_image)
-                                                <img src="{{ Storage::disk('public')->url($item->featured_image) }}" alt="" loading="lazy"
-                                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                                <x-img :path="$item->featured_image" alt=""
+                                                    sizes="64px"
+                                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                             @endif
                                         </span>
                                         <span class="min-w-0">
@@ -187,8 +199,9 @@
                                         data-lightbox-src="{{ Storage::disk('public')->url($infographic->image) }}"
                                         data-lightbox-alt="Infografis"
                                         class="group block w-full overflow-hidden rounded-xl border border-slate-200 transition hover:border-red-200 hover:shadow-sm">
-                                        <img src="{{ Storage::disk('public')->url($infographic->image) }}" alt="Infografis" loading="lazy"
-                                            class="h-auto max-h-[28rem] w-full bg-slate-50 object-contain">
+                                        <x-img :path="$infographic->image" alt="Infografis"
+                                            sizes="(min-width: 768px) 60vw, 100vw"
+                                            class="h-auto max-h-[28rem] w-full bg-slate-50 object-contain" />
                                     </button>
                                 @endforeach
                             </div>

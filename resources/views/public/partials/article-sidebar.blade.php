@@ -20,8 +20,9 @@
                             class="group -m-1 flex min-w-0 flex-1 gap-3 rounded-xl p-1 transition hover:bg-slate-50">
                             <span class="h-14 w-16 shrink-0 overflow-hidden rounded-lg bg-slate-100">
                                 @if ($item->featured_image)
-                                    <img src="{{ Storage::disk('public')->url($item->featured_image) }}" alt="{{ $item->title }}"
-                                        loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                    <x-img :path="$item->featured_image" :alt="$item->title"
+                                        sizes="64px"
+                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                 @endif
                             </span>
                             <span class="min-w-0">
@@ -91,8 +92,9 @@
                 @foreach ($infographics as $infographic)
                     <a href="{{ Storage::disk('public')->url($infographic->image) }}" target="_blank" rel="noopener"
                         class="group block overflow-hidden rounded-xl border border-slate-200 transition hover:border-red-200 hover:shadow-sm">
-                        <img src="{{ Storage::disk('public')->url($infographic->image) }}" alt="Infografis" loading="lazy"
-                            class="h-auto max-h-72 w-full bg-slate-50 object-contain transition duration-500 group-hover:scale-[1.02]">
+                        <x-img :path="$infographic->image" alt="Infografis"
+                            sizes="(min-width: 1024px) 300px, 100vw"
+                            class="h-auto max-h-72 w-full bg-slate-50 object-contain transition duration-500 group-hover:scale-[1.02]" />
                     </a>
                 @endforeach
             </div>

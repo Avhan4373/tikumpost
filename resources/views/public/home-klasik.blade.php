@@ -10,8 +10,9 @@
             <section class="grid gap-5 lg:grid-cols-5">
                 <a href="{{ route('articles.show', $lead) }}" class="group relative col-span-1 overflow-hidden rounded-3xl bg-slate-900 lg:col-span-3">
                     @if ($lead->featured_image)
-                        <img src="{{ Storage::disk('public')->url($lead->featured_image) }}" alt="{{ $lead->title }}"
-                            class="hero-zoom h-80 w-full object-cover opacity-90 transition duration-700 group-hover:scale-105 lg:h-[30rem]">
+                        <x-img :path="$lead->featured_image" :alt="$lead->title"
+                            sizes="(min-width: 1024px) 60vw, 100vw" loading="eager" fetchpriority="high"
+                            class="hero-zoom h-80 w-full object-cover opacity-90 transition duration-700 group-hover:scale-105 lg:h-[30rem]" />
                     @else
                         <div class="h-80 w-full bg-gradient-to-br from-slate-700 to-slate-900 lg:h-[30rem]"></div>
                     @endif
@@ -40,7 +41,9 @@
                             <a href="{{ route('articles.show', $item) }}" class="group flex gap-3 rounded-2xl p-3 transition hover:bg-slate-50">
                                 <div class="h-16 w-20 shrink-0 overflow-hidden rounded-xl bg-slate-100 {{ $item->featured_image ? 'media-frame' : '' }}">
                                     @if ($item->featured_image)
-                                        <img src="{{ Storage::disk('public')->url($item->featured_image) }}" alt="" loading="lazy" data-fade class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                        <x-img :path="$item->featured_image" alt="" data-fade
+                                            sizes="80px"
+                                            class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                     @endif
                                 </div>
                                 <div class="min-w-0">
@@ -94,8 +97,9 @@
                                     data-lightbox-src="{{ Storage::disk('public')->url($infographic->image) }}"
                                     data-lightbox-alt="Infografis"
                                     class="group block w-full overflow-hidden rounded-xl border border-slate-200 transition hover:border-red-200 hover:shadow-sm">
-                                    <img src="{{ Storage::disk('public')->url($infographic->image) }}" alt="Infografis" loading="lazy"
-                                        class="h-auto max-h-[28rem] w-full bg-slate-50 object-contain">
+                                    <x-img :path="$infographic->image" alt="Infografis"
+                                        sizes="(min-width: 768px) 60vw, 100vw"
+                                        class="h-auto max-h-[28rem] w-full bg-slate-50 object-contain" />
                                 </button>
                             @endforeach
                         </div>
