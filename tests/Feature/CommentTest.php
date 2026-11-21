@@ -123,4 +123,39 @@ class CommentTest extends TestCase
             'body' => 'Ditolak.',
         ])->assertForbidden();
     }
+
+    public function test_identitas_tamu_disimpan_di_cookie(): void
+    {
+        $article = Article::factory()->create();
+
+        $this->post(route('articles.comment', $article), [
+            'name' => 'Budi Tamu',
+            'email' => 'budi@example.com',
+            'body' => 'Komentar dari tamu.',
+            'remember' => '1',
+        ])->assertCookie('comment_author_name')->assertCookie('comment_author_email');
+    }
+
+    public function test_identitas_tamu_tidak_disimpan_tanpa_persetujuan(): void
+    {
+        $article = Article::factory()->create();
+
+        $this->post(route('articles.comment', $article), [
+            'name' => 'Budi Tamu',
+            'email' => 'budi@example.com',
+            'body' => 'Komentar dari tamu.',
+        ])->assertCookieMissing('comment_author_name');
+    }
+
+    public function test_identitas_tamu_diprefill_ke_form(): void
+    {
+        $article = Article::factory()->create();
+
+        $this->withCookie('comment_author_name', 'Budi Prefill')
+            ->withCookie('comment_author_email', 'prefill@example.com')
+            ->get(route('articles.show', $article))
+            ->assertOk()
+            ->assertSee('value="Budi Prefill"', false)
+            ->assertSee('value="prefill@example.com"', false);
+    }
 }

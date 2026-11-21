@@ -7,16 +7,25 @@
     @endif
 
     @guest
-        <div class="grid gap-2 sm:grid-cols-2">
-            <input type="text" name="name" value="{{ old('name') }}" required placeholder="Nama"
-                class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100">
-            <input type="email" name="email" value="{{ old('email') }}" required placeholder="Email (tidak ditampilkan)"
-                class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100">
-        </div>
+        <p class="text-xs text-slate-500">Alamat email Anda tidak akan dipublikasikan. Ruas bertanda <span class="font-semibold text-red-600">*</span> wajib diisi.</p>
     @endguest
 
-    <textarea name="body" rows="{{ $compact ? 2 : 3 }}" required placeholder="{{ $parent ? 'Tulis balasan...' : 'Tulis komentar Anda...' }}"
+    <textarea name="body" rows="{{ $compact ? 2 : 3 }}" required placeholder="{{ $parent ? 'Tulis balasan...*' : 'Tulis komentar Anda...*' }}"
         class="w-full rounded-2xl border border-slate-200 bg-white p-3.5 text-sm transition focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100">{{ old('body') }}</textarea>
+
+    @guest
+        <div class="grid gap-2 sm:grid-cols-2">
+            <input type="text" name="name" value="{{ old('name', request()->cookie('comment_author_name')) }}" required placeholder="Nama*"
+                class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100">
+            <input type="email" name="email" value="{{ old('email', request()->cookie('comment_author_email')) }}" required placeholder="Email*"
+                class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100">
+        </div>
+        <label class="flex items-start gap-2 text-xs text-slate-500">
+            <input type="checkbox" name="remember" value="1" @checked(old('remember', request()->cookie('comment_author_name')))
+                class="mt-0.5 rounded border-slate-300 text-red-600 focus:ring-red-200">
+            <span>Simpan nama dan email saya di peramban ini untuk komentar berikutnya.</span>
+        </label>
+    @endguest
 
     @error('body')
         <p class="text-xs font-medium text-red-600">{{ $message }}</p>

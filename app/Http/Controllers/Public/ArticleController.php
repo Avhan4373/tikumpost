@@ -94,6 +94,13 @@ class ArticleController extends Controller
             'status' => $isStaff ? 'approved' : 'pending',
         ]);
 
+        // Simpan identitas tamu hanya bila pembaca menyetujui (opt-in, seperti form WordPress).
+        if (! $user && $request->boolean('remember')) {
+            $minutes = 60 * 24 * 365;
+            cookie()->queue('comment_author_name', $request->validated('name'), $minutes);
+            cookie()->queue('comment_author_email', $request->validated('email'), $minutes);
+        }
+
         return back()->with('status', $isStaff
             ? 'Komentar Anda telah ditayangkan.'
             : 'Terima kasih! Komentar Anda menunggu moderasi.');
