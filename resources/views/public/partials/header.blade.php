@@ -143,7 +143,7 @@
             <nav class="grid gap-1">
                 @if (($navMenu ?? collect())->isEmpty())
                     <a href="{{ route('home') }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('home') ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">Beranda</a>
-                    <a href="{{ route('reels.index') }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">Tikum Reals</a>
+                    <a href="{{ route('reels.index') }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">Tikum Reels</a>
                     @foreach (($navCategories ?? collect()) as $cat)
                         <a href="{{ route('categories.show', $cat) }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('categories.show') && optional(request()->route('category'))->id === $cat->id ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">{{ $cat->name }}</a>
                     @endforeach

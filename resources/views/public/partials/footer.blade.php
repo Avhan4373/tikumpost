@@ -54,7 +54,7 @@
             <h3 class="text-sm font-bold uppercase tracking-wide text-white">Navigasi</h3>
             <ul class="mt-4 space-y-2.5 text-sm">
                 <li><a href="{{ route('home') }}" class="text-slate-400 transition hover:text-white">Beranda</a></li>
-                <li><a href="{{ route('reels.index') }}" class="text-slate-400 transition hover:text-white">Tikum Reals</a></li>
+                <li><a href="{{ route('reels.index') }}" class="text-slate-400 transition hover:text-white">Tikum Reels</a></li>
                 <li><a href="{{ route('pages.show', 'tentang') }}" class="text-slate-400 transition hover:text-white">Tentang Kami</a></li>
                 <li><a href="{{ route('pages.show', 'kontak') }}" class="text-slate-400 transition hover:text-white">Kontak</a></li>
                 <li><a href="{{ route('pages.show', 'kebijakan-privasi') }}" class="text-slate-400 transition hover:text-white">Kebijakan Privasi</a></li>

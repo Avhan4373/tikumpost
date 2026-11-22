@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Tikum Reals')
-@section('heading', 'Tikum Reals')
+@section('title', 'Tikum Reels')
+@section('heading', 'Tikum Reels')
 
 @section('content')
     <div class="grid gap-6 lg:grid-cols-[1fr_20rem]">
@@ -62,7 +62,7 @@
                     <input type="number" name="sort_order" value="0" min="0" class="w-24 rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Urutan">
                 </div>
                 <button class="w-full rounded-lg bg-red-600 py-2.5 text-sm font-semibold text-white hover:bg-red-700">Tambah</button>
-                <p class="text-xs text-slate-400">Tempel tautan Reel/Post Instagram. Preview akan tampil otomatis di halaman Tikum Reals.</p>
+                <p class="text-xs text-slate-400">Tempel tautan Reel/Post Instagram. Preview akan tampil otomatis di halaman Tikum Reels.</p>
             </form>
         </div>
     </div>

@@ -27,7 +27,7 @@
                         ['admin.articles.index', 'Artikel', 'M4 4h16v16H4zM8 8h8M8 12h8M8 16h5'],
                         ['admin.categories.index', 'Kategori', 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z'],
                         ['admin.tags.index', 'Tag', 'M3 7l9-4 9 4-9 4-9-4zM3 12l9 4 9-4'],
-                        ['admin.reels.index', 'Tikum Reals', 'M4 4h16v16H4zM10 9l5 3-5 3z'],
+                        ['admin.reels.index', 'Tikum Reels', 'M4 4h16v16H4zM10 9l5 3-5 3z'],
                         ['admin.infographics.index', 'Infografis', 'M4 5h16v14H4zM8 11l2.5 3 2-2.5L15 15M8.5 9.5a1 1 0 110-2 1 1 0 010 2z'],
                         ['admin.menus.index', 'Menu', 'M4 6h16M4 12h16M4 18h10'],
                         ['admin.comments.index', 'Komentar', 'M4 4h16v12H8l-4 4z'],

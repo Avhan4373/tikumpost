@@ -82,10 +82,10 @@ class MenuTest extends TestCase
 
     public function test_fallback_menu_bawaan_tidak_mengeluarkan_blade_mentah(): void
     {
-        // Tabel menu kosong -> header memakai menu bawaan (Beranda, Tikum Reals).
+        // Tabel menu kosong -> header memakai menu bawaan (Beranda, Tikum Reels).
         $response = $this->get(route('home'))->assertOk();
 
-        $response->assertSee('Beranda')->assertSee('Tikum Reals');
+        $response->assertSee('Beranda')->assertSee('Tikum Reels');
         $response->assertDontSee('@endforeach')->assertDontSee('catActive');
     }
 
