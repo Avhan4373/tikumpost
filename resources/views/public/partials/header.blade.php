@@ -27,7 +27,7 @@
                     <nav class="flex items-center gap-1 whitespace-nowrap">
                         @if (($navMenu ?? collect())->isEmpty())
                             <a href="{{ route('home') }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('home') ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">Beranda</a>
-                            <a href="{{ route('reels.index') }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">Tikum Reals</a>
+                            <a href="{{ route('reels.index') }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">Tikum Reels</a>
                             @foreach (($navCategories ?? collect()) as $cat)
                                 <a href="{{ route('categories.show', $cat) }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('categories.show') && optional(request()->route('category'))->id === $cat->id ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">{{ $cat->name }}</a>
                             @endforeach

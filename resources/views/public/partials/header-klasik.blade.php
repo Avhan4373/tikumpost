@@ -79,7 +79,7 @@
             <nav class="no-scrollbar flex flex-wrap items-center gap-1">
                 @if (($navMenu ?? collect())->isEmpty())
                     <a href="{{ route('home') }}" class="nav-link whitespace-nowrap px-3 py-3 text-sm font-semibold transition {{ request()->routeIs('home') ? 'is-active text-red-600' : 'text-slate-700 hover:text-red-600' }}">Beranda</a>
-                    <a href="{{ route('reels.index') }}" class="nav-link whitespace-nowrap px-3 py-3 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'is-active text-red-600' : 'text-slate-700 hover:text-red-600' }}">Tikum Reals</a>
+                    <a href="{{ route('reels.index') }}" class="nav-link whitespace-nowrap px-3 py-3 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'is-active text-red-600' : 'text-slate-700 hover:text-red-600' }}">Tikum Reels</a>
                     @foreach (($navCategories ?? collect()) as $cat)
                         <a href="{{ route('categories.show', $cat) }}" class="nav-link whitespace-nowrap px-3 py-3 text-sm font-semibold transition {{ request()->routeIs('categories.show') && optional(request()->route('category'))->id === $cat->id ? 'is-active text-red-600' : 'text-slate-700 hover:text-red-600' }}">{{ $cat->name }}</a>
                     @endforeach
