@@ -11,15 +11,8 @@
     <div class="site-header-blue border-b border-blue-800 bg-blue-700">
         <div class="mx-auto max-w-7xl px-4">
             <div class="flex h-16 items-center gap-4">
-                <a href="{{ route('home') }}" class="group flex shrink-0 items-center gap-2.5">
-                    @if (! empty($site['site_logo']))
-                        <img src="{{ Storage::disk('public')->url($site['site_logo']) }}" alt="{{ $site['site_name'] ?? 'TikumPost' }}" class="h-10 w-auto max-w-[10rem] object-contain transition duration-300 group-hover:scale-105">
-                    @else
-                        <span class="grid h-10 w-10 place-items-center rounded-xl bg-white text-lg font-bold text-blue-700 shadow-lg transition duration-300 group-hover:scale-110">{{ Str::substr($site['site_name'] ?? 'K', 0, 1) }}</span>
-                    @endif
-                    @if (empty($site['site_logo']))
-                        <span class="hidden text-xl font-bold tracking-tight text-white sm:inline">{{ $site['site_name'] ?? 'TikumPost' }}</span>
-                    @endif
+                <a href="{{ route('home') }}" class="group flex shrink-0 items-center">
+                    @include('partials.logo', ['class' => 'h-10 w-auto max-w-[10rem] transition duration-300 group-hover:scale-105'])
                 </a>
 
                 {{-- Navigasi desktop --}}

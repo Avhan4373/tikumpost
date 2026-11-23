@@ -20,6 +20,32 @@
     --color-brand-800: #991b1b;
 }
 
+/* Warna wordmark dikendalikan di sini, bukan di file logo.
+   SVG-nya inline (partials.logo) sehingga custom properties turun ke path. */
+:root {
+    --logo-ink: #0c0c52;
+    --logo-accent: #ffb300;
+}
+
+/* Sidebar admin dan halaman maintenance selalu memakai latar gelap. */
+.logo-on-dark {
+    --logo-ink: #f8fafc;
+    --logo-accent: #fbbf24;
+}
+
+.logo-ink {
+    fill: var(--logo-ink);
+}
+
+.logo-accent {
+    fill: var(--logo-accent);
+}
+
+.logo-svg .logo-ink,
+.logo-svg .logo-accent {
+    transition: fill 0.18s ease;
+}
+
 @layer base {
     body {
         background-color: #f8fafc;
@@ -516,6 +542,8 @@
  */
 html.dark {
     color-scheme: dark;
+    --logo-ink: #f8fafc;
+    --logo-accent: #fbbf24;
 }
 
 html.dark .site-header-blue {

@@ -13,11 +13,7 @@
         @endphp
         <div class="lg:col-span-1">
             <div class="flex items-center gap-2.5">
-                @if (! empty($site['site_logo']))
-                    <img src="{{ Storage::disk('public')->url($site['site_logo']) }}" alt="{{ $siteName }}" class="h-10 w-auto max-w-[9rem] object-contain">
-                @else
-                    <span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-red-500 to-red-700 text-lg font-bold text-white">{{ Str::substr($siteName, 0, 1) }}</span>
-                @endif
+                @include('partials.logo', ['class' => 'h-10 w-auto max-w-[9rem]', 'invert' => true])
                 <span class="text-xl font-bold tracking-tight text-white">{{ $siteName }}</span>
             </div>
             <p class="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">

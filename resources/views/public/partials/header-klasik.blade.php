@@ -11,15 +11,8 @@
     <div class="site-header-collapse border-b border-slate-200 bg-white/85 backdrop-blur-md">
         <div class="mx-auto max-w-7xl px-4">
             <div class="flex h-16 items-center justify-between gap-4">
-                <a href="{{ route('home') }}" class="group flex shrink-0 items-center gap-2.5">
-                    @if (! empty($site['site_logo']))
-                        <img src="{{ Storage::disk('public')->url($site['site_logo']) }}" alt="{{ $site['site_name'] ?? 'TikumPost' }}" class="h-10 w-auto max-w-[10rem] object-contain transition duration-300 group-hover:scale-105">
-                    @else
-                        <span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-red-500 to-red-700 text-lg font-bold text-white shadow-lg shadow-red-600/30 transition duration-300 group-hover:scale-110">{{ Str::substr($site['site_name'] ?? 'K', 0, 1) }}</span>
-                    @endif
-                    @if (empty($site['site_logo']))
-                        <span class="text-xl font-bold tracking-tight text-slate-900">{{ $site['site_name'] ?? 'TikumPost' }}</span>
-                    @endif
+                <a href="{{ route('home') }}" class="group flex shrink-0 items-center">
+                    @include('partials.logo', ['class' => 'h-10 w-auto max-w-[10rem] transition duration-300 group-hover:scale-105'])
                 </a>
 
                 <form action="{{ route('search') }}" method="GET" class="hidden max-w-md flex-1 lg:block">

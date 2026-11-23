@@ -34,7 +34,7 @@ class SiteSettings
                     ['key' => 'site_name', 'label' => 'Nama Situs', 'type' => 'text', 'default' => 'TikumPost'],
                     ['key' => 'site_tagline', 'label' => 'Tagline', 'type' => 'text', 'default' => 'Portal berita terkini, akurat, dan berimbang'],
                     ['key' => 'site_description', 'label' => 'Deskripsi Situs', 'type' => 'textarea', 'default' => 'Portal berita independen yang menyajikan informasi terkini, akurat, dan berimbang untuk pembaca Indonesia.'],
-                    ['key' => 'site_logo', 'label' => 'Logo', 'type' => 'image', 'default' => null, 'help' => 'PNG/JPG/WebP/SVG maks 2 MB. Kosongkan untuk memakai inisial nama situs.'],
+                    ['key' => 'site_logo', 'label' => 'Logo (pratinjau SEO)', 'type' => 'image', 'default' => null, 'help' => 'Dipakai untuk og:image dan schema.org. Logo di situs memakai SVG bawaan yang warnanya mengikuti tema.'],
                     ['key' => 'site_favicon', 'label' => 'Favicon', 'type' => 'image', 'default' => null, 'help' => 'Ikon tab browser (disarankan PNG/SVG kotak).'],
                 ],
             ],

@@ -1,6 +1,5 @@
 @php
     $siteName = $site['site_name'] ?? config('app.name', 'TikumPost');
-    $logo = $site['site_logo'] ?? null;
 @endphp
 <!DOCTYPE html>
 <html lang="id">
@@ -17,11 +16,7 @@
 <body class="grid min-h-screen place-items-center bg-slate-950 px-6 text-center text-slate-300">
     <div class="max-w-md">
         <div class="mx-auto flex items-center justify-center gap-3">
-            @if ($logo)
-                <img src="{{ Storage::disk('public')->url($logo) }}" alt="{{ $siteName }}" class="h-12 w-auto">
-            @else
-                <span class="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-red-500 to-red-700 text-xl font-bold text-white">{{ Str::substr($siteName, 0, 1) }}</span>
-            @endif
+            @include('partials.logo', ['class' => 'h-12 w-auto', 'invert' => true])
             <span class="text-2xl font-bold tracking-tight text-white">{{ $siteName }}</span>
         </div>
 
