@@ -4,7 +4,7 @@
 @section('heading', 'Pelanggan Newsletter')
 
 @section('content')
-    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
         <table class="w-full text-sm">
             <thead class="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
                 <tr><th class="px-5 py-3">Email</th><th class="px-5 py-3">Bergabung</th><th class="px-5 py-3 text-right">Aksi</th></tr>

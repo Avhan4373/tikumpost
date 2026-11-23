@@ -23,7 +23,7 @@
             </section>
         @endforeach
 
-        <div class="sticky bottom-6 z-10 flex items-center gap-3 rounded-xl border border-slate-200 bg-white/95 px-5 py-3 shadow-lg backdrop-blur">
+        <div class="sticky bottom-6 z-10 flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white/95 px-5 py-3 shadow-lg backdrop-blur">
             <span class="mr-auto text-xs text-slate-400">Perubahan berlaku langsung di situs publik.</span>
             <button class="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm shadow-red-600/20 transition hover:bg-red-700">
                 Simpan Tema

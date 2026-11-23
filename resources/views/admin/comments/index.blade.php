@@ -4,7 +4,7 @@
 @section('heading', 'Moderasi Komentar')
 
 @section('content')
-    <div class="mb-5 flex gap-2 text-sm">
+    <div class="mb-5 flex flex-wrap gap-2 text-sm">
         @php $current = request('status'); @endphp
         <a href="{{ route('admin.comments.index') }}" class="rounded-full px-3 py-1.5 {{ ! $current ? 'bg-slate-900 text-white' : 'bg-white border border-slate-300' }}">Semua</a>
         @foreach (\App\Enums\CommentStatus::cases() as $status)

@@ -51,6 +51,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Sidebar admin: drawer off-canvas di layar kecil, kolom tetap di desktop.
+    const adminNavToggle = document.querySelector('[data-admin-nav-toggle]');
+    const adminNav = document.querySelector('[data-admin-nav]');
+    const adminNavBackdrop = document.querySelector('[data-admin-nav-backdrop]');
+
+    if (adminNavToggle && adminNav && adminNavBackdrop) {
+        const desktopNav = window.matchMedia('(min-width: 1024px)');
+
+        const setAdminNav = (isOpen) => {
+            adminNav.classList.toggle('-translate-x-full', !isOpen);
+            adminNavBackdrop.classList.toggle('hidden', !isOpen);
+            adminNavToggle.classList.toggle('is-open', isOpen);
+            adminNavToggle.setAttribute('aria-expanded', String(isOpen));
+            document.documentElement.classList.toggle('admin-nav-open', isOpen);
+
+            if (isOpen) {
+                adminNav.querySelector('[data-admin-nav-close]')?.focus({ preventScroll: true });
+            }
+        };
+
+        const closeAdminNav = () => {
+            if (adminNav.classList.contains('-translate-x-full')) {
+                return;
+            }
+
+            setAdminNav(false);
+            adminNavToggle.focus({ preventScroll: true });
+        };
+
+        adminNavToggle.addEventListener('click', () => {
+            setAdminNav(adminNav.classList.contains('-translate-x-full'));
+        });
+
+        adminNavBackdrop.addEventListener('click', closeAdminNav);
+
+        adminNav.querySelectorAll('[data-admin-nav-close]').forEach((button) => {
+            button.addEventListener('click', closeAdminNav);
+        });
+
+        adminNav.querySelectorAll('a[href]').forEach((link) => {
+            link.addEventListener('click', () => {
+                if (!desktopNav.matches) {
+                    setAdminNav(false);
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeAdminNav();
+            }
+        });
+
+        // Saat layar melebar/menyempit, pastikan drawer kembali tertutup.
+        desktopNav.addEventListener('change', () => setAdminNav(false));
+    }
+
     // Header mengecil saat scroll: logo & pencarian disembunyikan, menu tetap menempel.
     const siteHeader = document.querySelector('.site-header');
 

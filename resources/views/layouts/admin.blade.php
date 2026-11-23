@@ -10,13 +10,21 @@
 </head>
 <body class="h-full bg-slate-100 text-slate-800">
     <div class="flex min-h-full">
-        {{-- Sidebar --}}
-        <aside class="hidden w-64 shrink-0 flex-col bg-slate-900 text-slate-300 lg:flex">
-            <div class="flex h-16 items-center gap-2 px-6">
+        {{-- Latar gelap drawer sidebar (mobile) --}}
+        <div data-admin-nav-backdrop class="fixed inset-0 z-40 hidden bg-slate-900/60 backdrop-blur-sm lg:hidden"></div>
+
+        {{-- Sidebar: drawer di layar kecil, kolom tetap di desktop --}}
+        <aside id="admin-sidebar" data-admin-nav
+               class="fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] -translate-x-full flex-col bg-slate-900 text-slate-300 shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:top-0 lg:h-screen lg:w-64 lg:max-w-none lg:shrink-0 lg:translate-x-0 lg:shadow-none">
+            <div class="flex h-16 shrink-0 items-center gap-2 px-4 sm:px-6">
                 @include('partials.logo', ['class' => 'h-8 w-auto max-w-[8rem]', 'invert' => true])
-                <span class="font-black text-white">{{ $site['site_name'] ?? 'TikumPost' }}</span>
+                <span class="hidden min-w-0 flex-1 truncate font-black text-white lg:block">{{ $site['site_name'] ?? 'TikumPost' }}</span>
+                <button type="button" data-admin-nav-close aria-label="Tutup menu"
+                        class="ml-auto grid h-9 w-9 shrink-0 place-items-center rounded-lg text-slate-400 transition hover:bg-slate-800 hover:text-white lg:hidden">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
             </div>
-            <nav class="flex-1 space-y-1 px-3 py-4 text-sm">
+            <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-4 text-sm" aria-label="Navigasi admin">
                 @php
                     $menu = [
                         ['admin.dashboard', 'Dashboard', 'M3 12l9-9 9 9M5 10v10h14V10'],
@@ -49,12 +57,20 @@
 
         {{-- Main --}}
         <div class="flex min-w-0 flex-1 flex-col">
-            <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
-                <h1 class="text-lg font-bold text-slate-900">@yield('heading', 'Dashboard')</h1>
-                <div class="flex items-center gap-3 text-sm">
+            <header class="sticky top-0 z-30 flex h-16 items-center gap-2 border-b border-slate-200 bg-white px-4 sm:gap-3 sm:px-6">
+                <button type="button" data-admin-nav-toggle aria-controls="admin-sidebar" aria-expanded="false" aria-label="Buka menu"
+                        class="hamburger grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 lg:hidden">
+                    <span class="hamburger-lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
+                <h1 class="min-w-0 flex-1 truncate text-base font-bold text-slate-900 sm:text-lg">@yield('heading', 'Dashboard')</h1>
+                <div class="flex shrink-0 items-center gap-2 text-sm sm:gap-3">
                     @include('partials.theme-toggle')
-                    <span class="hidden text-slate-500 sm:inline">{{ auth()->user()->name }}</span>
-                    <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold uppercase text-slate-600">{{ auth()->user()->role?->label() }}</span>
+                    <span class="hidden text-slate-500 md:inline">{{ auth()->user()->name }}</span>
+                    <span class="hidden rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold uppercase text-slate-600 md:inline">{{ auth()->user()->role?->label() }}</span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button class="rounded-lg border border-slate-300 px-3 py-1.5 font-medium hover:bg-slate-100">Keluar</button>
@@ -62,7 +78,7 @@
                 </div>
             </header>
 
-            <main class="flex-1 p-6">
+            <main class="flex-1 p-4 sm:p-6">
                 <x-toast />
 
                 @yield('content')

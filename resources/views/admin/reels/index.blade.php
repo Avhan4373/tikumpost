@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="grid gap-6 lg:grid-cols-[1fr_20rem]">
-        <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+        <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
                     <tr>

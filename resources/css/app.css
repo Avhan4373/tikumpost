@@ -46,6 +46,13 @@
     transition: fill 0.18s ease;
 }
 
+/* Drawer sidebar admin: kunci scroll halaman selama terbuka di layar kecil. */
+@media (max-width: 1023px) {
+    html.admin-nav-open {
+        overflow: hidden;
+    }
+}
+
 @layer base {
     body {
         background-color: #f8fafc;
