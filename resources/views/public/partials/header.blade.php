@@ -7,8 +7,8 @@
         </div>
     </div>
 
-    {{-- Bar utama (biru) --}}
-    <div class="site-header-blue border-b border-blue-800 bg-blue-700">
+    {{-- Bar utama: putih di mode terang, biru tua di mode gelap --}}
+    <div class="site-header-blue border-b border-[color:var(--header-border)] bg-[var(--header-bg)]">
         <div class="mx-auto max-w-7xl px-4">
             <div class="flex h-16 items-center gap-4">
                 <a href="{{ route('home') }}" class="group flex shrink-0 items-center">
@@ -19,10 +19,10 @@
                 <div class="hidden min-w-0 flex-1 overflow-x-auto no-scrollbar lg:block">
                     <nav class="flex items-center gap-1 whitespace-nowrap">
                         @if (($navMenu ?? collect())->isEmpty())
-                            <a href="{{ route('home') }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('home') ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">Beranda</a>
-                            <a href="{{ route('reels.index') }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">Tikum Reels</a>
+                            <a href="{{ route('home') }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('home') ? 'is-active text-[color:var(--header-fg)]' : 'text-[color:var(--header-fg-muted)] hover:text-[color:var(--header-fg)]' }}">Beranda</a>
+                            <a href="{{ route('reels.index') }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'is-active text-[color:var(--header-fg)]' : 'text-[color:var(--header-fg-muted)] hover:text-[color:var(--header-fg)]' }}">Tikum Reels</a>
                             @foreach (($navCategories ?? collect()) as $cat)
-                                <a href="{{ route('categories.show', $cat) }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('categories.show') && optional(request()->route('category'))->id === $cat->id ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">{{ $cat->name }}</a>
+                                <a href="{{ route('categories.show', $cat) }}" class="nav-link px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('categories.show') && optional(request()->route('category'))->id === $cat->id ? 'is-active text-[color:var(--header-fg)]' : 'text-[color:var(--header-fg-muted)] hover:text-[color:var(--header-fg)]' }}">{{ $cat->name }}</a>
                             @endforeach
                         @else
                             @foreach ($navMenu as $item)
@@ -32,11 +32,11 @@
                                 @endphp
                                 @if ($item->children->isEmpty())
                                     <a href="{{ $item->href }}" @if ($item->target === '_blank') target="_blank" rel="noopener" @endif
-                                        class="nav-link px-3 py-2 text-sm font-semibold transition {{ $itemActive ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">{{ $item->label }}</a>
+                                        class="nav-link px-3 py-2 text-sm font-semibold transition {{ $itemActive ? 'is-active text-[color:var(--header-fg)]' : 'text-[color:var(--header-fg-muted)] hover:text-[color:var(--header-fg)]' }}">{{ $item->label }}</a>
                                 @else
                                     <div class="group relative" data-menu-dropdown>
                                         <button type="button" data-menu-toggle aria-expanded="false" aria-haspopup="true"
-                                            class="nav-link inline-flex items-center gap-1 px-3 py-2 text-sm font-semibold transition {{ $itemActive ? 'is-active text-white' : 'text-blue-100 hover:text-white' }}">
+                                            class="nav-link inline-flex items-center gap-1 px-3 py-2 text-sm font-semibold transition {{ $itemActive ? 'is-active text-[color:var(--header-fg)]' : 'text-[color:var(--header-fg-muted)] hover:text-[color:var(--header-fg)]' }}">
                                             {{ $item->label }}
                                             <svg class="h-3.5 w-3.5 transition duration-200 group-hover:rotate-180 group-data-[open]:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
                                         </button>
@@ -44,7 +44,7 @@
                                             class="invisible absolute left-0 top-full z-50 w-56 translate-y-1 rounded-2xl border border-slate-200 bg-white p-1.5 opacity-0 shadow-xl shadow-slate-900/10 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-data-[open]:visible group-data-[open]:translate-y-0 group-data-[open]:opacity-100">
                                             @foreach ($item->children as $child)
                                                 <a href="{{ $child->href }}" @if ($child->target === '_blank') target="_blank" rel="noopener" @endif
-                                                    class="block rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-red-600">{{ $child->label }}</a>
+                                                    class="block rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-brand-600">{{ $child->label }}</a>
                                             @endforeach
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                 <div class="ml-auto flex shrink-0 items-center gap-2">
                     {{-- Pencarian desktop (tanpa JS) --}}
                     <details class="relative hidden lg:block">
-                        <summary class="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-xl text-white transition hover:bg-white/15 [&::-webkit-details-marker]:hidden" aria-label="Cari">
+                        <summary class="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-xl text-[color:var(--header-fg)] transition hover:bg-[var(--header-hover)] [&::-webkit-details-marker]:hidden" aria-label="Cari">
                             <svg class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.34-4.34M17 11a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
                             </svg>
@@ -68,31 +68,31 @@
                         </form>
                     </details>
 
-                    <a href="{{ route('reels.index') }}" class="btn-anim hidden items-center gap-2 rounded-full bg-red-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-red-700 xl:inline-flex">
+                    <a href="{{ route('reels.index') }}" class="btn-anim hidden items-center gap-2 rounded-full bg-brand-600 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-brand-700 xl:inline-flex">
                         <span class="h-2 w-2 rounded-full bg-white"></span> Live
                     </a>
 
                     <nav class="hidden items-center gap-2 text-sm sm:flex">
                         @auth
                             @if (auth()->user()->isStaff())
-                                <a href="{{ route('admin.dashboard') }}" class="btn-anim rounded-full px-3 py-2 font-medium text-blue-100 transition hover:bg-white/15 hover:text-white">Dashboard</a>
+                                <a href="{{ route('admin.dashboard') }}" class="btn-anim rounded-full px-3 py-2 font-medium text-[color:var(--header-fg-muted)] transition hover:bg-[var(--header-hover)] hover:text-[color:var(--header-fg)]">Dashboard</a>
                             @endif
-                            <span class="hidden text-blue-100 xl:inline">{{ auth()->user()->name }}</span>
+                            <span class="hidden text-[color:var(--header-fg-muted)] xl:inline">{{ auth()->user()->name }}</span>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="btn-anim rounded-full border border-white/40 px-3.5 py-2 font-medium text-white transition hover:bg-white/15">Keluar</button>
+                                <button type="submit" class="btn-anim rounded-full border border-[color:var(--header-border)] px-3.5 py-2 font-medium text-[color:var(--header-fg)] transition hover:bg-[var(--header-hover)]">Keluar</button>
                             </form>
                         @else
-                            <a href="{{ route('login') }}" class="btn-anim rounded-full bg-white px-4 py-2 font-semibold text-blue-700 transition hover:bg-blue-50">Masuk</a>
+                            <a href="{{ route('login') }}" class="btn-anim rounded-full bg-brand-600 px-4 py-2 font-semibold text-white transition hover:bg-brand-700">Masuk</a>
                         @endauth
                     </nav>
 
-                    <div class="hidden lg:block [&_button]:border-white/30 [&_button]:text-white [&_button:hover]:bg-white/15">
+                    <div class="hidden lg:block [&_button]:border-[color:var(--header-border)] [&_button]:text-[color:var(--header-fg)] [&_button:hover]:bg-[var(--header-hover)]">
                         @include('partials.theme-toggle')
                     </div>
 
                     <button type="button" data-mobile-nav-toggle aria-expanded="false" aria-label="Buka menu"
-                        class="hamburger grid h-10 w-10 place-items-center rounded-xl text-white transition hover:bg-white/15 lg:hidden">
+                        class="hamburger grid h-10 w-10 place-items-center rounded-xl text-[color:var(--header-fg)] transition hover:bg-[var(--header-hover)] lg:hidden">
                         <span class="hamburger-lines">
                             <span></span>
                             <span></span>
@@ -107,7 +107,7 @@
     {{-- Ticker breaking news --}}
     @if (! empty($ticker) && $ticker->isNotEmpty())
         {{-- ponytail: ticker hanya beranda; kirim $ticker dari controller lain kalau perlu di semua halaman --}}
-        <div data-ticker class="overflow-hidden bg-red-600 text-white">
+        <div data-ticker class="overflow-hidden bg-brand-600 text-white">
             <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2">
                 <span class="shrink-0 rounded bg-white/15 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide">Breaking News</span>
                 <div class="relative flex-1 overflow-hidden">
@@ -130,15 +130,15 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.34-4.34M17 11a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
                 </svg>
                 <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari berita..."
-                    class="w-full rounded-full border border-slate-200 bg-slate-100/70 py-2.5 pl-10 pr-4 text-sm focus:border-red-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-red-100">
+                    class="w-full rounded-full border border-slate-200 bg-slate-100/70 py-2.5 pl-10 pr-4 text-sm focus:border-brand-400 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-100">
             </form>
 
             <nav class="grid gap-1">
                 @if (($navMenu ?? collect())->isEmpty())
-                    <a href="{{ route('home') }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('home') ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">Beranda</a>
-                    <a href="{{ route('reels.index') }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">Tikum Reels</a>
+                    <a href="{{ route('home') }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('home') ? 'bg-brand-50 text-brand-600' : 'text-slate-700 hover:bg-slate-100' }}">Beranda</a>
+                    <a href="{{ route('reels.index') }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('reels.index') ? 'bg-brand-50 text-brand-600' : 'text-slate-700 hover:bg-slate-100' }}">Tikum Reels</a>
                     @foreach (($navCategories ?? collect()) as $cat)
-                        <a href="{{ route('categories.show', $cat) }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('categories.show') && optional(request()->route('category'))->id === $cat->id ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">{{ $cat->name }}</a>
+                        <a href="{{ route('categories.show', $cat) }}" class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ request()->routeIs('categories.show') && optional(request()->route('category'))->id === $cat->id ? 'bg-brand-50 text-brand-600' : 'text-slate-700 hover:bg-slate-100' }}">{{ $cat->name }}</a>
                     @endforeach
                 @else
                     @foreach ($navMenu as $item)
@@ -148,18 +148,18 @@
                         @endphp
                         @if ($item->children->isEmpty())
                             <a href="{{ $item->href }}" @if ($item->target === '_blank') target="_blank" rel="noopener" @endif
-                                class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ $itemActive ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">{{ $item->label }}</a>
+                                class="rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ $itemActive ? 'bg-brand-50 text-brand-600' : 'text-slate-700 hover:bg-slate-100' }}">{{ $item->label }}</a>
                         @else
                             <div class="group" data-menu-dropdown>
                                 <button type="button" data-menu-toggle aria-expanded="false" aria-haspopup="true"
-                                    class="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ $itemActive ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-100' }}">
+                                    class="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold transition {{ $itemActive ? 'bg-brand-50 text-brand-600' : 'text-slate-700 hover:bg-slate-100' }}">
                                     {{ $item->label }}
                                     <svg class="h-4 w-4 transition duration-200 group-data-[open]:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
                                 </button>
                                 <div data-menu-panel class="hidden flex-col gap-1 pt-1 group-data-[open]:flex">
                                     @foreach ($item->children as $child)
                                         <a href="{{ $child->href }}" @if ($child->target === '_blank') target="_blank" rel="noopener" @endif
-                                            class="rounded-xl py-2.5 pl-6 pr-3 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-red-600">{{ $child->label }}</a>
+                                            class="rounded-xl py-2.5 pl-6 pr-3 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-brand-600">{{ $child->label }}</a>
                                     @endforeach
                                 </div>
                             </div>
@@ -183,7 +183,7 @@
 
                 @include('partials.theme-toggle', ['variant' => 'full'])
 
-                <a href="#newsletter" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700">
+                <a href="#newsletter" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                     </svg>

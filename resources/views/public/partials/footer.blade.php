@@ -38,7 +38,7 @@
                 <div class="mt-5 flex items-center gap-2">
                     @foreach ($activeSocials as $social)
                         <a href="{{ $site[$social['key']] }}" target="_blank" rel="noopener" aria-label="{{ $social['label'] }}"
-                            class="grid h-9 w-9 place-items-center rounded-full bg-slate-800 text-slate-300 transition hover:bg-red-600 hover:text-white">
+                            class="grid h-9 w-9 place-items-center rounded-full bg-slate-800 text-slate-300 transition hover:bg-brand-600 hover:text-white">
                             <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="{{ $social['path'] }}"/></svg>
                         </a>
                     @endforeach
@@ -74,8 +74,8 @@
             <form method="POST" action="{{ route('newsletter.store') }}" class="mt-4 space-y-2">
                 @csrf
                 <input type="email" name="email" required placeholder="Email Anda"
-                    class="w-full rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 transition focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/30">
-                <button type="submit" class="btn-anim w-full rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700">Langganan</button>
+                    class="w-full rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2.5 text-sm text-white placeholder-slate-500 transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30">
+                <button type="submit" class="btn-anim w-full rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700">Langganan</button>
             </form>
         </div>
     </div>

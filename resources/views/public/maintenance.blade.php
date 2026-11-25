@@ -28,7 +28,7 @@
 
         @if (! empty($site['contact_email']))
             <p class="mt-6 text-sm text-slate-500">
-                Butuh bantuan? <a href="mailto:{{ $site['contact_email'] }}" class="font-semibold text-red-400 hover:text-red-300">{{ $site['contact_email'] }}</a>
+                Butuh bantuan? <a href="mailto:{{ $site['contact_email'] }}" class="font-semibold text-brand-400 hover:text-brand-300">{{ $site['contact_email'] }}</a>
             </p>
         @endif
     </div>

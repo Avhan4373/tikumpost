@@ -5,7 +5,7 @@
 @section('content')
     <div class="mx-auto max-w-3xl px-4 py-10 lg:py-14">
         <nav class="mb-4 text-sm text-slate-500">
-            <a href="{{ route('home') }}" class="transition hover:text-red-600">Beranda</a>
+            <a href="{{ route('home') }}" class="transition hover:text-brand-600">Beranda</a>
             <span class="mx-1 text-slate-300">/</span>
             <span class="text-slate-600">{{ $page['title'] }}</span>
         </nav>

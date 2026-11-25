@@ -11,7 +11,7 @@
         @endif
 
         @if ($article->category)
-            <span class="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-red-600 shadow-sm backdrop-blur">
+            <span class="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-brand-600 shadow-sm backdrop-blur">
                 {{ $article->category->name }}
             </span>
         @endif
@@ -28,7 +28,7 @@
 
     <div class="flex flex-1 flex-col p-5">
         <h3 class="text-lg font-bold leading-snug tracking-tight text-slate-900">
-            <a href="{{ route('articles.show', $article) }}" class="transition hover:text-red-600">{{ $article->title }}</a>
+            <a href="{{ route('articles.show', $article) }}" class="transition hover:text-brand-600">{{ $article->title }}</a>
         </h3>
 
         <p class="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-slate-600">{{ $article->excerpt_text }}</p>

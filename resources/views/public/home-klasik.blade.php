@@ -19,7 +19,7 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
                     <div class="absolute inset-x-0 bottom-0 p-6 lg:p-8">
                         @if ($lead->category)
-                            <span class="hero-rise inline-flex rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">{{ $lead->category->name }}</span>
+                            <span class="hero-rise inline-flex rounded-full bg-brand-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">{{ $lead->category->name }}</span>
                         @endif
                         <h1 class="hero-rise mt-4 text-2xl font-bold leading-tight tracking-tight text-white lg:text-4xl" style="--reveal-delay: 90ms">{{ $lead->title }}</h1>
                         <p class="hero-rise mt-3 hidden max-w-2xl text-sm leading-relaxed text-slate-200 lg:block" style="--reveal-delay: 180ms">{{ $lead->excerpt_text }}</p>
@@ -47,7 +47,7 @@
                                     @endif
                                 </div>
                                 <div class="min-w-0">
-                                    <h3 class="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 transition group-hover:text-red-600">{{ $item->title }}</h3>
+                                    <h3 class="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 transition group-hover:text-brand-600">{{ $item->title }}</h3>
                                     <div class="mt-1 flex items-center gap-2 text-xs text-slate-400">
                                         <time>{{ optional($item->published_at)->translatedFormat('d M Y') }}</time>
                                         <span class="inline-flex items-center gap-1" title="{{ number_format($item->views) }} kali dibaca">
@@ -70,7 +70,7 @@
             {{-- Berita terbaru --}}
             <section>
                 <div class="mb-6 flex items-center gap-3" data-reveal>
-                    <span class="h-6 w-1.5 rounded-full bg-red-600"></span>
+                    <span class="h-6 w-1.5 rounded-full bg-brand-600"></span>
                     <h2 class="text-xl font-bold tracking-tight text-slate-900 lg:text-2xl">Berita Terbaru</h2>
                 </div>
                 @if ($latest->isEmpty())
@@ -89,14 +89,14 @@
                 @if (($infographics ?? collect())->isNotEmpty())
                     <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
                         <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
-                            <span class="h-4 w-1 rounded-full bg-red-600"></span> Infografis
+                            <span class="h-4 w-1 rounded-full bg-brand-600"></span> Infografis
                         </h2>
                         <div class="space-y-3">
                             @foreach ($infographics as $infographic)
                                 <button type="button"
                                     data-lightbox-src="{{ Storage::disk('public')->url($infographic->image) }}"
                                     data-lightbox-alt="Infografis"
-                                    class="group block w-full overflow-hidden rounded-xl border border-slate-200 transition hover:border-red-200 hover:shadow-sm">
+                                    class="group block w-full overflow-hidden rounded-xl border border-slate-200 transition hover:border-brand-200 hover:shadow-sm">
                                     <x-img :path="$infographic->image" alt="Infografis"
                                         sizes="(min-width: 768px) 60vw, 100vw"
                                         class="h-auto max-h-[28rem] w-full bg-slate-50 object-contain" />
@@ -108,13 +108,13 @@
 
                 <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
                     <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
-                        <span class="h-4 w-1 rounded-full bg-red-600"></span> Terpopuler
+                        <span class="h-4 w-1 rounded-full bg-brand-600"></span> Terpopuler
                     </h2>
                     <ol class="space-y-4">
                         @foreach ($popular as $i => $item)
                             <li class="flex gap-3">
                                 <span class="text-2xl font-bold leading-none text-slate-200">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                                <a href="{{ route('articles.show', $item) }}" class="text-sm font-semibold leading-snug text-slate-800 transition hover:text-red-600">{{ $item->title }}</a>
+                                <a href="{{ route('articles.show', $item) }}" class="text-sm font-semibold leading-snug text-slate-800 transition hover:text-brand-600">{{ $item->title }}</a>
                             </li>
                         @endforeach
                     </ol>
@@ -122,24 +122,24 @@
 
                 <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
                     <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
-                        <span class="h-4 w-1 rounded-full bg-red-600"></span> Topik Populer
+                        <span class="h-4 w-1 rounded-full bg-brand-600"></span> Topik Populer
                     </h2>
                     <div class="flex flex-wrap gap-2">
                         @foreach ($tags as $tag)
-                            <a href="{{ route('tags.show', $tag) }}" class="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-red-600 hover:text-white">
+                            <a href="{{ route('tags.show', $tag) }}" class="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-brand-600 hover:text-white">
                                 #{{ $tag->name }}
                             </a>
                         @endforeach
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 to-red-800 p-6 text-white shadow-lg shadow-red-600/20" data-reveal>
+                <div class="overflow-hidden rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 p-6 text-white shadow-lg shadow-brand-600/20" data-reveal>
                     <h2 class="text-lg font-bold tracking-tight">Jangan lewatkan berita penting</h2>
-                    <p class="mt-2 text-sm text-red-100">Dapatkan ringkasan berita terbaru langsung ke email Anda.</p>
+                    <p class="mt-2 text-sm text-brand-100">Dapatkan ringkasan berita terbaru langsung ke email Anda.</p>
                     <form method="POST" action="{{ route('newsletter.store') }}" class="mt-4 space-y-2">
                         @csrf
                         <input type="email" name="email" required placeholder="Email Anda"
-                            class="w-full rounded-xl border border-white/20 bg-white/15 px-3 py-2.5 text-sm text-white placeholder-red-100/80 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
+                            class="w-full rounded-xl border border-white/20 bg-white/15 px-3 py-2.5 text-sm text-white placeholder-brand-100/80 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/40">
                         <button type="submit" class="btn-anim w-full rounded-xl bg-[#ffffff] px-4 py-2.5 text-sm font-bold text-[#b91c1c] transition hover:bg-[#fee2e2]">Langganan Gratis</button>
                     </form>
                 </div>

@@ -41,13 +41,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // ---- Kategori ----
+        // Tikum Reels punya halaman sendiri (route reels.index), jadi tidak
+        // dibuat sebagai kategori artikel agar tidak dobel di navigasi.
         $categoryNames = [
-            ['Nasional', 'Berita terkini seputar dalam negeri.'],
-            ['Ekonomi', 'Perkembangan ekonomi dan bisnis.'],
-            ['Teknologi', 'Inovasi dan kabar dunia teknologi.'],
-            ['Olahraga', 'Sepak bola, bulu tangkis, dan lainnya.'],
-            ['Hiburan', 'Film, musik, dan selebritas.'],
-            ['Internasional', 'Peristiwa dari mancanegara.'],
+            ['Berita', 'Berita terkini, akurat, dan berimbang.'],
+            ['Inspirasi', 'Kisah dan gagasan yang menginspirasi.'],
+            ['TikumJourney', 'Perjalanan, cerita, dan pengalaman pilihan.'],
         ];
         $categories = collect($categoryNames)->map(fn ($c, $i) => Category::create([
             'name' => $c[0], 'slug' => Str::slug($c[0]), 'description' => $c[1], 'order' => $i,
@@ -60,18 +59,18 @@ class DatabaseSeeder extends Seeder
 
         // ---- Artikel ----
         $articles = [
-            ['Pemerintah Percepat Pembangunan Infrastruktur Digital di Daerah 3T', 'Nasional', 0],
-            ['Bank Indonesia Pertahankan Suku Bunga Acuan di Tengah Tekanan Global', 'Ekonomi', 0],
-            ['Startup Lokal Raih Pendanaan Seri B Senilai Rp500 Miliar', 'Teknologi', 1],
-            ['Timnas Indonesia Melaju ke Babak Semifinal Piala AFF', 'Olahraga', 0],
-            ['Film Indonesia Cetak Rekor Penonton Sepanjang Masa', 'Hiburan', 0],
-            ['KTT ASEAN Bahas Kerja Sama Ekonomi Kawasan', 'Internasional', 0],
-            ['Kecerdasan Buatan Ubah Lanskap Dunia Kerja Indonesia', 'Teknologi', 1],
-            ['Harga Beras Mulai Turun Jelang Musim Panen Raya', 'Ekonomi', 1],
-            ['Program Beasiswa Baru untuk 10 Ribu Mahasiswa Dibuka', 'Nasional', 1],
-            ['Liga Indonesia: Persaingan Gelar Juara Semakin Ketat', 'Olahraga', 1],
-            ['Transisi Energi Terbarukan Jadi Prioritas Pemerintah', 'Ekonomi', 0],
-            ['Grup Musik Tanah Air Gelar Tur Konser Asia Tenggara', 'Hiburan', 1],
+            ['Pemerintah Percepat Pembangunan Infrastruktur Digital di Daerah 3T', 'Berita', 0],
+            ['Bank Indonesia Pertahankan Suku Bunga Acuan di Tengah Tekanan Global', 'Berita', 0],
+            ['Startup Lokal Raih Pendanaan Seri B Senilai Rp500 Miliar', 'TikumJourney', 1],
+            ['Timnas Indonesia Melaju ke Babak Semifinal Piala AFF', 'Inspirasi', 0],
+            ['Film Indonesia Cetak Rekor Penonton Sepanjang Masa', 'Inspirasi', 0],
+            ['KTT ASEAN Bahas Kerja Sama Ekonomi Kawasan', 'Berita', 0],
+            ['Kecerdasan Buatan Ubah Lanskap Dunia Kerja Indonesia', 'Inspirasi', 1],
+            ['Harga Beras Mulai Turun Jelang Musim Panen Raya', 'Berita', 1],
+            ['Program Beasiswa Baru untuk 10 Ribu Mahasiswa Dibuka', 'TikumJourney', 1],
+            ['Liga Indonesia: Persaingan Gelar Juara Semakin Ketat', 'Inspirasi', 1],
+            ['Transisi Energi Terbarukan Jadi Prioritas Pemerintah', 'Berita', 0],
+            ['Grup Musik Tanah Air Gelar Tur Konser Asia Tenggara', 'Inspirasi', 1],
         ];
 
         $authors = [$admin, $editor, $author];

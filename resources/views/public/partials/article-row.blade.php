@@ -10,10 +10,10 @@
     <div class="min-w-0">
         @if ($article->category)
             <a href="{{ route('categories.show', $article->category) }}"
-                class="inline-flex rounded bg-slate-100 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-slate-600 transition hover:bg-red-600 hover:text-white">{{ $article->category->name }}</a>
+                class="inline-flex rounded bg-slate-100 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-slate-600 transition hover:bg-brand-600 hover:text-white">{{ $article->category->name }}</a>
         @endif
         <h3 class="mt-1.5 line-clamp-2 text-base font-bold leading-snug text-slate-900">
-            <a href="{{ route('articles.show', $article) }}" class="transition hover:text-red-600">{{ $article->title }}</a>
+            <a href="{{ route('articles.show', $article) }}" class="transition hover:text-brand-600">{{ $article->title }}</a>
         </h3>
         @if ($excerpt)
             <p class="mt-1 hidden line-clamp-2 text-sm leading-relaxed text-slate-600 sm:block">{{ $article->excerpt_text }}</p>

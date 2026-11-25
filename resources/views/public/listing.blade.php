@@ -17,7 +17,7 @@
 
         @if (isset($author))
             <div class="mt-6 flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
-                <div class="grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br from-red-500 to-red-700 text-xl font-bold text-white">{{ $author->initials }}</div>
+                <div class="grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-xl font-bold text-white">{{ $author->initials }}</div>
                 <div>
                     <p class="font-bold text-slate-900">{{ $author->name }}</p>
                     <p class="text-sm text-slate-600">{{ $author->bio ?: 'Kontributor TikumPost' }}</p>
@@ -44,12 +44,12 @@
             <aside class="lg:sticky lg:top-36 lg:self-start">
                 <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
                     <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
-                        <span class="h-4 w-1 rounded-full bg-red-600"></span> Kategori
+                        <span class="h-4 w-1 rounded-full bg-brand-600"></span> Kategori
                     </h2>
                     <ul class="space-y-1 text-sm">
                         @foreach ($categories as $cat)
                             <li>
-                                <a href="{{ route('categories.show', $cat) }}" class="flex items-center justify-between rounded-xl px-3 py-2 font-medium text-slate-600 transition hover:bg-slate-50 hover:text-red-600">
+                                <a href="{{ route('categories.show', $cat) }}" class="flex items-center justify-between rounded-xl px-3 py-2 font-medium text-slate-600 transition hover:bg-slate-50 hover:text-brand-600">
                                     <span>{{ $cat->name }}</span>
                                     <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-400">{{ $cat->articles_count }}</span>
                                 </a>

@@ -6,7 +6,7 @@
     {{-- Terpopuler --}}
     <section class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
         <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
-            <span class="h-4 w-1 rounded-full bg-red-600"></span> Terpopuler
+            <span class="h-4 w-1 rounded-full bg-brand-600"></span> Terpopuler
         </h2>
 
         @if ($popular->isEmpty())
@@ -26,7 +26,7 @@
                                 @endif
                             </span>
                             <span class="min-w-0">
-                                <span class="line-clamp-2 block text-sm font-semibold leading-snug text-slate-900 transition group-hover:text-red-600">{{ $item->title }}</span>
+                                <span class="line-clamp-2 block text-sm font-semibold leading-snug text-slate-900 transition group-hover:text-brand-600">{{ $item->title }}</span>
                                 <span class="mt-1 flex items-center gap-2 text-xs text-slate-400">
                                     <time>{{ optional($item->published_at)->translatedFormat('d M Y') }}</time>
                                     <span class="inline-flex items-center gap-1" title="{{ number_format($item->views) }} kali dibaca">
@@ -49,13 +49,13 @@
     @if ($categories->isNotEmpty())
         <section class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
             <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
-                <span class="h-4 w-1 rounded-full bg-red-600"></span> Kategori
+                <span class="h-4 w-1 rounded-full bg-brand-600"></span> Kategori
             </h2>
             <ul class="space-y-1 text-sm">
                 @foreach ($categories as $cat)
                     <li>
                         <a href="{{ route('categories.show', $cat) }}"
-                            class="flex items-center justify-between rounded-xl px-3 py-2 font-medium text-slate-600 transition hover:bg-slate-50 hover:text-red-600">
+                            class="flex items-center justify-between rounded-xl px-3 py-2 font-medium text-slate-600 transition hover:bg-slate-50 hover:text-brand-600">
                             <span>{{ $cat->name }}</span>
                             <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-400">{{ $cat->articles_count }}</span>
                         </a>
@@ -69,12 +69,12 @@
     @if ($tags->isNotEmpty())
         <section class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
             <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
-                <span class="h-4 w-1 rounded-full bg-red-600"></span> Topik Populer
+                <span class="h-4 w-1 rounded-full bg-brand-600"></span> Topik Populer
             </h2>
             <div class="flex flex-wrap gap-2">
                 @foreach ($tags as $tag)
                     <a href="{{ route('tags.show', $tag) }}"
-                        class="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-red-600 hover:text-white">
+                        class="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-brand-600 hover:text-white">
                         #{{ $tag->name }}
                     </a>
                 @endforeach
@@ -86,12 +86,12 @@
     @if (($infographics ?? collect())->isNotEmpty())
         <section class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm" data-reveal>
             <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-900">
-                <span class="h-4 w-1 rounded-full bg-red-600"></span> Infografis
+                <span class="h-4 w-1 rounded-full bg-brand-600"></span> Infografis
             </h2>
             <div class="space-y-3">
                 @foreach ($infographics as $infographic)
                     <a href="{{ Storage::disk('public')->url($infographic->image) }}" target="_blank" rel="noopener"
-                        class="group block overflow-hidden rounded-xl border border-slate-200 transition hover:border-red-200 hover:shadow-sm">
+                        class="group block overflow-hidden rounded-xl border border-slate-200 transition hover:border-brand-200 hover:shadow-sm">
                         <x-img :path="$infographic->image" alt="Infografis"
                             sizes="(min-width: 1024px) 300px, 100vw"
                             class="h-auto max-h-72 w-full bg-slate-50 object-contain transition duration-500 group-hover:scale-[1.02]" />

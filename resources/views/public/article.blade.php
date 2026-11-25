@@ -51,22 +51,22 @@
 @section('content')
     {{-- Indikator progres baca --}}
     <div class="fixed inset-x-0 top-0 z-50 h-0.5 bg-transparent">
-        <div data-reading-progress class="h-full bg-red-600 transition-[width] duration-150 ease-out" style="width: 0%"></div>
+        <div data-reading-progress class="h-full bg-brand-600 transition-[width] duration-150 ease-out" style="width: 0%"></div>
     </div>
 
     <div class="mx-auto max-w-7xl px-4 py-8 lg:py-10">
         <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
             <article class="min-w-0 max-w-4xl">
             <nav class="mb-6 flex flex-wrap items-center gap-2 text-sm text-slate-500" data-reveal>
-                <a href="{{ route('home') }}" class="transition hover:text-red-600">Beranda</a>
+                <a href="{{ route('home') }}" class="transition hover:text-brand-600">Beranda</a>
                 @if ($article->category)
                     <span class="text-slate-300">/</span>
-                    <a href="{{ route('categories.show', $article->category) }}" class="transition hover:text-red-600">{{ $article->category->name }}</a>
+                    <a href="{{ route('categories.show', $article->category) }}" class="transition hover:text-brand-600">{{ $article->category->name }}</a>
                 @endif
             </nav>
 
             @if ($article->category)
-                <a href="{{ route('categories.show', $article->category) }}" data-reveal style="--reveal-delay: 40ms" class="inline-flex rounded-full bg-red-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-600">{{ $article->category->name }}</a>
+                <a href="{{ route('categories.show', $article->category) }}" data-reveal style="--reveal-delay: 40ms" class="inline-flex rounded-full bg-brand-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-600">{{ $article->category->name }}</a>
             @endif
 
             <h1 class="mt-4 text-3xl font-bold leading-tight tracking-tight text-slate-900 lg:text-4xl" data-reveal data-protected-content style="--reveal-delay: 80ms">{{ $article->title }}</h1>
@@ -79,7 +79,7 @@
                 <div class="flex items-center gap-3">
                     <span class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-slate-100 to-slate-200 text-sm font-bold text-slate-600">{{ $article->author?->initials }}</span>
                     <div class="text-sm">
-                        <a href="{{ route('authors.show', $article->author) }}" class="block font-semibold text-slate-800 transition hover:text-red-600">{{ $article->author?->name }}</a>
+                        <a href="{{ route('authors.show', $article->author) }}" class="block font-semibold text-slate-800 transition hover:text-brand-600">{{ $article->author?->name }}</a>
                         <time class="text-xs text-slate-400">{{ optional($article->published_at)->translatedFormat('d F Y H:i') }}</time>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                     Facebook
                 </a>
                 <button type="button" data-copy-link="{{ url()->current() }}"
-                    class="btn-anim inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-red-600 hover:text-white">
+                    class="btn-anim inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-brand-600 hover:text-white">
                     <span data-copy-label>Tautan</span>
                 </button>
             </div>
@@ -127,7 +127,7 @@
             @if ($article->tags->isNotEmpty())
                 <div class="mt-6 flex flex-wrap gap-2" data-reveal>
                     @foreach ($article->tags as $tag)
-                        <a href="{{ route('tags.show', $tag) }}" class="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600">#{{ $tag->name }}</a>
+                        <a href="{{ route('tags.show', $tag) }}" class="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-600">#{{ $tag->name }}</a>
                     @endforeach
                 </div>
             @endif
@@ -166,7 +166,7 @@
                                 @endforeach
 
                                 <details class="mt-3">
-                                    <summary class="cursor-pointer text-xs font-semibold text-red-600 hover:underline">Balas</summary>
+                                    <summary class="cursor-pointer text-xs font-semibold text-brand-600 hover:underline">Balas</summary>
                                     @include('public.partials.comment-form', ['article' => $article, 'parent' => $comment, 'compact' => true])
                                 </details>
                             </div>

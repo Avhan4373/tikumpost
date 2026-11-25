@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="mx-auto max-w-7xl px-4 py-8 lg:py-10">
-        <header class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-fuchsia-600 via-rose-600 to-red-600 px-6 py-10 shadow-lg shadow-rose-500/20 lg:px-12 lg:py-14" data-reveal>
+        <header class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-fuchsia-600 via-rose-600 to-brand-600 px-6 py-10 shadow-lg shadow-rose-500/20 lg:px-12 lg:py-14" data-reveal>
             <div class="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
             <div class="absolute -bottom-16 left-1/3 h-56 w-56 rounded-full bg-white/10 blur-3xl"></div>
             <div class="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -36,7 +36,7 @@
                         <blockquote class="instagram-media" data-instgrm-permalink="{{ $reel->permalink }}" data-instgrm-version="14"
                             style="background:#fff;border:0;border-radius:1rem;margin:0;max-width:100%;min-width:0;padding:0;width:100%;">
                             <a href="{{ $reel->permalink }}" target="_blank" rel="noopener"
-                                class="flex aspect-[4/5] w-full flex-col items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-fuchsia-500 via-rose-500 to-red-600 text-white">
+                                class="flex aspect-[4/5] w-full flex-col items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-fuchsia-500 via-rose-500 to-brand-600 text-white">
                                 <svg class="h-12 w-12" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7L8 5Z"/></svg>
                                 <span class="text-sm font-semibold">Tonton di Instagram</span>
                             </a>
