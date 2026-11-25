@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\EnsureUserIsStaff;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,11 +16,19 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'staff' => \App\Http\Middleware\EnsureUserIsStaff::class,
-            'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+            'staff' => EnsureUserIsStaff::class,
+            'admin' => EnsureUserIsAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Tamu yang membuka area admin dibuat seolah halaman tidak ada,
+        // supaya path login rahasia tidak bocor lewat redirect.
+        $exceptions->render(function (AuthenticationException $e, Request $request) {
+            if ($request->is('admin') || $request->is('admin/*')) {
+                abort(404);
+            }
+        });
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );

@@ -1,17 +1,17 @@
 @extends('layouts.public')
 
 @section('title', 'Masuk')
+@section('robots', 'noindex,nofollow')
 
 @section('content')
     <div class="mx-auto flex max-w-md flex-col px-4 py-14 lg:py-20">
         <a href="{{ route('home') }}" class="mb-8 flex flex-col items-center gap-3 text-center">
-            <span class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-xl font-bold text-white shadow-lg shadow-brand-600/30">K</span>
-            <span class="text-2xl font-bold tracking-tight text-slate-900">Kabar<span class="text-brand-600">Kita</span></span>
+            @include('partials.logo', ['class' => 'h-10 w-auto max-w-[12rem]'])
         </a>
 
         <div class="rounded-3xl border border-slate-200/80 bg-white p-8 shadow-xl shadow-slate-900/5">
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">Masuk</h1>
-            <p class="mt-1 text-sm text-slate-500">Selamat datang kembali di TikumPost.</p>
+            <p class="mt-1 text-sm text-slate-500">Selamat datang kembali di {{ $site['site_name'] ?? config('app.name', 'TikumPost') }}.</p>
 
             <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-4">
                 @csrf

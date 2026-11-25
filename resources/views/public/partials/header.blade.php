@@ -82,8 +82,6 @@
                                 @csrf
                                 <button type="submit" class="btn-anim rounded-full border border-[color:var(--header-border)] px-3.5 py-2 font-medium text-[color:var(--header-fg)] transition hover:bg-[var(--header-hover)]">Keluar</button>
                             </form>
-                        @else
-                            <a href="{{ route('login') }}" class="btn-anim rounded-full bg-brand-600 px-4 py-2 font-semibold text-white transition hover:bg-brand-700">Masuk</a>
                         @endauth
                     </nav>
 
@@ -177,8 +175,6 @@
                         @csrf
                         <button type="submit" class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100">Keluar ({{ auth()->user()->name }})</button>
                     </form>
-                @else
-                    <a href="{{ route('login') }}" class="rounded-xl border border-slate-300 px-3 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Masuk</a>
                 @endauth
 
                 @include('partials.theme-toggle', ['variant' => 'full'])

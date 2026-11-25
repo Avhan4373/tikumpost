@@ -28,7 +28,9 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('home'))
+        $tujuan = Auth::user()->isStaff() ? route('admin.dashboard') : route('home');
+
+        return redirect()->intended($tujuan)
             ->with('status', 'Selamat datang kembali, '.Auth::user()->name.'!');
     }
 

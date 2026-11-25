@@ -30,10 +30,11 @@ Route::middleware(EnsureSiteIsLive::class)->group(function () {
     Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 });
 
-// ---- Autentikasi Pembaca ----
+// ---- Autentikasi Staf (path rahasia, tidak ditautkan di situs publik) ----
 Route::middleware('guest')->group(function () {
-    Route::get('/masuk', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/masuk', [AuthController::class, 'login']);
+    Route::get(config('admin.login_path'), [AuthController::class, 'showLogin'])->name('login');
+    Route::post(config('admin.login_path'), [AuthController::class, 'login'])
+        ->middleware('throttle:5,1');
 });
 Route::post('/keluar', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 

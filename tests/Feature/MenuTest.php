@@ -95,6 +95,6 @@ class MenuTest extends TestCase
 
         $this->post(route('admin.menus.reorder'), [
             'items' => [['id' => $menu->id, 'parent_id' => null, 'sort_order' => 0]],
-        ])->assertRedirect(route('login'));
+        ])->assertNotFound();
     }
 }

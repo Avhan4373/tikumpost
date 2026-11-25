@@ -36,8 +36,6 @@
                                 @csrf
                                 <button type="submit" class="btn-anim rounded-full border border-slate-300 px-3.5 py-2 font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-100">Keluar</button>
                             </form>
-                        @else
-                            <a href="{{ route('login') }}" class="btn-anim rounded-full px-3.5 py-2 font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-900">Masuk</a>
                         @endauth
                     </nav>
 
@@ -162,8 +160,6 @@
                         @csrf
                         <button type="submit" class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100">Keluar ({{ auth()->user()->name }})</button>
                     </form>
-                @else
-                    <a href="{{ route('login') }}" class="rounded-xl border border-slate-300 px-3 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Masuk</a>
                 @endauth
 
                 @include('partials.theme-toggle', ['variant' => 'full'])
